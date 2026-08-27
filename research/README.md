@@ -41,7 +41,7 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 
 **World and historical forms**
 
-- `world_forms_survey.md` — a breadth pass over gamelan, raga, maqam, West African bell timelines and medieval polyphony, read along three axes: tuning, instrumentation, performance structure. §7 maps each idea against what the studio's apparatus can already express. Accessible sources only; §8 says what a deeper pass would need.
+- `world_forms/` — fifteen traditions, each read along the same three numbered sections: §1 tuning, §2 instrumentation, §3 performance structure. Gamelan, raga, Arabic maqam, Turkish makam, Carnatic tala, Balkan aksak, West African timelines, Central African hocket, Andean siku, medieval polyphony, Georgian polyphony, gagaku, shakuhachi honkyoku, Tuvan overtone singing, Sardinian cantu a tenore. `world_forms/README.md` holds the method, four cross-tradition convergences, a map against the studio's apparatus, and the gaps.
 
 **Synthesis and signal**
 
@@ -62,6 +62,6 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 
 ## Where the gaps are
 
-`world_forms_survey.md` §7 covers what non-12-TET pitch and non-metric form would need, and §8 says what it could not reach. Beyond that, nothing here covers groove and microtiming in the traditions the studio actually builds in, or psychoacoustic band definitions. `core/scheduler.js` has one linear swing parameter and `core/metrics.js` splits bands at 200 Hz and 2 kHz; neither cites anything, because there is nothing yet to cite.
+`world_forms/README.md` covers what non-12-TET pitch and non-metric form would need, and lists what it could not reach. Beyond that, nothing here covers groove and microtiming in the traditions the studio actually builds in, or psychoacoustic band definitions. `core/scheduler.js` has one linear swing parameter and `core/metrics.js` splits bands at 200 Hz and 2 kHz; neither cites anything, because there is nothing yet to cite.
 
-One thing the survey settled retroactively: `drone_flute_synth/engine/percussion.js` has a `hocket` function that was written with no research behind it. §7 is the citation it never had — the device is imbal in Javanese gamelan, kotekan in Balinese, and hocket in medieval polyphony.
+One thing the survey settled retroactively: `drone_flute_synth/engine/percussion.js` has a `hocket` function that was written with no research behind it. `world_forms/` is the citation it never had — the device is imbal in Javanese gamelan, kotekan in Balinese, ira/arca in the Andes, and hocket in medieval polyphony. `drone_flute_synth/engine/breath.js` picked up a second one: `world_forms/shakuhachi_honkyoku.md` §3 describes the breath-as-phrase-length model it implements.
