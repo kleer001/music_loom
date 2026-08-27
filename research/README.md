@@ -41,7 +41,7 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 
 **World and historical forms**
 
-- `world_forms/` — fifteen traditions, each read along the same three numbered sections: §1 tuning, §2 instrumentation, §3 performance structure. Gamelan, raga, Arabic maqam, Turkish makam, Carnatic tala, Balkan aksak, West African timelines, Central African hocket, Andean siku, medieval polyphony, Georgian polyphony, gagaku, shakuhachi honkyoku, Tuvan overtone singing, Sardinian cantu a tenore. `world_forms/README.md` holds the method, four cross-tradition convergences, a map against the studio's apparatus, and the gaps.
+- `world_forms/` — twenty-three traditions, each read along the same three numbered sections: §1 tuning, §2 instrumentation, §3 performance structure. `world_forms/README.md` holds the method, seven cross-tradition convergences, a map against the studio's apparatus, and the gaps.
 
 **Synthesis and signal**
 
