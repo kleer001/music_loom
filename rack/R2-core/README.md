@@ -32,7 +32,8 @@ more than one instrument built here — which is the reason the studio exists.
 
 **Seed per layer, not per instrument.** Four independent streams — plan, timbre,
 notes, impulses — so retuning one does not reshuffle the others. Sharing one
-stream means every edit is a full reroll and nothing can be compared to anything.
+stream means every edit is a full reroll and nothing can be compared to
+anything.
 
 **Impulses are seeded too.** `impulse` and `springImpulse` take a seed, so the
 same reverb tail is generated every run. An unseeded impulse makes renders

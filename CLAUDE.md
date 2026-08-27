@@ -90,9 +90,10 @@ Break one of these and something that currently works will quietly stop.
 ## Panel on disk
 
 The listening panel in `rack/R1-spec/personas.md` is a set of lenses for
-thinking. A lens definition belongs in a file; a verdict never does. Do not write a persona's
-words down and do not cite one as authority — an opinion parked in a file reads
-back next session as specification. Say why the thing is true on its own merits.
+thinking. A lens definition belongs in a file; a verdict never does. Do not
+write a persona's words down and do not cite one as authority — an opinion
+parked in a file reads back next session as specification. Say why the thing
+is true on its own merits.
 
 ## Repo layout
 
