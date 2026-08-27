@@ -1,0 +1,39 @@
+:root {
+  --ink: #1a1a1a;
+  --ground: #fafafa;
+  --rule: #d8d4cc;
+  --accent: #7a3b2e;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 2rem;
+  background: var(--ground);
+  color: var(--ink);
+  font: 16px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+main { max-width: 60rem; margin: 0 auto; }
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.5rem;
+}
+
+button {
+  font: inherit;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+button:hover { background: var(--ink); color: var(--ground); }
+
+#hint { color: #5a5650; }

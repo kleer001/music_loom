@@ -1,0 +1,43 @@
+name: Studio checks
+
+# Unfiltered on purpose. A `paths:` filter applies to the whole workflow, so a
+# commit touching only CHANGELOG.md, VERSION or scripts/ would skip CI — which
+# is exactly the commit most able to break the update tie unnoticed.
+on: [push, pull_request]
+
+jobs:
+  delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: delivery mechanism tests
+        run: python3 scripts/test_check_updates.py
+      - name: validate the delivery mechanism
+        run: python3 scripts/check_updates.py --validate
+
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      # The golden path: an instrument scaffolded with the full rack must
+      # render audio and pass its own gates without anything hand-edited.
+      - name: scaffold an instrument
+        run: python3 scripts/new_instrument.py ci-probe --graft core,measure,release
+      - name: install
+        working-directory: bench/ci-probe
+        run: npm install --no-fund --no-audit
+      - name: it renders
+        working-directory: bench/ci-probe
+        run: npm run render -- --seconds=2
+      - name: it passes its gates
+        working-directory: bench/ci-probe
+        run: npm test

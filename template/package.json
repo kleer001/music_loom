@@ -1,0 +1,12 @@
+{
+  "name": "INSTRUMENT_SLUG",
+  "version": "0.1.0",
+  "description": "TODO: one line — what it plays and how.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "devDependencies": {}
+}

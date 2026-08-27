@@ -1,0 +1,6 @@
+node_modules/
+tmp/
+*.wav
+*.webm
+.DS_Store
+BREADCRUMB.md

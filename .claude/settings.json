@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/check_updates.py:*)",
+      "Bash(python3 scripts/test_check_updates.py)",
+      "Bash(python3 scripts/new_instrument.py:*)",
+      "Bash(node --test:*)",
+      "Bash(npm test)",
+      "Bash(npm run render:*)",
+      "Bash(npm install:*)",
+      "WebSearch"
+    ]
+  }
+}
