@@ -1,5 +1,5 @@
 // Pitch / harmony model: minor modes, degree→midi→frequency, chords, and the
-// uncopyrightable idiom progressions from cyberpunk_audio_songs.md §5.
+// uncopyrightable idiom progressions from research/cyberpunk_audio_songs.md §5.
 
 export const MODES = {
   aeolian: [0, 2, 3, 5, 7, 8, 10], // natural minor

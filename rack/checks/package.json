@@ -1,0 +1,7 @@
+{
+  "name": "music-loom-rack-checks",
+  "private": true,
+  "type": "module",
+  "scripts": { "check": "node graft-check.mjs" },
+  "devDependencies": { "node-web-audio-api": "^2.0.0" }
+}

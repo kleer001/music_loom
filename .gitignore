@@ -3,7 +3,14 @@ node_modules/
 __pycache__/
 *.pyc
 tmp/
+# Renders are scratch; the pantry's authored material is not. Without those
+# files there is nothing for an instrument to draw on, and they are 8 MB of CC0
+# source (PROVENANCE.md). The directories themselves stay unignored so the
+# re-includes below can reach into them.
 *.wav
+!pantry/acoustic/loops/*.wav
+!pantry/acoustic/strokes/*.wav
+!pantry/machine/*.wav
 *.webm
 .DS_Store
 BREADCRUMB.md

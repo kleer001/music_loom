@@ -2,8 +2,7 @@
 
 TODO: one line — what it plays and how.
 
-Built from music_loom. `.music_loom.toml` records the studio version this
-descends from.
+Built from music_loom. `.music_loom.toml` records the studio version this descends from.
 
 ## Commands
 
@@ -12,49 +11,39 @@ descends from.
 npm test          # node --test test/ — pure logic, no AudioContext
 ```
 
-## What always applies
+## House stack
 
 - **Vanilla ES modules, no build step.** No bundler, no CDN, no framework.
-- **Zero runtime dependencies.** `node-web-audio-api` is the only audio
-  devDependency, and only so the graph can render headlessly.
-- **Offline-renderable.** No browser-only node in a required path. A worklet may
-  be preferred but must degrade to native nodes — an `OfflineAudioContext` has
-  no `audioWorklet`.
-- **Determinism.** Same seed, same output. Seeded RNG, independent streams per
-  layer. If anything sits outside the seeded contract, say so where it happens.
-- **Scale degrees, not absolute pitch,** in anything sequenced. Key and mode stay
-  free to change.
-- **No per-hit scheduling of a repeating part.** Persistent graphs with
-  retriggered envelopes, or one looped bar-length buffer.
-- **Sample rates converted on the way in, never assumed.**
-- **Reverb impulses normalised to unit energy**, `ConvolverNode.normalize =
-  false`.
-- **Served over HTTP, never `file://`.**
+- **Zero runtime dependencies.** `node-web-audio-api` is the only audio devDependency, and only so the graph can render headlessly.
+- **Served over HTTP.** ES modules and `AudioWorklet` do not load from a `file://` path.
+
+## What has tended to break
+
+Consequences rather than rules. An instrument that wants the trade can take it, and a note here saying so keeps the next reader from treating it as a slip.
+
+- **Browser-only nodes in a required path.** An `OfflineAudioContext` has no `audioWorklet`, so a graph that needs one cannot render headlessly and the measurement harness goes with it. A worklet that degrades to native nodes keeps both.
+- **Unseeded sources.** Seeded RNG with an independent stream per layer gives the same output from the same seed, and lets one layer be edited without reshuffling the others. Real-time humanisation often sits outside that deliberately; saying so where it happens saves a hunt later.
+- **Absolute pitch in a sequencer.** Scale degrees retune when key or mode changes. MIDI numbers do not, and converting afterwards is a rewrite.
+- **Per-hit scheduling of a repeating part.** Nothing frees a source that has finished, so CPU per audio second climbs with length — measured at ~36x by five minutes, against flat for a persistent graph with retriggered envelopes or a bar-length buffer looped by one node. A part that genuinely varies per hit is a different case.
+- **Assumed sample rates.** A buffer decoded at one rate and played at another is off in both pitch and length.
+- **`ConvolverNode.normalize` at its default.** Web Audio rescales the impulse by its own energy, so a return fader tracks decay time instead of level. Normalising to unit energy with `normalize = false` separates them.
 
 ## Working method
 
-- **Measure, don't guess.** Render offline and read the numbers before forming a
-  theory. Ears are low-resolution.
-- **Distrust the harness before the output.** Confirm it measures what you think.
-- **After one failed attempt, bisect.** Minimal repro, diff against known-good.
-- **Cite the digest section beside the number.** A constant that came from
-  research carries `// §N — <what it is>` next to it.
+- **Measuring settles what guessing proposes.** Render offline and read the numbers. Ears catch that something changed; a spectrum says how much.
+- **The harness can be wrong too.** A surprising number is worth checking against a known signal.
+- **Bisection after one failed attempt.** Minimal repro, diff against known-good.
+- **A number with a citation can be defended later.** A constant that came from research carries `// §N — <what it is>` next to it.
 
 ## Code style
 
-- `camelCase` functions and variables, `PascalCase` classes, `UPPER_SNAKE`
-  module constants.
+- `camelCase` functions and variables, `PascalCase` classes, `UPPER_SNAKE` module constants.
 - Parameters normalised 0–1 at the UI boundary, mapped to real ranges on use.
-- Comments explain *why*. Skip them on self-evident code.
-- Validate at boundaries — decoded buffers, file inputs, CLI args. Trust
-  internal functions.
-- One path, no fallbacks. Fail loudly.
+- Comments explain *why*. Self-evident code does without.
 
-## Panel on disk
+## The panel
 
-The listening panel is a lens for thinking, not an authority a file can cite.
-Never write a persona's verdict to disk — an opinion parked in a file reads back
-next session as specification. Say why the thing is true on its own merits.
+The listening panel is a lens for thinking rather than an authority a file can cite. A verdict written to disk reads back next session as specification, so what survives a panel is a decision in your own voice, argued on its own merits.
 
 ## Studio updates
 
@@ -62,6 +51,4 @@ next session as specification. Say why the thing is true on its own merits.
 python3 <music_loom>/scripts/check_updates.py .
 ```
 
-Prints every convention directive logged since the stamp in `.music_loom.toml`.
-Propose them to the user; never auto-apply. `--mark-read` advances the stamp,
-and only after the directives are actually resolved.
+Prints every convention directive logged since the stamp in `.music_loom.toml`. They are proposals for the session to raise, not patches. `--mark-read` advances the stamp, once the directives have actually been resolved.

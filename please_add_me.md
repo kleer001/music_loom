@@ -1,8 +1,6 @@
 # please_add_me
 
-Inbox for proposals from budded instruments. An instrument that finds a
-convention, a module, or a piece of apparatus worth holding in the studio writes
-it here.
+Inbox for proposals from budded instruments. An instrument that finds a convention, a module, or a piece of apparatus worth holding in the studio writes it here.
 
 One entry per proposal:
 
@@ -14,5 +12,4 @@ One entry per proposal:
 **Would change:** which file in music_loom
 ```
 
-Adopted proposals become a changelog directive and a version bump. Declined ones
-get a line saying why. This file is emptied once each entry has an outcome.
+Adopted proposals become a changelog directive and a version bump. Declined ones get a line saying why. This file is emptied once each entry has an outcome.

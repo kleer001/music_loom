@@ -1,9 +1,8 @@
 # R3 — render and measure
 
-**Ears are low-resolution. A spectrum is exact.**
+Ears catch that something changed; a spectrum says how much, and in which band.
 
-Graft this when the instrument makes sound and you need to know whether a change
-did what you predicted.
+Graft this when the instrument makes sound and a change needs checking against what it was supposed to do.
 
 ## Copy
 
@@ -33,13 +32,9 @@ export const SAMPLE_RATE = 48000;
 export async function build(ctx, { seed, seconds }) { /* wire to ctx.destination */ }
 ```
 
-`build` must run against a real `AudioContext` *and* an `OfflineAudioContext`.
-The page calls it to play; the harness calls it to measure. One builder, so what
-you measure is what you hear.
+The page calls `build` to play and the harness calls it to measure, so it runs against both a real `AudioContext` and an `OfflineAudioContext`. One builder means what gets measured is what gets heard.
 
-This is why no browser-only node may sit in a required path — an
-`OfflineAudioContext` has no `audioWorklet`, so a worklet has to degrade to
-native nodes or the harness cannot run at all.
+That is where the worklet question comes from: an `OfflineAudioContext` has no `audioWorklet`, so a worklet in a required path takes the harness out with it. A worklet that degrades to native nodes keeps both.
 
 ## Use
 
@@ -59,54 +54,35 @@ seed 1         peak   -1.20 dBFS   rms  -18.34 dB   dc   1.2e-6   width  -15.3 d
 
 ## Reading the numbers
 
-**peak** near 0 dBFS with **rms** far below it means a spiky mix — a transient
-is eating the headroom the sustained material needs.
+**peak** near 0 dBFS with **rms** far below it means a spiky mix — a transient is eating the headroom the sustained material needs.
 
-**dc** should be at the noise floor. Anything above about 1e-3 is an
-asymmetric waveform or an envelope that does not return to zero, and it steals
-headroom while being inaudible.
+**dc** sits at the noise floor on a clean render. Above about 1e-3 there is an asymmetric waveform or an envelope that does not return to zero, stealing headroom while being inaudible.
 
-**width** at 0 dB is mono. Strongly positive means the sides dominate, which
-collapses badly when summed — check it before assuming a wide mix is a good one.
+**width** at 0 dB is mono. Strongly positive means the sides dominate, and a mix like that loses most of its level when summed.
 
-**centroid** is the single most useful number for "is this too bright". Track it
-across a change rather than reading it absolutely.
+**centroid** is the most useful single number for "is this too bright", read as a delta across a change rather than absolutely.
 
-**bands** catch the mistakes ears forgive: a low-end buildup that only shows on
-big speakers, a scooped midrange, hiss nobody notices until it is summed across
-eight voices.
+**bands** catch the mistakes ears forgive: a low-end buildup that only shows on big speakers, a scooped midrange, hiss nobody notices until it is summed across eight voices.
 
 ## Working method
 
-**Predict, then measure.** Write down what the number should do before running.
-A measurement that confirms a prediction teaches something; one that is read
-afterward and rationalised teaches nothing.
+**A prediction written down first.** A measurement that confirms a prediction teaches something; the same number read afterwards and rationalised teaches nothing, because any number can be rationalised.
 
-**Relative deltas are trustworthy; absolute levels sometimes are not.** Under
-`node-web-audio-api` some nodes — dynamics compression especially — do not
-behave identically to a browser. A/B the same graph with a feature on and off
-and the difference is real. Take an absolute loudness claim to a browser before
-believing it.
+**Relative deltas travel; absolute levels sometimes do not.** Under `node-web-audio-api` some nodes — dynamics compression especially — do not behave identically to a browser. A/B of the same graph with a feature on and off is real either way. An absolute loudness claim holds up better after a browser has seen it.
 
-**Distrust the harness before the output.** When a number is surprising, first
-confirm the harness measures what you think. Render a known signal — a sine at a
-known level — and check it reads back right.
+**The harness can be wrong too.** When a number is surprising, a known signal — a sine at a known level — says whether it reads back right.
 
-**Bisect after one failed attempt.** Mute voices until the artifact goes away.
-`--sweep` across seeds separates "this seed is unlucky" from "this is broken".
+**Bisection after one failed attempt.** Muting voices until the artifact goes away localises it. `--sweep` across seeds separates "this seed is unlucky" from "this is broken".
 
 ## The regression tests
 
-`regression.test.js` asserts the four things that break silently:
+`regression.test.js` covers the four things that break without saying so:
 
 - The output is audible and not clipping.
 - No DC offset.
 - Same seed produces byte-identical samples.
 - Different seeds produce different samples.
 
-The determinism test is byte-identity, not approximate equality. A render that
-is only nearly reproducible has an unseeded source in it — usually `Math.random`
-in an impulse or a noise buffer — and that will make every future A/B ambiguous.
+The determinism test is byte-identity rather than approximate equality. A render that is only nearly reproducible has an unseeded source in it — usually `Math.random` in an impulse or a noise buffer — and every later A/B inherits the ambiguity.
 
-Add instrument-specific assertions beside these: the claim written in the spec
-sheet under *How you will know it worked* is exactly what belongs here.
+Instrument-specific assertions sit beside these. The claim written in the spec sheet under *How you will know it worked* is already in the right shape for one.

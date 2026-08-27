@@ -1,38 +1,67 @@
 # Technique digests
 
-Sourced, sectioned write-ups of how a sound is actually made. A spec sheet draws
-from a digest; code cites its section numbers at the point of use.
+Sourced, sectioned write-ups of how a sound is actually made. A spec sheet draws from a digest; code cites its section numbers at the point of use.
 
-A digest is not a description of what a genre feels like. It is the measurable
-layer — parameters, ranges, structures — and the sources they came from.
-`RESEARCH.md` is the gate that gets one written.
+A digest is not a description of what a genre feels like. It is the measurable layer — parameters, ranges, structures — and the sources they came from. `RESEARCH.md` covers what goes into one.
 
 ## Why they live here and not in the instrument
 
-The same digest gets used more than once. A dub echo description informs a dub
-instrument and also the delay on something else entirely. Holding it in the
-studio means the second instrument starts from the research rather than
-redoing it, and means a correction lands in one place.
+The same digest gets used more than once. A dub echo description informs a dub instrument and also the delay on something else entirely. Holding it in the studio means the second instrument starts from the research rather than redoing it, and means a correction lands in one place.
 
 ## Citing a digest
 
-Number the sections. Code cites them where the number is used:
+Numbered sections are what makes a digest citable from code:
 
 ```js
 // dub_techno_technique.md §2 — feedback rides a 4.26 Hz random-waveshape LFO
 feedbackLfo.frequency.value = 4.26;
 ```
 
-An uncited constant is a number nobody can defend when it is questioned six
-months later. A digest whose sections are unnumbered cannot be cited at all.
+A constant with no citation is one nobody can account for six months later, and an unnumbered digest gives a citation nothing to point at.
 
 ## Travelling with an instrument
 
-A digest an instrument cites travels with it when it buds, as a copy. The code
-references section numbers, and those must not drift out from under it.
+A digest an instrument cites travels with it when it buds, as a copy. The code points at section numbers, and a copy keeps them from drifting out from under it.
 
-## Present
+## Anchors
 
-- `dub_techno_technique.md` — dub techno: echo parameters and modulation rates,
-  the riddim substrate, the dry-frame rule, the low-dominant mix, section
-  timing. Digested from a musicology thesis; §5 covers the sound, §7 structure.
+Numbered sections are the common case, and `dub_techno_technique.md` cites its source thesis's own § and page numbers alongside them. Named anchors work too — `shpongle_technique.md` is the most-cited digest in the family and is referenced as `§Ott`, `§reverb`. What a citation needs is a heading that will not move, not a number specifically.
+
+## What is here
+
+**Genre and technique**
+
+- `dub_techno_technique.md` — echo parameters and modulation rates, the riddim substrate, the dry-frame rule, the low-dominant mix, section timing. Digested from a musicology thesis; §5 the sound, §7 structure.
+- `shpongle_technique.md` — Posford and Ott on reverb and mix craft, with a measured correction to the reverb-low-boost question. Cited from `core/dsp.js` and `voices/fire.js`.
+- `raja_ram_flute.md` — breath, chiff and phrasing behind the two flute voices.
+- `edm_theory.md`, `deadmau5_wisdom.md` — harmony, arrangement and production practice.
+- `dubstep/` — eighteen documents: genre structure, drums, bass sound design, FX and mixing, mastering and loudness, drop anatomy and deconstructions, and sample and stem sources. `04_synthesis_techniques.md` is not here because it was byte-identical to `synthesis_techniques.md`.
+- `jazz/` — chord-scale theory, guide tones and voice leading, walking bass, comping figures, lead sheets, and a subgenre survey. The public-domain MIDI these were assembled around is in `pantry/midi/`, with its own catalogue.
+- `glitchfield/` — Autechre and Plaid voicing notes, Machinedrum p-lock decoding, a bell-voice spec, generative lanes, synth transcription. These came from a repo that holds no code, so nothing cited them.
+
+**World and historical forms**
+
+- `world_forms_survey.md` — a breadth pass over gamelan, raga, maqam, West African bell timelines and medieval polyphony, read along three axes: tuning, instrumentation, performance structure. §7 maps each idea against what the studio's apparatus can already express. Accessible sources only; §8 says what a deeper pass would need.
+
+**Synthesis and signal**
+
+- `synthesis_techniques.md` — wavetable, FM, subtractive and granular, concretely.
+- `lead_synth_presets.md` — lead patch parameters with their ranges.
+- `audio_eq_biquads.md` — EQ in the context of a mix. Names Web Audio's biquads as RBJ-cookbook, which is the provenance behind `fx.js`'s filters.
+- `audio_checklist.md` — the mixing and mastering targets `dsp/master.js` and `dsp/masterbus.js` enforce: the −1 dBFS ceiling, the 9 dB crest floor, the 0.6 tanh drive.
+
+**Form and structure**
+
+- `song_construction_basics.md` — tension and release, unity and variety, expectation and surprise.
+- `game_music_structure.md` — vertical layering and horizontal re-sequencing, with the field vocabulary.
+- `game_music_reference_corpus.md`, `learning_resources.md` — worked examples and where the craft is documented.
+
+**Two that began as one instrument's design spec**
+
+`cyberpunk_audio_spec.md` and `cyberpunk_audio_songs.md` were written as cyber_synth's internal design. They are here because studio code cites them: the 808/909/303 lineage in `voices/fire.js` (§4), the worklet rationale in `bitcrush-worklet.js` (§5), and the uncopyrightable idiom progressions in `core/music.js` (§5). Read them as the origin of those numbers rather than as a description of anything here.
+
+## Where the gaps are
+
+`world_forms_survey.md` §7 covers what non-12-TET pitch and non-metric form would need, and §8 says what it could not reach. Beyond that, nothing here covers groove and microtiming in the traditions the studio actually builds in, or psychoacoustic band definitions. `core/scheduler.js` has one linear swing parameter and `core/metrics.js` splits bands at 200 Hz and 2 kHz; neither cites anything, because there is nothing yet to cite.
+
+One thing the survey settled retroactively: `drone_flute_synth/engine/percussion.js` has a `hocket` function that was written with no research behind it. §7 is the citation it never had — the device is imbal in Javanese gamelan, kotekan in Balinese, and hocket in medieval polyphony.

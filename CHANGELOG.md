@@ -34,12 +34,40 @@ prologue.
 
 ---
 
+## [0.2.0] — 2026-08-27
+
+### TIGHTEN — two new rack units, R5-fx and R6-voices
+**Rung:** R5, R6
+**Trigger:** the daughter carries its own effect builders (a delay, reverb, mixer, master bus) or its own synthesis voices.
+**Read:** `rack/R5-fx/README.md`, `rack/R6-voices/README.md`.
+**Compare to:** the daughter's own `dsp/` and `voices/`, wherever they live.
+**Action:** diff them. Where the daughter's copy is unchanged, note that it tracks the rack. Where it has diverged, propose folding the improvement back through `please_add_me.md` or recording why the daughter's copy differs. Both units expect the graft layout `<instrument>/core/`, `<instrument>/dsp/`, `<instrument>/voices/` — `R5-fx/dsp/` resolves `../core/`, and `R6-voices/voices/persistent.js` resolves `../core/` and `../dsp/`.
+**Skip if:** the daughter synthesises nothing and processes nothing.
+
+### TIGHTEN — the pantry, and a provenance ledger for it
+**Rung:** —
+**Trigger:** the daughter ships any recorded, composed or transcribed asset.
+**Read:** `pantry/README.md`, `pantry/PROVENANCE.md`, `RIGHTS.md`.
+**Compare to:** the daughter's own sample directories and its `PROVENANCE.md`.
+**Action:** propose a row per shipped asset with source, licence, the date the licence was traced to its original release, and the jurisdiction behind any public-domain claim. Where the daughter carries material the pantry already holds under a traced licence, propose pointing at the pantry copy instead.
+**Skip if:** the daughter synthesises everything and ships no audio files.
+
+### CONTRACT — core gains audio.js and scales.js
+**Rung:** R2
+**Trigger:** the daughter decodes or resamples audio, or carries its own note-name parsing.
+**Read:** `rack/R2-core/core/audio.js`, `rack/R2-core/core/scales.js`, `rack/R2-core/README.md`.
+**Compare to:** the daughter's own decode/resample path and scale tables.
+**Action:** `audio.js` (`decodeAudio`, `resample`, `toAudioBuffer`) is the seam a recording comes in through; propose adopting it where the daughter assumes a sample rate. `math.js` gained `round` (half to even) and `mod` (non-negative). Note that `music.js` and `scales.js` both export `MODES` as different sets in the same shape, so importing both under one name collides.
+**Skip if:** the daughter reads no audio files and needs no note names.
+
+---
+
 ## [0.1.0] — 2026-08-26
 
 ### CONTRACT — the house stack
 **Rung:** —
 **Trigger:** always, for any instrument budded from music_loom.
-**Read:** `CLAUDE.md` § House stack, § Load-bearing constraints.
+**Read:** `CLAUDE.md` § House stack, § What has tended to break.
 **Compare to:** the daughter's own `CLAUDE.md` and `package.json`.
 **Action:** confirm the instrument still holds to vanilla ES modules with no
 build step, zero runtime dependencies, `node-web-audio-api` as the only audio

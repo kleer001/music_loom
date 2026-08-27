@@ -33,3 +33,21 @@ export function cosineSim(a, b) {
   return dot / Math.sqrt((na || 1e-12) * (nb || 1e-12));
 }
 
+
+// ---- integer helpers (from drone_flute_synth/engine/rng.js) ----
+
+/* Round half to even. Half-up biases every exact .5 upward, and grid arithmetic
+   lands on .5 often enough for that to show as a rhythmic lean. */
+export function round(x) {
+  const f = Math.floor(x);
+  const diff = x - f;
+  if (diff > 0.5) return f + 1;
+  if (diff < 0.5) return f;
+  return f % 2 === 0 ? f : f + 1;
+}
+
+/* Non-negative modulo. Folding intervals with `% 12` needs a result that is
+   never negative; the native operator can be. */
+export function mod(n, m) {
+  return ((n % m) + m) % m;
+}
