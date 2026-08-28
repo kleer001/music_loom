@@ -1,6 +1,6 @@
 # World and historical musical forms
 
-Twenty-three traditions read along three axes: **tuning** (how pitch is specified), **instrumentation** (what makes the sound), and **performance structure** (how a piece unfolds and who plays what when). The aim is a map of what a procedural instrument can and cannot express, not a buildable spec for any one tradition.
+Twenty-six traditions read along three axes: **tuning** (how pitch is specified), **instrumentation** (what makes the sound), and **performance structure** (how a piece unfolds and who plays what when). The aim is a map of what a procedural instrument can and cannot express, not a buildable spec for any one tradition.
 
 Every file uses the same three numbered sections, so a citation is stable: `world_forms/gamelan.md §2`.
 
@@ -39,8 +39,11 @@ Two limits stated plainly. This is a survey by someone reading about these tradi
 | [`shakuhachi_honkyoku.md`](shakuhachi_honkyoku.md) | the grid, and the rest | breath as phrase length, ma as valued duration, meri/kari |
 | [`tuvan_overtone_singing.md`](tuvan_overtone_singing.md) | melody in the source | linear source/filter biphonation, merged formants at 1–2 kHz |
 | [`steel_pan.md`](steel_pan.md) | partials as given | partials tuned individually by hammer, skirt resonance fighting the octave |
+| [`hawaiian_oli.md`](hawaiian_oli.md) | genre as pitch content | styles divided by delivery technique, ʻiʻi as phrase-terminal ornament |
+| [`aboriginal_song_series.md`](aboriginal_song_series.md) | text delivered plainly | fixed text-rhythm against an independent melodic cycle, text artfully hidden |
+| [`mongolian_long_song.md`](mongolian_long_song.md) | the note as a point | one vowel held for seconds, a named ornament vocabulary inside it |
 
-## Seven convergences
+## Eight convergences
 
 The strongest thing here is not any single tradition. It is that unconnected traditions arrive at the same device, which suggests properties of the problem rather than of a culture.
 
@@ -52,11 +55,15 @@ The strongest thing here is not any single tradition. It is that unconnected tra
 
 **Repertoire as an enumerable space with a selection criterion.** Toussaint shows the ten West African seven-stroke timelines lie within a few swaps of two canonical patterns, and that Bembé has maximum rhythmic oddity. The suladi sapta scheme derives 175 cycles from three nested choices. Neither tradition stores a list; both store a way to generate and choose. That is what `PROGRESSIONS` and `DRUM_PATTERNS`, stored as literals, are not.
 
-**One specification, several readings.** Talea and color run at coprime lengths so one voice never repeats. A mensuration canon reads one notated line at 3:2 and sounds four voices from two written parts. Katajjaq offsets identical motifs by half a beat. In each, the composing is done by phase or rate applied to shared material, not by writing more material.
+**One specification, several readings.** Talea and color run at coprime lengths so one voice never repeats. A mensuration canon reads one notated line at 3:2 and sounds four voices from two written parts. Katajjaq offsets identical motifs by half a beat. And in the Central Australian Akwelye repertoire a fixed text-rhythm cycles against a melodic structure of its own length until the two conclude together — isorhythm, with no contact between the traditions. In each, the composing is done by phase or rate applied to shared material rather than by writing more material.
+
+The Akwelye case adds something the European one does not have. In the French motet the coprime cycles read as structural ingenuity; in Akwelye the audible consequence is that the words do not line up with the tune, and the ethnomusicological title for it is *artfully hidden*. The same mechanism, used to obscure rather than to display.
 
 **Emergence is often the goal, not a by-product.** The Sardinian quintina is a fifth voice nobody sings, and the ensemble's technique exists to produce it. Katajjaq's low and high streams belong to neither singer. Banda-Linda's melody has no performer. These traditions organise parts so that something appears which is in none of them.
 
 **The scale is a property of an instrument.** A gamelan's embat is the tuning of that physical set, and two sets built alike differ by ~79 cents. Ethiopian kiñit names both the mode and the retuning of the krar's strings. *Dastgāh* means "the position of the hand". Where instruments are retuned per mode, "what scale is this" and "how is this instrument tuned" are one question — which is not what a shared `MODES` table models.
+
+**Ornament is specified four different ways.** Sean-nós divides ornaments into melismatic and intervallic and places them by poetic stress, on unstressed syllables. Mongolian long song names its gestures — shurankhai, nugalaa, usrelt, tsokhilgo — as an enumerable vocabulary. Hindustani gamaka is constitutive: without it the raga is a scale. Hawaiian ʻiʻi is positional, marking the end of a phrase. Where a synthesis engine usually exposes ornament as a density knob, these four expose it as a type system, a placement rule, an identity, and a position respectively.
 
 **A note on grids.** Three neighbouring traditions formalised overlapping practice onto incompatible grids, all in the modern era: Arabic theory on 24 equal quarter tones, Turkish on 53 Holdrian commas, Persian on Vaziri's 24. Farhat's measured Persian intervals give **two** neutral seconds, 135 and 165 cents, where the quarter-tone grid offers one at 150. The grid is a description imposed afterward, and in at least one case it is demonstrably coarser than the practice.
 
@@ -82,6 +89,9 @@ Read against the studio's apparatus. Each row is what a daughter would build for
 | **Fixed cluster vocabulary** (aitake) | `core/music.js` builds chords from root and quality via `chordTones`. Eleven named shapes with transitions is a different structure, not a chord table with different contents. |
 | **Seconds and fourths as stable** (Georgian) | `chordTones` and `PROGRESSIONS` encode a consonance hierarchy treating these as needing resolution. A generator built on it cannot produce this music. |
 | **Ornament placed by text** (sean-nós) | Ornament density is usually a parameter. Placing ornaments by poetic stress — and on *unstressed* syllables — is a rule, and it needs a text model to have anything to consult. |
+| **A named ornament vocabulary** (long song, ʻiʻi) | A table of named gestures with entry conditions, rather than a probability. Long song's four named devices and Hawaiian ʻiʻi's phrase-terminal position are both directly encodable. |
+| **Genre as a delivery setting** (oli styles) | Hawaiian chant genres differ by vocal technique over the same text — pitch sustain, vowel length, ornament density. That maps onto a synthesis parameter set more naturally than onto a scale or a form. |
+| **Independent text and melody cycles** (Akwelye) | The same structure as talea/color, and a second reason to want it: two cursors of different length, where the misalignment is the intended effect rather than a side effect. |
 | **Amplitude-dependent spectrum** (jivari) | Not present. Waveshapers in `dsp/fx.js` are static transfer curves; drive is a parameter, not a function of the envelope. An envelope follower into shaper drive points the right way. |
 | **Emergent combination tones** (quintina) | The inverse of the usual arrangement problem: tune and blend parts so a sum becomes audible. A question about spectral alignment between voices, not voice-leading. |
 | **Continuous pitch as the norm** (meri/kari, gamaka) | `degreeToMidi` resolves a degree to a fixed pitch. Motion between notes has nowhere to live. |
@@ -102,4 +112,7 @@ Cheapest relative to what they buy: **density levels**, **one-sequence-N-rates**
 - **Tuning is thin or absent** for Carnatic, aksak, flamenco, sean-nós, Korean, Banda-Linda, katajjaq, gagaku and Sardinian. **Instrumentation is thin** for maqam, Carnatic, aksak, Persian, medieval and mensuration canon. The three-axis frame makes the holes visible, which is most of its value.
 - **Balinese and Javanese gamelan are treated together** where they differ; kotekan and gong kebyar are Balinese, irama and balungan as described are Javanese.
 - **The flamenco / West African resemblance** is noted structurally in [`flamenco_compas.md`](flamenco_compas.md) §3 and deliberately not explained. The historical question is real, contested, and outside what was read.
-- **Still unsurveyed:** Ghanaian gyil and xylophone tuning, Vietnamese ca trù, Thai and Cambodian 7-equal tuning, Mongolian long-song, Sámi joik, Bulgarian diaphonic *shoppe* singing, Hawaiian chant, Aboriginal Australian songlines, Byzantine chant and its own comma system.
+- **Aboriginal Australian material is deliberately limited.** Songlines carry restricted knowledge held by particular people and places. [`aboriginal_song_series.md`](aboriginal_song_series.md) §0 states the boundary: published musical structure only, no content, route or ownership. That absence is intentional and is not a gap to be closed.
+- **"Aboriginal Australian music" is not one tradition**, and neither is "Hawaiian chant" a single practice. Both files describe specific documented repertoires and say so.
+
+**The survey is closed here.** Twenty-six traditions is enough to have found the convergences worth finding, and the returns on a twenty-seventh are lower than the returns on building one of the things in the map above. Traditions considered and not surveyed, should that change: Ghanaian gyil tuning, Vietnamese ca trù, Thai and Cambodian 7-equal, Sámi joik, Bulgarian diaphonic *shoppe* singing, Byzantine chant and its comma system.
