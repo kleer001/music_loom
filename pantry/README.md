@@ -4,6 +4,8 @@ Sound material an instrument can draw on, held in the studio so a new one starts
 
 Roughly 11 MB, all CC0 or public domain except one MIDI arrangement that asks for attribution.
 
+`CANDIDATES.md` is the other half of the ledger — material that would suit an instrument built here, with its licence status as far as it has been checked and the reason it has not been taken. A row moves from there to `PROVENANCE.md` when the files are in the tree and the licence has been read at its source.
+
 ## What is here
 
 | Directory | Holds | Licence |

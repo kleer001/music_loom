@@ -10,7 +10,7 @@ Sound sources, gathered from four instruments. Fifty-odd voices across three way
 
 | File | From | Holds |
 |---|---|---|
-| `fire.js` | cyber_synth `cyber/voices.js` | 45 voices, fire-and-forget. Drums, basses, leads, pads, plucks, stabs, risers, two flutes, and `engineVoice` |
+| `fire.js` | cyber_synth `cyber/voices.js` | 41 voices, fire-and-forget. Drums, basses, leads, pads, plucks, stabs, risers, two flutes, and `engineVoice` |
 | `persistent.js` | dub_synth `engine/voices.js` | `makeVoices` — kick, sampleKick, bass, stab, snare, hat, shaker, perc, pad as retriggered graphs |
 | `buffer.js` | cyber_synth `industrial/voices.js` | `slicer` `granular` `oneShotKit` `loopEnsemble` — buffer-driven, tempo-matched with pitch-lock |
 | `wavetables.js` | cyber_synth | `registerWavetable` `getWavetable` — what `fire.js` imports |

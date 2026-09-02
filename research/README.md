@@ -50,6 +50,11 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 - `audio_eq_biquads.md` — EQ in the context of a mix. Names Web Audio's biquads as RBJ-cookbook, which is the provenance behind `fx.js`'s filters.
 - `audio_checklist.md` — the mixing and mastering targets `dsp/master.js` and `dsp/masterbus.js` enforce: the −1 dBFS ceiling, the 9 dB crest floor, the 0.6 tanh drive.
 
+**Tooling and sources**
+
+- `web_audio_toolchain.md` — JavaScript, TypeScript and Web Audio code outside this repo, read against what the rack already holds. Licences and versions checked at the registry rather than recalled, and a verdict on each: write from spec, vendor a file, read-only reference, or not this stack. §2 records the three capabilities the rack turned out not to have — loudness, tuning beyond 12-TET, and non-isochronous rhythm.
+- `dsp_source_texts.md` — the primary papers and books behind those capabilities, with what each one settles and whether it can be read for free. The citation targets for digests not yet written. `pantry/CANDIDATES.md` is the equivalent list for sound material.
+
 **Form and structure**
 
 - `song_construction_basics.md` — tension and release, unity and variety, expectation and surprise.

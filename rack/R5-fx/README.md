@@ -14,7 +14,7 @@ Everything here resolves `../core/dsp.js` and `../core/rng.js`, which is what th
 
 | File | Holds |
 |---|---|
-| `fx.js` | 26 builders: `makeSidechain` `makePump` `makeDelay` `makePitchShifter` `makeBestPitchShifter` `makeFilter` `makeEq` `makeChannelEq` `makeMultiband` `makeReverb` `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` `makeBitcrush` `makeRingmod` `makeChorus` `makeTape` `makePhaser` `makeFlanger` `makeNoiseBed` `makeModMatrix` |
+| `fx.js` | 22 builders: `makeSidechain` `makePump` `makeDelay` `makePitchShifter` `makeBestPitchShifter` `makeFilter` `makeEq` `makeChannelEq` `makeMultiband` `makeReverb` `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` `makeBitcrush` `makeRingmod` `makeChorus` `makeTape` `makePhaser` `makeFlanger` `makeNoiseBed` `makeModMatrix` |
 | `echo.js` | `makeDubEcho` — feedback into a filter, the dub delay. `makeFilterDelay` — one delay per band |
 | `space.js` | `makeSpring` `makePlate` `makeShimmer` — generated impulses, normalised to unit energy |
 | `mixer.js` | `makeDubMixer` — named channels, named buses, post-fader pre-mute sends |
