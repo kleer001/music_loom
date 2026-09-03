@@ -134,8 +134,8 @@ export function impulse(ctx, decay = 1.6, { dark = 0.6, stereo = true, seed = 0,
   return buf;
 }
 
-// Synthesized SPRING-reverb impulse — the "lasery"/boing tail Ott puts on rimshots/snares
-// (research/shpongle_technique.md §Ott). A spring's signature is DISPERSION: high frequencies
+// Synthesized SPRING-reverb impulse — the "lasery"/boing tail Ott puts on rimshots
+// and snares. A spring's signature is DISPERSION: high frequencies
 // travel through the coil faster than lows, so the onset is a downward "chirp" (a boing), with a
 // bright, midrange-weighted, metallic/twangy color from the coil's resonant modes.
 //   - dispersion: a swept-sine chirp from `chirpHi`→`chirpLo` over the first ~80 ms gives the boing.

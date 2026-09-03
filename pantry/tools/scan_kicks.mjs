@@ -5,8 +5,8 @@
 // Writes data/kicks.json. As with the noise corpus, the manifest travels with
 // the repo and the audio does not — the library is mounted, never vendored.
 //
-// Ranking is by the genre's own stated preferences rather than by taste: §1 puts
-// the spectral centre of gravity at 20-350 Hz in every analysed track, and §5
+// Ranking is by the genre's own stated preferences rather than by taste. It puts
+// the spectral centre of gravity at 20-350 Hz in every analysed track, and
 // calls the kick "thumpy and stiff". So a good candidate here is one whose energy
 // is overwhelmingly below 350 Hz and whose tail is short enough to sit inside the
 // beat — voices.js already documents what happens when a kick rings longer than
@@ -68,7 +68,7 @@ for (const path of walk(ROOT)) {
   let tail = x.length;
   for (let i = x.length - 1; i >= 0; i--) if (Math.abs(x[i]) > peak * 0.01) { tail = i; break; }
 
-  // One-pole at 350 Hz: the §1 band, measured as a share of total energy.
+  // One-pole at 350 Hz: that band, measured as a share of total energy.
   const a = Math.exp((-2 * Math.PI * 350) / sr);
   let lp = 0, lowE = 0, allE = 0;
   for (let i = 0; i < x.length; i++) { lp = (1 - a) * x[i] + a * lp; lowE += lp * lp; allE += x[i] * x[i]; }
@@ -92,7 +92,7 @@ const curated = rows.filter((r) => r.lowShare >= 0.9 && r.ms <= 320).slice(0, TO
 writeFileSync(OUT, JSON.stringify({
   root: ROOT,
   scanned: rows.length,
-  criteria: "lowShare >= 0.90 (energy under 350 Hz, §1) and tail <= 320 ms (§5 stiff)",
+  criteria: "lowShare >= 0.90 (energy under 350 Hz) and tail <= 320 ms (stiff)",
   entries: curated.map((r) => ({ ...r, rel: relative(ROOT, r.path) })),
 }, null, 2) + "\n");
 

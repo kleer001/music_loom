@@ -6,7 +6,7 @@
 // GainNode, and starts/stops them — fire-and-forget, with no shared mutable graph beyond
 // `dest`. This mirrors web/audio.js's _kick/_snare/_hit idioms (a sine + downward
 // pitch-env + amp-env kick, noise-through-biquad percussion), generalized to the
-// 808/909/303/supersaw electronic lineage from research/cyberpunk_audio_spec.md §4.
+// 808/909/303/supersaw electronic lineage.
 //
 // Determinism: generation/sequencing is seeded upstream (engine passes the chosen
 // params). These functions use Math.random just for real-time humanization (a noise
@@ -84,7 +84,7 @@ const SZ_DETUNE = [-0.11002313, -0.06288439, -0.01952356, 0, 0.01991221, 0.06216
 const szCenterGain = (mix) => -0.55366 * mix + 0.99785;
 const szSideGain = (mix) => -0.73764 * mix * mix + 1.2841 * mix + 0.044372;
 
-// Named super-saw "gear" bundles (proposed_features §V2; research/lead_synth_presets.md §1.1).
+// Named super-saw "gear" bundles (proposed_features;).
 // A pattern/genre sets `voices.lead.profile` instead of hand-tuning voices/detune/mix:
 //   nord   = the narrow 2-3-osc VA (Fragma "Toca's Miracle"; ~8¢) — drops into the symmetric model,
 //   jp8000 = the canonical 7-saw Szabo curve, bigroom = wider + hotter sides (the festival stab).
@@ -155,7 +155,7 @@ function bandTo(ctx, dest, band, q = 1.2) {
 // living lead — the trance cutoff-open, the acid "rise", the pluck snap). When `envMod` is set,
 // ramp the cutoff param from `cutoff*(1+envMod*(1+accent))` toward `cutoff` over `envDecay`;
 // `envMod<0` swells UP into the note instead. `cutoffParam` is biquad.frequency or ladder.cutoff.
-// Numbers grounded in research/lead_synth_presets.md §1.3 (303) / §2 (Nightcall).
+// Numbers grounded in the 303 and Nightcall lead presets.
 function leadFilterEnv(ctx, cutoffParam, t, { cutoff, envMod = 0, envDecay = 0.12, accent = 0 } = {}) {
   if (!envMod || !cutoffParam) return;
   const start = Math.max(20, cutoff * (1 + envMod * (1 + accent)));
@@ -164,7 +164,7 @@ function leadFilterEnv(ctx, cutoffParam, t, { cutoff, envMod = 0, envDecay = 0.1
 }
 
 // Delayed pitch-LFO vibrato added to an oscillator's `detune` (cents) — the held-note soloist
-// gesture. `vib` = {rate Hz≈5.5, depth cents, delay s≈0.25}. Juno LFO range §1.5. No-op if depth≤0.
+// gesture. `vib` = {rate Hz≈5.5, depth cents, delay s≈0.25}. Juno LFO range. No-op if depth≤0.
 function applyVibrato(ctx, detuneParam, t, vib, stop) {
   if (!vib || !detuneParam) return;
   const { rate = 5.5, depth = 0, delay = 0.25 } = vib;
@@ -607,7 +607,7 @@ export function supersaw(ctx, t, dest, p = {}, extras = {}) {
       // Center saw vs detuned-side saws follow the Szabo mix curve (sides ≈ louder).
       const og = ctx.createGain();
       og.gain.value = (isCenter ? cGain : sGain) / voices;
-      // Stereo unison spread: pan each saw by its detune position so the stack widens (§1.7).
+      // Stereo unison spread: pan each saw by its detune position so the stack widens.
       if (spread > 0 && voices > 1) {
         const pos = useSz ? SZ_DETUNE[v] / 0.11 : (v / (voices - 1) - 0.5) * 2;
         const pan = ctx.createStereoPanner();
@@ -633,7 +633,7 @@ export function fm(ctx, t, dest, p = {}, extras = {}) {
   mod.type = "sine"; mod.frequency.value = freq * ratio;
   const modGain = ctx.createGain();
   // modIndex in Hz; decays with the note for a bell-like spectral evolution. indexEnv adds extra
-  // index at onset (Chowning brass-swell: brighter when louder) — §1.4; 0 = the original decay.
+  // index at onset (Chowning brass-swell: brighter when louder); 0 = the original decay.
   const modDepth = freq * index;
   modGain.gain.setValueAtTime(Math.max(FLOOR, modDepth * (1 + indexEnv)), t);
   modGain.gain.exponentialRampToValueAtTime(Math.max(FLOOR, modDepth * 0.05), t + decay);
@@ -779,7 +779,7 @@ export function fmLead(ctx, t, dest, p = {}, extras = {}) {
   // FM partials at 4-8 kHz and SCREECH; this keeps the low/mid rich and the top clean.
   const effIndex = index * Math.max(0.32, Math.min(1.25, 520 / freq));
   const mg = ctx.createGain(); const depth = freq * effIndex;
-  mg.gain.setValueAtTime(Math.max(FLOOR, depth * (1 + indexEnv)), t); // indexEnv = brass-swell brightness at onset (§1.4)
+  mg.gain.setValueAtTime(Math.max(FLOOR, depth * (1 + indexEnv)), t); // indexEnv = brass-swell brightness at onset
   // The FM brightness eases back after the onset (0.42) so a held note settles toward a purer tone
   // (a real flute is brightest on the breath-attack, then sings clean) — keeps tone without the
   // sustained upper-sideband SCREECH that a high floor (0.55) produced. The AMP env carries the
@@ -798,7 +798,7 @@ export function fmLead(ctx, t, dest, p = {}, extras = {}) {
   carrier.connect(lp).connect(amp).connect(tremG).connect(dest);
   applyVoiceMods(extras, { detune: [carrier.detune], fm: mg.gain, cutoff: lp.frequency });
   // Breath/air bed: filtered noise under the tone, articulated with the amp env — the flute's
-  // airy "chiff" quality (research/raja_ram_flute.md). 0 = pure FM tone (back-compat).
+  // airy "chiff" quality. 0 = pure FM tone (back-compat).
   if (breath > 0) {
     const air = noiseSource(ctx, t);
     const bp = ctx.createBiquadFilter(); bp.type = "bandpass";
@@ -842,7 +842,7 @@ export function hoover(ctx, t, dest, p = {}, extras = {}) {
 
 // PWM lead: true pulse-width modulation — saw(f) minus a delayed saw(f); the delay time = the
 // duty cycle, swept by an LFO → a moving pulse width (the hollow Juno/Strobe breath). WebAudio has
-// no pulse osc, so this saw-subtraction is the correct construction. §1.5 (Juno PWM, LFO 0.3-5 Hz).
+// no pulse osc, so this saw-subtraction is the correct construction..5 (Juno PWM, LFO 0.3-5 Hz).
 export function pwmLead(ctx, t, dest, p = {}, extras = {}) {
   const { peak = 0.5, cutoff = 3000, resonance = 3, attack = 0.006, hold = 0.1, decay = 0.12, release = 0.18, glide = 0.02, detune = 6, pwmRate = 1.5, pwmDepth = 0.6 } = p;
   const freq = extras.freq || 330;
@@ -874,7 +874,7 @@ export function pwmLead(ctx, t, dest, p = {}, extras = {}) {
 }
 
 // Acid lead: a 303 screamer through the real 4-pole ladder (when the engine injects makeFilter),
-// with a strong per-note cutoff envelope + accent and a fixed-time slide. §1.3 (decay 0.2-2s,
+// with a strong per-note cutoff envelope + accent and a fixed-time slide..3 (decay 0.2-2s,
 // slide 60ms, accent→cutoff). The psy/acid topline; sibling of acidBass.
 export function acidLead(ctx, t, dest, p = {}, extras = {}) {
   const { peak = 0.5, cutoff = 900, resonance = 16, env = 1.4, accent = 0.4, attack = 0.004, decay = 0.22, release = 0.12, glide = 0.06, wave = "sawtooth" } = p;
@@ -893,7 +893,7 @@ export function acidLead(ctx, t, dest, p = {}, extras = {}) {
 }
 
 // Reese lead: 2-3 detuned saws beating against each other (Kevin Saunderson, 1988) + a slow filter
-// LFO + light overdrive → the hollow metallic growl. §1.6. Lead-register sibling of the reese bass.
+// LFO + light overdrive → the hollow metallic growl.. Lead-register sibling of the reese bass.
 export function reeseLead(ctx, t, dest, p = {}, extras = {}) {
   const { peak = 0.5, cutoff = 2200, resonance = 4, attack = 0.01, hold = 0.2, decay = 0.2, release = 0.2, detune = 22, lfoRate = 0.8, lfoDepth = 600 } = p;
   const freq = extras.freq || 165;
@@ -953,7 +953,7 @@ export function syncLead(ctx, t, dest, p = {}, extras = {}) {
 
 // Stack lead: the deadmau5 layering doctrine as one voice — a small stack of sub-voices, each on
 // its own waveform/octave/detune and EQ'd to its own narrow band (bandTo), panned for width, so
-// the composite stays clear (§3: "stack, EQ each layer to a slice"; lead band 500Hz-5kHz + HPF).
+// the composite stays clear — stack, then EQ each layer to a slice; lead band 500Hz-5kHz + HPF.
 const STACK_DEFAULT = [
   { wave: "sawtooth", octave: 0, detune: 8, band: 1500, bandQ: 0.9, gain: 1.0, pan: -0.3 },
   { wave: "square", octave: -1, detune: -6, band: 700, bandQ: 1.0, gain: 0.7, pan: 0.3 },
@@ -1296,7 +1296,7 @@ export function flute(ctx, t, dest, p = {}, extras = {}) {
 // with a louder "chiff" consonant at the onset over a subtle airy bed. This is the rebuild: no FM
 // sidebands (the screech), no fixed-waveform subtractive approximation — the spectrum is placed
 // directly. Cheap (high notes drop their negligible partials) and renders offline (no worklet).
-// research/raja_ram_flute.md §flute-synthesis; SMS (Serra), DDSP, Chowning low-index, Casio CZ DCW.
+// Lineage: SMS (Serra), DDSP, Chowning low-index, Casio CZ DCW.
 export function fluteAdd(ctx, t, dest, p = {}, extras = {}) {
   const { peak = 0.4, attack = 0.06, hold = 0.05, release = 0.28, breath = 0.04, chiff = 0.1, glide = 0,
           vibrato = { rate: 5.5, depth: 22, delay: 0.25 } } = p;
@@ -1381,8 +1381,8 @@ export function fluteAdd(ctx, t, dest, p = {}, extras = {}) {
 // One voice, switchable oscillator engine (subtractive | fm | wavetable) feeding a
 // shared filter → amp-ADSR → LFO → drive. The classic-synth control surface (osc/
 // filter/env/lfo) as a single parametric instrument, replacing fixed-recipe voices for
-// Bass/Chords/Lead. Architecture per research/synthesis_techniques.md §1-2; default
-// ranges anchored to research/mined_preset_stats.json (Vital preset distributions).
+// Bass/Chords/Lead. Default ranges are anchored to measured Vital preset
+// distributions.
 
 const WAVE = { saw: "sawtooth", square: "square", pulse: "square", tri: "triangle", triangle: "triangle", sine: "sine" };
 

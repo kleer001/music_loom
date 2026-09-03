@@ -8,7 +8,7 @@
 // in a browser. Computing the gain reduction here instead makes the result exact,
 // identical every run, and testable without rendering anything.
 //
-// The targets are this repo's, from research/audio_checklist.md:
+// The targets:
 //   true-peak   ≤ -1 dBFS        (inter-sample clipping)
 //   clipped     0 samples
 //   crest       ≥ 9 dB, healthy 9-13   — the "too hot" detector
@@ -155,7 +155,7 @@ export function limit(channels, {
 }
 
 // Peak-normalise. Used to level-match takes before an A/B so "louder" cannot
-// masquerade as "better" (research/audio_checklist.md §5).
+// masquerade as "better".
 export function normalize(channels, targetDb = -1) {
   const target = fromDb(targetDb);
   const { peak } = measure(channels);

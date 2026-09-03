@@ -4,16 +4,16 @@
 // The riddim model makes the sound-system operator a "macro-composer": someone
 // who composes by deconstructing and reconstructing a finished whole in
 // performance, with every instrument track individually manipulable through
-// processors and faders (research/dub_techno_technique.md §4). Structure in the
+// processors and faders. Structure in the
 // analysed records is made almost entirely of mixer gestures — muting the kick
 // makes the break, muting the shaker makes the dip, muting the ride starts the
-// descent (§7). So the mixer is not plumbing here; it is where the composition
+// descent. So the mixer is not plumbing here; it is where the composition
 // happens.
 //
 // Buses are named and arbitrary in number on purpose. Resonance's three stab
 // layers each need their own echo, because the piece's four-bar call-and-
 // response is produced by their *decays intersecting* — one shared echo bus
-// cannot make that sound (§6, §8).
+// cannot make that sound.
 
 import { audible, ride } from "./knob.js";
 
@@ -85,7 +85,7 @@ export function makeDubMixer(ctx, { channels = [], buses = [] } = {}) {
       return this;
     },
 
-    // The genre's primary structural gesture (§7): sections are marked by
+    // The genre's primary structural gesture: sections are marked by
     // taking things away. `seconds` is the fade — 0.02 for a hard mute, longer
     // for the slow disappearances the outros use.
     mute(name, on, at, seconds = 0.02) {
@@ -119,7 +119,7 @@ export function makeDubMixer(ctx, { channels = [], buses = [] } = {}) {
     },
 
     // Riding a send is how a layer is pushed into or pulled out of a space
-    // without touching its level — Aerial's whole dynamic (§6): "all elements
+    // without touching its level — Aerial's whole dynamic: "all elements
     // that do not undergo significant changes in amplitude are transformed and
     // altered in their spatial perception through knob movements."
     send(name, busName, level, at, seconds = 0.4) {

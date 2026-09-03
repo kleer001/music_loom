@@ -2,11 +2,11 @@
 // the dub echo, and Live's Filter Delay.
 //
 // The echo is the genre. Everything here is built to Koçer's measured
-// reconstruction of it (research/dub_techno_technique.md §2) rather than to a
+// reconstruction of it rather than to a
 // generic delay: a high-pass and a low-pass *inside* the feedback loop, a fixed
 // ±8% stereo time offset instead of ping-pong, a time-based (not beat-synced)
 // mode whose delay time can be modulated to produce the genre's pitch
-// artefacts, and saturation in the loop for the RE-201's tape colour (§5).
+// artefacts, and saturation in the loop for the RE-201's tape colour.
 //
 // Every node here is a standard Web Audio node, so the whole thing renders
 // through an OfflineAudioContext — no worklets.
@@ -16,11 +16,11 @@ import { randomWalk, ride, sineLfo } from "./knob.js";
 
 const MAX_DELAY = 2.0;
 
-// Koçer's measured defaults (§2, the time-based delay example): feedback 90%,
+// Koçer's measured defaults, from the time-based delay example: feedback 90%,
 // HPF 200 Hz, LPF 5 kHz, offset +8%L / -8%R, dry/wet 70%. Feedback starts lower
 // here — 90% is the runaway setting a gesture rides *up* to, not a resting one.
 const DEFAULTS = {
-  time: 0.237,     // Listing, Sinking's measured stab echo: dotted ~237 ms (§6)
+  time: 0.237,     // Listing, Sinking's measured stab echo: dotted ~237 ms
   feedback: 0.5,   // its measured feedback, and Live's Echo default
   wet: 0.7,        // its measured wet amount, and Live's Echo default
   dry: 1.0,
@@ -55,7 +55,7 @@ export function makeDubEcho(ctx, opts = {}) {
 
   // Two independent lines. The ±8% time offset alone produces the
   // "non-mechanical, 'flawed' human perception of timing" — no panning
-  // modulation involved (§2).
+  // modulation involved.
   const line = (pan) => {
     const delay = ctx.createDelay(MAX_DELAY);
     const hp = ctx.createBiquadFilter();
@@ -128,7 +128,7 @@ export function makeDubEcho(ctx, opts = {}) {
       return this;
     },
 
-    // The knob ride that marks a transition (§3). Feedback up, tail runs ~2
+    // The knob ride that marks a transition. Feedback up, tail runs ~2
     // measures in the dub originals, then back down for a soft decay.
     throwFeedback(at, { peak = 0.95, rise = 0.15, hold = 1.0, fall = 1.2 } = {}) {
       for (const ln of lines) {
@@ -138,7 +138,7 @@ export function makeDubEcho(ctx, opts = {}) {
       return this;
     },
 
-    // Koçer's core move (§2): feedback under a random-waveshape LFO at a
+    // Koçer's core move: feedback under a random-waveshape LFO at a
     // non-synchronised 4.26 Hz. This is the "human uncertainty" in the density
     // and dynamism of the repeats.
     rideFeedback({ rng, seconds, rate = 4.26, min = 0.25, max = 0.85, smooth = 1, start = 0 }) {
@@ -148,14 +148,14 @@ export function makeDubEcho(ctx, opts = {}) {
       return n;
     },
 
-    // The slow counterpart (§2): low-pass cutoff on a 0.11 Hz sine, swinging
+    // The slow counterpart: low-pass cutoff on a 0.11 Hz sine, swinging
     // presence against depth. Incommensurable with the feedback walk on purpose.
     driftTone({ rate = 0.11, centre = 2750, depth = 2250, start = 0 } = {}) {
       return lines.map((ln) => sineLfo(ctx, ln.lp.frequency, { rate, depth, centre, start }));
     },
 
     // Time-based delay whose time is modulated — the source of dub's pitch
-    // artefacts on the tail (§2). Koçer clamps the LFO to 40–80% of range with
+    // artefacts on the tail. Koçer clamps the LFO to 40–80% of range with
     // 100% smoothing so the shifts stay musical.
     warpTime({ rng, seconds, rate = 1, low = 0.4, high = 0.8, smooth = 1, start = 0 }) {
       const min = time * low, max = time * high;
@@ -168,7 +168,7 @@ export function makeDubEcho(ctx, opts = {}) {
 
 // Live's Filter Delay: three independent delay lines, each fed through its own
 // band-pass, with its own time, feedback, level and pan. Named in the Basic
-// Channel stab recipe (§5) as the last stage of the stab chain, at a dotted 1/8.
+// Channel stab recipe as the last stage of the stab chain, at a dotted 1/8.
 const DEFAULT_BANDS = [
   { freq: 160, q: 0.7, time: 0.237, feedback: 0.35, level: 0.5, pan: -0.6 },
   { freq: 900, q: 1.0, time: 0.237, feedback: 0.45, level: 0.7, pan: 0.0 },

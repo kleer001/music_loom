@@ -2,7 +2,7 @@
 // an AudioWorkletProcessor doing sample-rate reduction
 // (sample-and-hold every `srDiv` samples) + bit-depth quantization. Runs on the
 // audio render thread (off the main thread), the preferred path per
-// research/cyberpunk_audio_spec.md §5 (ScriptProcessorNode is deprecated). fx.js loads this
+// (ScriptProcessorNode is deprecated). fx.js loads this
 // via ctx.audioWorklet.addModule(); a WaveShaper bitCurve() is the fallback.
 //
 // This file uses AudioWorklet globals (registerProcessor, AudioWorkletProcessor,

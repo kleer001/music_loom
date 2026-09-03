@@ -18,7 +18,7 @@ Against `research/world_forms/`, that covers frame drum, rattle, cabasa, guiro, 
 | [VSCO 2 Community Edition](https://versilian-studios.com/vsco-community/) | Open chamber orchestra from the same studio | CC0 | Clean. Orchestral rather than world |
 | [University of Iowa Electronic Music Studios](https://theremin.music.uiowa.edu/) | Chromatic single-note recordings of orchestral instruments | Stated as free to use; **terms not read at source** | Verify before taking |
 | [Sonatina Symphonic Orchestra](https://github.com/peastman/sso) | SFZ orchestral library | Reported as permitting commercial use with attribution. GitHub reads the repository licence as unrecognised, so the terms live in the distribution rather than in a standard file | Read the distribution's own terms before taking |
-| [Philharmonia](https://philharmonia.co.uk/resources/sound-samples/) | Thousands of orchestral, world and percussion samples, multiple dynamics and articulations | CC-BY-SA 3.0 | **Rejected** — see §6 |
+| [Philharmonia](https://philharmonia.co.uk/resources/sound-samples/) | Thousands of orchestral, world and percussion samples, multiple dynamics and articulations | CC-BY-SA 3.0 | **Rejected** — see section 6 |
 | [Freesound](https://freesound.org/), CC0 filter only | Field and instrument recordings, per-file licensed | CC0 where filtered | The realistic route to the world-forms instruments above. Per-file verification, one row each |
 
 ## 3. Impulse responses

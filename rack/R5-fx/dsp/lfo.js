@@ -19,7 +19,7 @@
 // Two rate systems, deliberately: `div` is tempo-synced in beats, `hz` is free.
 // Dub needs both — Koçer's echo modulation is explicitly non-synchronised because
 // that is what reads as a hand, while a filter that breathes with the bar reads as
-// arrangement (research/dub_techno_technique.md §2).
+// arrangement.
 
 import { mulberry32 } from "../core/rng.js";
 import { randomWalk } from "./knob.js";

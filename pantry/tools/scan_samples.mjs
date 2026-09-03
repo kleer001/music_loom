@@ -2,8 +2,8 @@
 //
 // Noise is a compositional layer in this genre, not a defect: all 50 of the 50
 // tracks Koçer spectrum-analysed carry one, and he sorts them into exactly three
-// types — static, vinyl crackle, and soundscape-as-drone
-// (research/dub_techno_technique.md §5). Synthesis reaches static easily and
+// types — static, vinyl crackle, and soundscape-as-drone. Synthesis reaches
+// static easily and
 // crackle badly; it does not reach a seaside or a room at all, which is why
 // The Salt On Her Cheeks opens and closes on a recording rather than a generator.
 //

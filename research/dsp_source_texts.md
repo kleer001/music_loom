@@ -2,7 +2,7 @@
 
 Where the numbers would come from. Each section names one text, what it settles, and whether it can be read for free — so that a constant landing in `core/` or `dsp/` has a citation with a section number behind it rather than a plausible value.
 
-`learning_resources.md` is the wider index of free material for learning the craft. This is narrower: the specific papers and books behind capabilities the rack either has without a citation, or does not have yet. Access status in §11.
+`learning_resources.md` is the wider index of free material for learning the craft. This is narrower: the specific papers and books behind capabilities the rack either has without a citation, or does not have yet. Access status in section 11.
 
 ## 1. Why a source, and not a good value
 

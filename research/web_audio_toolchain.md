@@ -1,6 +1,6 @@
 # Web Audio and music code outside this repo
 
-A survey of JavaScript, TypeScript and Web Audio code that a daughter instrument could draw on, read against what the rack already holds. Licences and versions were checked at the registry and in-repo rather than recalled; §14 records what was checked and how.
+A survey of JavaScript, TypeScript and Web Audio code that a daughter instrument could draw on, read against what the rack already holds. Licences and versions were checked at the registry and in-repo rather than recalled; section 14 records what was checked and how.
 
 This is not a reading list. `learning_resources.md` is that. This one answers a narrower question: for a capability the studio does not have, is there code worth taking, and on what terms.
 
@@ -28,7 +28,7 @@ This matters more here than it would elsewhere. `dsp/master.js` records that `Dy
 
 `core/music.js` line 22 is `centsToRatio`, and it is the entire microtonal surface of the studio. `core/scales.js` holds twelve modes as semitone-offset arrays, all of them subsets of 12-TET.
 
-Fifteen of the twenty-six traditions in `world_forms/` describe a pitch system that will not fit that — Javanese slendro and pelog, the quarter-tones of Arabic maqam, the Holdrian commas and 53-tone frame of Turkish makam, Persian koron and sori, Pythagorean thirds in medieval polyphony, the harmonic series in Tuvan overtone singing, the inharmonic partials of a steel pan. `raga.md` §1 states it plainly: not primarily a tuning problem, but not 12-TET either.
+Fifteen of the twenty-six traditions in `world_forms/` describe a pitch system that will not fit that — Javanese slendro and pelog, the quarter-tones of Arabic maqam, the Holdrian commas and 53-tone frame of Turkish makam, Persian koron and sori, Pythagorean thirds in medieval polyphony, the harmonic series in Tuvan overtone singing, the inharmonic partials of a steel pan. `raga.md` section 1 states it plainly: not primarily a tuning problem, but not 12-TET either.
 
 ### 2.3 Rhythm
 
@@ -83,7 +83,7 @@ Org: <https://github.com/xenharmonic-devs>. Scale Workshop, the application on t
 
 `tonal` 6.4.3, MIT, at <https://github.com/tonaljs/tonal>. Pure functions over notes, intervals, chords, scales, modes and keys, published as roughly twenty small packages under one umbrella.
 
-It is well-made and 12-TET throughout, which puts it on the wrong side of §2.2. `core/scales.js` and `core/music.js` already cover what a daughter has needed from that space.
+It is well-made and 12-TET throughout, which puts it on the wrong side of section 2.2. `core/scales.js` and `core/music.js` already cover what a daughter has needed from that space.
 
 ### 4.5 Tune.js
 
@@ -168,7 +168,7 @@ It is **LGPL with an exception** — readable, not copyable into an MIT repo. Th
 
 The rack's three reverbs — `makePlate`, `makeSpring`, `makeShimmer` — are all `ConvolverNode` over a synthesised impulse from `core/dsp.js`. That gives a plausible tail and no handle on it: decay, density and diffusion are baked into the impulse at generation time and cannot be modulated during a render. An allpass-and-delay topology built from native Web Audio nodes would give per-parameter control and would render offline unchanged, which convolution also does.
 
-**Verdict: digest, then a native-node FDN.** §2 of `dsp_source_texts.md` lists the primary sources.
+**Verdict: digest, then a native-node FDN.** Section 2 of `dsp_source_texts.md` lists the primary sources.
 
 One thing already learned here belongs beside any of that: `ConvolverNode.normalize` at its default rescales the impulse by its own energy, so a return fader tracks decay time instead of level. Normalising the impulse to unit energy and setting `normalize = false` separates the two.
 
@@ -198,7 +198,7 @@ MPL-2.0 is file-level copyleft: a vendored file stays MPL and its modifications 
 
 ## 14. The build-step question
 
-Nothing in §4 through §8 needs a bundler. The cases where a build step would buy something, and what it actually costs:
+Nothing in sections 4 through 8 needs a bundler. The cases where a build step would buy something, and what it actually costs:
 
 | Want | What it really costs |
 |---|---|
@@ -240,4 +240,4 @@ A licence read once is a licence as of that reading. Anything that gets vendored
 
 ## 16. What this survey did not reach
 
-Spatial audio — ambisonics, binaural, HRTF — beyond the `PannerNode` the rack does not use. MPE and per-note expression, which is where §4.3's `xen-midi` would matter. OSC. Interchange with DAW project formats. Neural synthesis and DDSP-style models. WebCodecs and browser-side encoding to anything other than WAV. Mobile and iOS audio behaviour, which differs from desktop in ways that would bite an instrument published to the open web.
+Spatial audio — ambisonics, binaural, HRTF — beyond the `PannerNode` the rack does not use. MPE and per-note expression, which is where Section 4.3's `xen-midi` would matter. OSC. Interchange with DAW project formats. Neural synthesis and DDSP-style models. WebCodecs and browser-side encoding to anything other than WAV. Mobile and iOS audio behaviour, which differs from desktop in ways that would bite an instrument published to the open web.

@@ -1,6 +1,6 @@
 # Technique digests
 
-Sourced, sectioned write-ups of how a sound is actually made. A spec sheet draws from a digest; code cites its section numbers at the point of use.
+Sourced, sectioned write-ups of how a sound is actually made. A spec sheet draws from a digest, and so does whoever writes the code.
 
 A digest is not a description of what a genre feels like. It is the measurable layer — parameters, ranges, structures — and the sources they came from. `RESEARCH.md` covers what goes into one.
 
@@ -8,40 +8,33 @@ A digest is not a description of what a genre feels like. It is the measurable l
 
 The same digest gets used more than once. A dub echo description informs a dub instrument and also the delay on something else entirely. Holding it in the studio means the second instrument starts from the research rather than redoing it, and means a correction lands in one place.
 
-## Citing a digest
+## What a number needs
 
-Numbered sections are what makes a digest citable from code:
+A value that came from research carries its reason in the comment beside it, in full:
 
 ```js
-// dub_techno_technique.md §2 — feedback rides a 4.26 Hz random-waveshape LFO
+// Feedback rides a 4.26 Hz random-waveshape LFO — a hand riding the knob in
+// time with the track, deliberately off the grid so the motion never repeats.
 feedbackLfo.frequency.value = 4.26;
 ```
 
-A constant with no citation is one nobody can account for six months later, and an unnumbered digest gives a citation nothing to point at.
-
-## Travelling with an instrument
-
-A digest an instrument cites travels with it when it buds, as a copy. The code points at section numbers, and a copy keeps them from drifting out from under it.
-
-## Anchors
-
-Numbered sections are the common case, and `dub_techno_technique.md` cites its source thesis's own § and page numbers alongside them. Named anchors work too — `shpongle_technique.md` is the most-cited digest in the family and is referenced as `§Ott`, `§reverb`. What a citation needs is a heading that will not move, not a number specifically.
+Code does not point back into this directory. A reader of the code should not have to open another file to know why a constant is what it is, and a digest that gets edited should not silently change the meaning of a line somewhere else.
 
 ## What is here
 
 **Genre and technique**
 
-- `dub_techno_technique.md` — echo parameters and modulation rates, the riddim substrate, the dry-frame rule, the low-dominant mix, section timing. Digested from a musicology thesis; §5 the sound, §7 structure.
+- `dub_techno_technique.md` — echo parameters and modulation rates, the riddim substrate, the dry-frame rule, the low-dominant mix, section timing. Digested from a musicology thesis.
 - `shpongle_technique.md` — Posford and Ott on reverb and mix craft, with a measured correction to the reverb-low-boost question. Cited from `core/dsp.js` and `voices/fire.js`.
 - `raja_ram_flute.md` — breath, chiff and phrasing behind the two flute voices.
 - `edm_theory.md`, `deadmau5_wisdom.md` — harmony, arrangement and production practice.
 - `dubstep/` — eighteen documents: genre structure, drums, bass sound design, FX and mixing, mastering and loudness, drop anatomy and deconstructions, and sample and stem sources. `04_synthesis_techniques.md` is not here because it was byte-identical to `synthesis_techniques.md`.
 - `jazz/` — chord-scale theory, guide tones and voice leading, walking bass, comping figures, lead sheets, and a subgenre survey. The public-domain MIDI these were assembled around is in `pantry/midi/`, with its own catalogue.
-- `glitchfield/` — Autechre and Plaid voicing notes, Machinedrum p-lock decoding, a bell-voice spec, generative lanes, synth transcription. These came from a repo that holds no code, so nothing cited them.
+- `glitchfield/` — Autechre and Plaid voicing notes, Machinedrum p-lock decoding, a bell-voice spec, generative lanes, synth transcription.
 
 **World and historical forms**
 
-- `world_forms/` — twenty-six traditions, each read along the same three numbered sections: §1 tuning, §2 instrumentation, §3 performance structure. `world_forms/README.md` holds the method, eight cross-tradition convergences, a map against the studio's apparatus, and the gaps.
+- `world_forms/` — twenty-six traditions, each read along the same three numbered sections: tuning, instrumentation, performance structure. `world_forms/README.md` holds the method, eight cross-tradition convergences, a map against the studio's apparatus, and the gaps.
 
 **Synthesis and signal**
 
@@ -52,8 +45,8 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 
 **Tooling and sources**
 
-- `web_audio_toolchain.md` — JavaScript, TypeScript and Web Audio code outside this repo, read against what the rack already holds. Licences and versions checked at the registry rather than recalled, and a verdict on each: write from spec, vendor a file, read-only reference, or not this stack. §2 records the three capabilities the rack turned out not to have — loudness, tuning beyond 12-TET, and non-isochronous rhythm.
-- `dsp_source_texts.md` — the primary papers and books behind those capabilities, with what each one settles and whether it can be read for free. The citation targets for digests not yet written. `pantry/CANDIDATES.md` is the equivalent list for sound material.
+- `web_audio_toolchain.md` — JavaScript, TypeScript and Web Audio code outside this repo, read against what the rack already holds. Licences and versions checked at the registry rather than recalled, and a verdict on each: write from spec, vendor a file, read-only reference, or not this stack. It records the three capabilities the rack turned out not to have — loudness, tuning beyond 12-TET, and non-isochronous rhythm.
+- `dsp_source_texts.md` — the primary papers and books behind those capabilities, with what each one settles and whether it can be read for free. `pantry/CANDIDATES.md` is the equivalent list for sound material.
 
 **Form and structure**
 
@@ -63,10 +56,10 @@ Numbered sections are the common case, and `dub_techno_technique.md` cites its s
 
 **Two that began as one instrument's design spec**
 
-`cyberpunk_audio_spec.md` and `cyberpunk_audio_songs.md` were written as cyber_synth's internal design. They are here because studio code cites them: the 808/909/303 lineage in `voices/fire.js` (§4), the worklet rationale in `bitcrush-worklet.js` (§5), and the uncopyrightable idiom progressions in `core/music.js` (§5). Read them as the origin of those numbers rather than as a description of anything here.
+`cyberpunk_audio_spec.md` and `cyberpunk_audio_songs.md` were written as another project's internal design, and they still read that way — "this repo" inside them means that one, and the files they name do not exist here. They are kept for the material itself: the 808/909/303 lineage, the worklet rationale, and the stock idiom progressions. Read them as background, not as a description of anything here.
 
 ## Where the gaps are
 
-`world_forms/README.md` covers what non-12-TET pitch and non-metric form would need, and lists what it could not reach. Beyond that, nothing here covers groove and microtiming in the traditions the studio actually builds in, or psychoacoustic band definitions. `core/scheduler.js` has one linear swing parameter and `core/metrics.js` splits bands at 200 Hz and 2 kHz; neither cites anything, because there is nothing yet to cite.
+`world_forms/README.md` covers what non-12-TET pitch and non-metric form would need, and lists what it could not reach. Beyond that, nothing here covers groove and microtiming in the traditions the studio actually builds in, or psychoacoustic band definitions. `core/scheduler.js` has one linear swing parameter and `core/metrics.js` splits bands at 200 Hz and 2 kHz; neither value has a stated reason, because there is nothing yet that would give it one.
 
-One thing the survey settled retroactively: `drone_flute_synth/engine/percussion.js` has a `hocket` function that was written with no research behind it. `world_forms/` is the citation it never had — the device is imbal in Javanese gamelan, kotekan in Balinese, ira/arca in the Andes, and hocket in medieval polyphony. `drone_flute_synth/engine/breath.js` picked up a second one: `world_forms/shakuhachi_honkyoku.md` §3 describes the breath-as-phrase-length model it implements.
+One thing the survey settled: hocketing — a melody split between players so no one person sounds it — turns up under its own name in four of the traditions here. It is imbal in Javanese gamelan, kotekan in Balinese, ira and arca in the Andes, and hocket in medieval polyphony. `shakuhachi_honkyoku.md` describes a second device of the same kind, where a phrase is as long as one breath.

@@ -1,7 +1,7 @@
 // Source: cyber_synth/industrial/voices.js
 // playback voices that turn analyzed AudioBuffers into music.
 //
-// Four ways a recording becomes sound (spec §4), from literal to abstract:
+// Four ways a recording becomes sound, from literal to abstract:
 //   • slicer       — chop a loop into N slices and trigger them on the grid (the machine
 //                    IS the beat). AudioBufferSourceNode per slice with a start offset.
 //   • granular     — clouds of short overlapping windowed grains from a buffer at a
@@ -151,7 +151,7 @@ export function granular(ctx, buffer, dest, params = {}) {
 
 /**
  * One-shot kit — map corpus one-shot buffers to drum roles and trigger them on a grid, an
- * 808 made of metal and steam (§4.4). `kit` is { kick, snare, hat } AudioBuffers; extra
+ * 808 made of metal and steam. `kit` is { kick, snare, hat } AudioBuffers; extra
  * named buffers can be passed for round-robin variety per role.
  *
  * @param {BaseAudioContext} ctx
@@ -184,12 +184,12 @@ export function oneShotKit(ctx, kit, dest) {
 
 /**
  * Loop ensemble — play several loops layered, each `playbackRate`-adjusted toward a common
- * target BPM (§4.5). Each layer needs its *native* BPM (from analyze.estimateTempo); the
+ * target BPM. Each layer needs its *native* BPM (from analyze.estimateTempo); the
  * ratio targetBpm/nativeBpm sets playbackRate.
  *
  * NOTE — time-stretch side effect: adjusting playbackRate stretches time AND shifts pitch
  * together (a resampling, not a phase-vocoder). A true tempo-lock that preserves pitch
- * needs a WASM stretch lib (Rubber Band / Signalsmith — spec §5/§10), which is out of scope
+ * needs a WASM stretch lib (Rubber Band / Signalsmith), which is out of scope
  * here; playbackRate is the honest zero-dependency Web-Audio approach and is musically fine
  * for machine loops (a motor pitched up is still a motor).
  *

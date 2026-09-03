@@ -3,15 +3,14 @@
 //
 // Aerial's drum kit is "brought into the dub context with the help of spring
 // reverb"; its stabs are "reverberated in a wet manner, using a relatively high
-// pre-delay ratio"; Resonance opens and closes on shimmer reverb
-// (research/dub_techno_technique.md §6). So: a short dispersive spring on
+// pre-delay ratio"; Resonance opens and closes on shimmer reverb. So: a short
+// dispersive spring on
 // percussion, a long plate held off the transient by a large pre-delay on the
 // melodic layer, and a rising shimmer for the introduction and the outro.
 //
 // All three are convolvers over impulses synthesized in core/dsp.js, so they
 // render offline. Reverb sits on a send, never as an insert — the source stays
-// dry and the space is a separate, ridable channel (§8; cf.
-// research/shpongle_technique.md).
+// dry and the space is a separate, ridable channel.
 
 import { impulse, springImpulse } from "../core/dsp.js";
 import { makeBestPitchShifter } from "./fx.js";
@@ -86,7 +85,7 @@ export function makePlate(ctx, { decay = 3.2, dark = 0.6, preDelay = 0.09, wet =
     ...g,
     // Reverb decay is a performed parameter in this genre: Aerial's sixth
     // section gets its character from "the decay of reverb and an increase in
-    // the feedback knob" moving together (§6).
+    // the feedback knob" moving together.
     setDecay(seconds, { dark: d = dark } = {}) {
       g.conv.buffer = impulse(ctx, seconds, { dark: d, stereo: true, random });
       return this;
@@ -99,7 +98,7 @@ export function makePlate(ctx, { decay = 3.2, dark = 0.6, preDelay = 0.09, wet =
 // Shimmer: the tail is pitched up an octave and fed back into the convolver, so
 // each pass rises. Resonance's introduction is "a large space created through
 // the use of shimmer reverb and noise effects", and its ending pushes everything
-// but the bassline into that same space (§6).
+// but the bassline into that same space.
 //
 // The shift is a real one. makeBestPitchShifter takes the phase-vocoder worklet
 // in a browser and the granular delay-line shifter offline — so the octave is

@@ -1,8 +1,8 @@
 # RESEARCH — sourcing a musical claim
 
-What sits between "I have a vibe in mind" and a technique digest that code can cite.
+What sits between "I have a vibe in mind" and a technique digest worth building from.
 
-The output of research is a **technique digest** in `research/` — a sourced, sectioned document a spec sheet draws from and code cites at the point of use. A digest is not a summary of what a genre feels like. It is the measurable layer: parameters, ranges, structures, and the sources they came from.
+The output of research is a **technique digest** in `research/` — a sourced, sectioned document a spec sheet draws from. A digest is not a summary of what a genre feels like. It is the measurable layer: parameters, ranges, structures, and the sources they came from.
 
 ## Fabrication
 
@@ -64,29 +64,29 @@ Default search skews toward English-language, recent, and commercially optimised
 
 Source: <full citation of the primary source or sources, with access status>
 
-## §1 <The numbers>
+## 1. The numbers
 Tempo, register, duration, spectral balance — whatever is measurable, with
 the measurement's origin.
 
-## §2 <The mechanism>
+## 2. The mechanism
 How the characteristic sound is actually produced. Signal path, parameters,
-ranges. This is what code will cite.
+ranges.
 
-## §3 <The grammar>
+## 3. The grammar
 How parts relate. What the rhythm section does under it, what changes at a
 section boundary, what is left out.
 
-## §4 <Analyses>
+## 4. Analyses
 Specific records or performances, what was measured in each, what generalises.
 
-## §5 <Lineage>
+## 5. Lineage
 Who did it first, who changed it, what it descends from. Named, dated, sourced.
 
 ## Gaps
 What could not be verified, what was paywalled, what conflicts between sources.
 ```
 
-Numbered sections are what makes a digest citable: `// §2 — feedback rides on a 4.26 Hz random-waveshape LFO`. An unnumbered digest still reads fine; it just cannot be pointed at from a line of code.
+Numbered sections keep a long digest navigable. Code does not point back at them — a value that came from research carries its reason in the comment beside it, so the line reads on its own.
 
 ## Reporting research back
 

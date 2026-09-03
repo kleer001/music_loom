@@ -2,8 +2,7 @@
 // dub_synth/voices.js — the sound sources.
 //
 // Sparse music exposes everything, so these are built to the genre's stated
-// specifications rather than to generic taste
-// (research/dub_techno_technique.md §5):
+// specifications rather than to generic taste:
 //
 //   kick   — "thumpy and stiff", and the axis everything else shapes around;
 //            in Aerial it also carries the low end outright, because the track
@@ -39,8 +38,8 @@
 // (120 ms apart, 55 ms decay).
 //
 // Two voices run a slow seeded walk on their own filter — the stab's band-pass
-// (§5's step for taking the harshness off) and the pad's cutoff, which is the
-// pad's only motion (§7.7). A render knows how long it is and arms those once.
+// (the step that takes the harshness off it) and the pad's cutoff, which is the
+// pad's only motion. A render knows how long it is and arms those once.
 // A player does not, so each such voice also publishes its walk as a `walks`
 // descriptor and `armVoiceWalks` re-arms it in spans. Without that the walks are
 // only as long as whatever `seconds` they were built with, and the instrument
@@ -144,7 +143,7 @@ export function makeVoices(ctx, { rng, seconds, beat = 0.48 } = {}) {
     // this file's header is not a style preference, it is that table.
     //
     // The way out is to stop treating a fixed pattern as a series of events. The
-    // kick pattern is one bar that repeats (§3 — the riddim is a fixed frame), so
+    // kick pattern is one bar that repeats — the riddim is a fixed frame — so
     // the sample is stamped into a bar-length buffer at its step positions and
     // played by a single looping source. Cost is then flat and independent of
     // length, like every other voice here.
@@ -221,7 +220,7 @@ export function makeVoices(ctx, { rng, seconds, beat = 0.48 } = {}) {
       return {
         at(t, hz, dur, { peak = 0.5, dead = false } = {}) {
           o.frequency.setValueAtTime(hz, t);
-          // A dead note is muted and percussive — it reads as rhythm, not pitch (§4).
+          // A dead note is muted and percussive — it reads as rhythm, not pitch.
           lp.frequency.setValueAtTime(dead ? 160 : 240, t);
           strike(g.gain, t, dead ? peak * 0.5 : peak, 0.02, dead ? 0.06 : dur);
         },
@@ -264,7 +263,7 @@ export function makeVoices(ctx, { rng, seconds, beat = 0.48 } = {}) {
       tail.connect(dest);
 
       // The band-pass cutoff randomised by a low-Hz LFO — the step the Basic
-      // Channel recipe uses to take the harshness off the stab (§5).
+      // Channel recipe uses to take the harshness off the stab.
       const walks = [{ param: bp.frequency, rate: 0.35, min: cutoff * 0.7, max: cutoff * 1.6 }];
       if (rng && seconds) {
         randomWalk(bp.frequency, { rng, rate: 0.35, min: cutoff * 0.7, max: cutoff * 1.6, smooth: 1, seconds });
@@ -329,7 +328,7 @@ export function makeVoices(ctx, { rng, seconds, beat = 0.48 } = {}) {
     // A continuous chord bed rather than a triggered voice: the pad in these
     // records holds for 32 bars at a time, and its motion is the filter, not the
     // notes. The cutoff walks slowly under the same seeded hand as everything
-    // else (§2).
+    // else.
     pad(dest, hzs, { peak = 0.10, cutoff = 700, warmth = 0.4 } = {}) {
       const lp = ctx.createBiquadFilter();
       lp.type = "lowpass"; lp.frequency.value = cutoff; lp.Q.value = 1.1;

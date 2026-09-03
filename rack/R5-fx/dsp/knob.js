@@ -2,10 +2,10 @@
 // the hand on the knob.
 //
 // Dub's motion comes from a person moving parameters during the mix, not from
-// notes changing (research/dub_techno_technique.md §3, §4). Koçer reproduces
+// notes changing. Koçer reproduces
 // that hand with an LFO set to a **random waveshape at a non-synchronised
 // rate** — explicitly not sine or square, because predictability is what the
-// gesture is meant to defeat (§2).
+// gesture is meant to defeat.
 //
 // Web Audio has no random-waveshape LFO node, and an AudioWorklet would break
 // the offline-render requirement. So the walk is *scheduled* onto the
@@ -14,25 +14,25 @@
 
 const FLOOR = 0.0001;
 
-// §2's three hand-rates, in one place because three callers need the same ones
+// The three hand-rates, in one place because three callers need the same ones
 // and a diagnostic that measures different rates than the render is worse than
 // no diagnostic.
 //
 // The feedback figure is 4.26 Hz, a knob position measured off one Ableton
-// session, and §2 is emphatic that it is NOT synchronised: it sits at a ratio
+// session, and it is emphatically NOT synchronised: it sits at a ratio
 // near 39 against the tone drift so the combined motion never repeats. Held as a
 // bare constant that intent survives at exactly one tempo — at 125 BPM 4.26 Hz
 // is an eighth note 2.2% sharp, slipping a whole cycle every ~5.6 bars, which is
 // what a hand riding in time with a track does; at 144 it is 11% flat of an
 // eighth and means something else. So it is anchored to the eighth and detuned
 // off it, and the detune stays an awkward fraction on purpose: a round one would
-// periodically relock the two LFOs and cost exactly the property §2 asks for.
+// periodically relock the two LFOs and cost exactly the property being sought.
 //
 // The drift stays absolute. Its 9.1-second period is below the band where tempo
 // means anything — it is heard as breathing, not as placement — and pinning it to
 // the grid would only risk making it commensurable with the walk.
 //
-// The warp is the one LFO §2 beat-syncs, and §2 names its rate: a 1/4.
+// The warp is the one LFO that is beat-synced, at a 1/4.
 const WALK_DETUNE = 0.0224;
 export function knobRates(beat) {
   return {
@@ -43,7 +43,7 @@ export function knobRates(beat) {
 }
 
 // A deliberate move of a knob: hold, then travel to `to` over `seconds`.
-// This is the transition primitive — §3: "increasing the amount of feedback is
+// This is the transition primitive: "increasing the amount of feedback is
 // a dominating notion for reinforcing, embellishing, or organizing the
 // transition from one part to the next."
 export function ride(param, to, at, seconds = 0.25) {
@@ -57,7 +57,7 @@ export function ride(param, to, at, seconds = 0.25) {
 // gliding into it over `smooth` of the step (smooth 1 = continuous motion,
 // smooth 0 = sample-and-hold jumps).
 //
-// Koçer's measured settings (§2): feedback amount driven at rate 4.26 Hz;
+// Koçer's measured settings: feedback amount driven at rate 4.26 Hz;
 // delay time driven at a 1/4-note rate with 100% smoothing and its range
 // clamped to 40–80% to keep the pitch artefacts from running away.
 // `from` is for a walk that is being re-armed rather than started: an endless
@@ -99,7 +99,7 @@ export function randomWalk(param, { rng, rate, min, max, smooth = 1, start = 0, 
 
 // A plain sine LFO as a live signal, summed into the param. Used for the slow
 // non-synchronous drift Koçer puts on filter cutoff — 0.11 Hz against the
-// feedback walk's 4.26 Hz, a ratio near 39:1, so the two never line up (§2).
+// feedback walk's 4.26 Hz, a ratio near 39:1, so the two never line up.
 //
 // `centre` sets the param's own value; the oscillator swings ±depth around it.
 export function sineLfo(ctx, param, { rate, depth, centre, start = 0 }) {

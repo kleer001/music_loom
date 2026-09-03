@@ -33,7 +33,7 @@ Consequences rather than rules. An instrument that wants the trade can take it, 
 - **Measuring settles what guessing proposes.** Render offline and read the numbers. Ears catch that something changed; a spectrum says how much.
 - **The harness can be wrong too.** A surprising number is worth checking against a known signal.
 - **Bisection after one failed attempt.** Minimal repro, diff against known-good.
-- **A number with a citation can be defended later.** A constant that came from research carries `// §N — <what it is>` next to it.
+- **A number carries its reason.** A constant that came from research carries the reason next to it, written out rather than pointed at.
 
 ## Code style
 

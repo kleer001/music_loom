@@ -14,7 +14,7 @@ The path from an idea to a repo. Steps get skipped and reordered; this is the sh
 4. **A prototype** in `bench/<slug>/`, on the house stack. Rack units get grafted as the work reaches them.
 5. **Measurement** — `rack/R3-measure` renders offline and prints numbers. Ears catch that something changed; a spectrum says how much.
 6. **Rights** — `RIGHTS.md` covers what a shipped recording, tune or transcription carries with it.
-7. **Budding** — the `/bud` skill. The instrument leaves with its history and is pruned from the current tree here. A digest it cites travels as a copy, since the code points at section numbers.
+7. **Budding** — the `/bud` skill. The instrument leaves with its history and is pruned from the current tree here.
 
 ## House stack
 
@@ -53,7 +53,7 @@ Each of these cost time at least once. They are consequences rather than rules �
 - **Measuring settles what guessing proposes.** When the artifact is a signal, an objective read — 16k-32k FFT, amplitude envelope, band-energy split — says which theory survives.
 - **The harness can be wrong too.** A surprising number is worth checking against a known signal before it is believed.
 - **Bisection tends to beat a second guess.** A minimal reproduction diffed against a known-good reference finds it; another theory usually does not.
-- **A number with a citation can be defended later.** When a value comes from a technique digest, naming the doc and section beside it tells the next reader where it came from.
+- **A number carries its reason.** A value that came from research reads better with the reason written out beside it than with a pointer to where the reason lives.
 - **A clean test subject exposes latent bugs in shared code.** New code misbehaving often turns out to be a pre-existing fault in `core/`.
 
 ## The panel
@@ -64,7 +64,7 @@ The listening panel in `rack/R1-spec/personas.md` is a set of lenses for thinkin
 
 - `template/` — what a new instrument is born as. `scripts/new_instrument.py` copies it and substitutes the slug.
 - `rack/` — the apparatus, by rung. Grafted by copy when the work reaches it.
-- `research/` — technique digests. Sourced, sectioned, cited from code.
+- `research/` — technique digests. Sourced and sectioned.
 - `scripts/` — the delivery mechanism and the scaffolder.
 - `pantry/` — sound material and the tools that index it. `PROVENANCE.md` accounts for every file.
 - `bench/` — instruments under construction. Tracked, because budding splits their history out of this repo.

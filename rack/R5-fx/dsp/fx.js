@@ -28,7 +28,7 @@ function dipAndRewire(wet, ctx, restore, rewireFn) {
 // A GainNode the pumped buses route through. `trigger(t, depth, release)` writes a
 // ducking envelope: drop to (1-depth) at the kick, recover via setTargetAtTime over
 // ~release. The engine calls trigger() on every kick step — the four-on-the-floor
-// breathing signature (spec §5).
+// breathing signature.
 export function makeSidechain(ctx) {
   const gain = ctx.createGain();
   gain.gain.value = 1;
@@ -149,7 +149,7 @@ export function makeDelay(ctx) {
       if (p.time16 !== undefined) { time16 = p.time16; applyTime(); }
       if (p.sync !== undefined || p.timeMs !== undefined) applyTime();
       if (p.feedback !== undefined) {
-        const f = Math.min(0.95, p.feedback); // < unity (controlled feedback, fx doc §5)
+        const f = Math.min(0.95, p.feedback); // < unity: feedback stays controlled, never runaway
         ramp(fbL.gain, f, 0.05, ctx); ramp(fbR.gain, f, 0.05, ctx);
       }
       if (p.lpf !== undefined) { ramp(lpL.frequency, p.lpf, 0.05, ctx); ramp(lpR.frequency, p.lpf, 0.05, ctx); }
@@ -341,7 +341,7 @@ export function makeEq(ctx) {
 // Butterworth Q-pair → flat passband) HIGH-PASS + N fully-parametric peaking BELLS (addressable
 // freq/gain/Q) + a HIGH-SHELF for air. Defaults are transparent (HPF parked at 10 Hz, all gains 0)
 // so inserting it changes nothing until the mix — or the FFT balancer — dials a cut in. Subtractive
-// EQ in the context of the mix; see research/audio_eq_biquads.md (Web Audio = RBJ-cookbook biquads).
+// EQ in the context of the mix. Web Audio's biquads are the RBJ-cookbook filters.
 export function makeChannelEq(ctx, nBands = 3) {
   const hp1 = ctx.createBiquadFilter(); hp1.type = "highpass"; hp1.Q.value = 0.5412; // Butterworth-4
   const hp2 = ctx.createBiquadFilter(); hp2.type = "highpass"; hp2.Q.value = 1.3066; // (the pair sums flat)
@@ -441,7 +441,7 @@ export function makeMultiband(ctx) {
 //  - "reverse": uses a reversed impulse so the wash swells INTO the hit.
 //  - "spring":  a SYNTHESIZED dispersive spring impulse (core/dsp.js springImpulse) — the
 //               chirpy "boing", bright/metallic, midrange-weighted tail Ott puts on rimshots/
-//               snares (research/shpongle_technique.md §Ott). `springColor` sets the mid centre Hz.
+//               snares. `springColor` sets the mid centre Hz.
 export function makeReverb(ctx) {
   const input = ctx.createGain();   // sends arrive here
   const pre = ctx.createDelay(0.2); // pre-delay keeps transients clear
@@ -793,8 +793,8 @@ export function makeTape(ctx) {
 // ---- Phaser (allpass notch-sweep) --------------------------------------------
 
 // A chain of allpass BiquadFilters whose `frequency` is swept by a shared LFO, with feedback
-// and dry/wet mix — the classic moving-notch phaser. Per Ott/Shpongle (research/
-// research/shpongle_technique.md §Ott): a phaser on the HIGHS spreads and softens hats/leads. Built from
+// and dry/wet mix — the classic moving-notch phaser. Per Ott/Shpongle: a phaser
+// on the HIGHS spreads and softens hats/leads. Built from
 // allpass biquads + delay + osc + gain (all faithful offline — no WaveShaper). Stereo width via
 // ANTI-PHASE L/R modulation (right channel's depth inverted), NOT detune — see makeChorus for the
 // detune-FM hazard. depth is the sweep amount in Hz, rate the LFO Hz, mix crossfades dry/wet.
@@ -861,7 +861,7 @@ export function makePhaser(ctx, stages = 6) {
 // ---- Flanger (modulated short-delay comb) ------------------------------------
 
 // A short (~1-5 ms) DelayNode whose delay time is LFO-swept, with feedback and dry/wet mix —
-// the jet-sweep comb filter. Per Ott (research/shpongle_technique.md §Ott): widens/softens the
+// the jet-sweep comb filter. Per Ott: widens/softens the
 // highs. DelayNode + osc + gain (all faithful offline). Stereo width via ANTI-PHASE L/R sweep
 // (right channel depth inverted), NOT detune. depth = delay-sweep amount in seconds, rate = LFO
 // Hz, feedback = comb resonance, mix = dry/wet.
@@ -962,7 +962,7 @@ export function makeNoiseBed(ctx) {
 //   sh      ConstantSourceNode.offset re-randomized on the scheduler grid; `slew` is the lag
 //           (≈0.005 snappy step ↔ ≈0.12 smoothed West-Coast S&H)
 //   kickenv ConstantSourceNode.offset pulsed on each kick (sidechain-as-modulation)
-// Determinism (spec §11): LFOs are oscillators (no RNG); S&H uses Math.random (real-time
+// Determinism: LFOs are oscillators (no RNG); S&H uses Math.random (real-time
 // humanization, allowed); kick-env keys off the audible kick. Nothing reads/perturbs a seed.
 export function makeModMatrix(ctx) {
   const lfos = {};     // name -> { osc, depth, target }

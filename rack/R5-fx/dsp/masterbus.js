@@ -1,9 +1,8 @@
 // Source: dub_synth/engine/dsp/masterbus.js
 // the master chain, in the graph.
 //
-// Shaped after GLITCHFIELD's master chain (`../glitchfield`: pre → anti-mud EQ →
-// limiter → master gain → tanh clip) and this repo's own mix discipline in
-// research/audio_checklist.md. Two rules from that checklist drive everything here:
+// Shaped after a master chain of pre → anti-mud EQ → limiter → master gain →
+// tanh clip. Two rules drive everything here:
 //
 //   "Mastering = glue, not a brickwall."  A tanh master at SAT 0.6 keeps a
 //   healthy crest; SAT 2.0 slams it to ~5 dB and ships hot on every take.
@@ -31,14 +30,14 @@ export const MASTER_DEFAULTS = {
   mudQ: 1.1,
   mudGain: -2.5,
   // The genre is low-dominant and mid-scooped by measurement, not by taste
-  // (research/dub_techno_technique.md §1) — but the analysed records are still
+  // — but the analysed records are still
   // *balanced* up top, and a shelf is how the air comes back without undoing
   // the scoop.
   airHz: 6000,
   airGain: 2.0,
   subHz: 45,
   subGain: 0,
-  // research/audio_checklist.md §3: 0.6 is the proven-healthy tanh drive.
+  // 0.6 is the proven-healthy tanh drive.
   sat: 0.6,
   trim: 1.0,
 };
