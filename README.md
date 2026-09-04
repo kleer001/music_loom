@@ -1,6 +1,6 @@
 # music_loom
 
-A workbench for building instruments that play themselves.
+A workbench for building things that make sound in a browser.
 
 An idea starts as something you heard — a record, a technique, an instrument you can't stop thinking about. It gets read about properly, written down as something you could build from, prototyped until it makes sound, measured to find out whether it makes the sound you meant, and then it leaves: its own repository, its own life, its own name.
 
@@ -15,19 +15,21 @@ python3 scripts/new_instrument.py my-instrument
 cd bench/my-instrument && ./run.sh
 ```
 
-That is a working instrument in a browser, immediately, on the first free port. From there the studio hands over apparatus as you need it — a shared audio core, an effects rack, a library of voices, a harness that renders your graph offline and tells you what it actually sounds like. You take what you reach for and nothing else.
+That gets you a page served on the first free port, with a live `AudioContext` behind a start button and a `TODO` where the graph goes. The scaffolding is done — the server, the gesture handling, the test runner, the licence, the stamp — so the first thing you write is the sound.
+
+From there the studio hands over apparatus as you reach for it: a shared audio core, an effects rack, a library of voices and samplers, a harness that renders your graph offline so you can measure it. You take what you want and nothing else.
 
 ## Why it is built this way
 
-**Plain Web Audio, no build step, no dependencies.** The browser loads the source as written. An instrument that leaves here has nothing to install and nothing to keep up with.
+**Plain Web Audio, ES modules, no build step.** The browser loads the source as written. A new instrument has zero dependencies and passes its tests on a bare Node install; grafting the measurement harness adds one devDependency, and that is the only one the house stack has ever needed.
 
-**The same graph renders headlessly.** Which means you can measure it. Ears catch that something changed; a spectrum tells you how much, and whether it changed the way you predicted. A studio where you can be wrong on purpose is worth more than one where everything sounds fine.
+**The same graph renders headlessly.** Which means you can measure it: peak and RMS, DC offset, stereo width, spectral centroid, band energy. That does not tell you whether it sounds good — ears do that. It tells you *what changed, and by how much*, which is how you find out whether it changed the way you predicted.
 
-**Research before code.** A constant somebody guessed is a constant nobody can defend six months later. The digests in `research/` cover dub techno, psytrance flute, wavetable and FM synthesis, dubstep down to the anatomy of a drop, and a long survey of world and historical traditions — raga, gamelan, maqam, Tuvan overtone singing, medieval mensuration canon — read for what they actually specify about tuning, instrumentation and form.
+**Research before code.** A constant somebody guessed is a constant nobody can defend six months later. The digests in `research/` cover dub techno, psytrance flute, wavetable and FM synthesis, dubstep down to the anatomy of a drop, jazz voice leading, and a long survey of world and historical traditions — raga, gamelan, maqam, Tuvan overtone singing, medieval mensuration canon — each read for what it actually specifies about tuning, instrumentation and form.
 
-**A stocked pantry.** Recorded percussion and pitched loops, machine noise, public-domain tunes as MIDI, and the tools that indexed them. All of it accounted for in `pantry/PROVENANCE.md`, because an instrument you might publish should not carry material whose terms nobody checked.
+**A stocked pantry.** Recorded percussion and pitched loops, machine noise, public-domain tunes as MIDI, and the tools that indexed them. Every file traces to a release that states its terms, tracked in `pantry/PROVENANCE.md`, because an instrument you might publish should not carry material whose licence nobody read.
 
-**Instruments grow up and move out.** A budded instrument keeps a stamp saying which version of the studio it descends from, so when a convention here gets better it can come and find out what changed.
+**Instruments grow up and move out.** A budded instrument keeps a stamp naming the studio version it descends from, so when a convention here improves it can ask what changed. The mechanism is built and tested; no instrument has used it in anger yet.
 
 ## Where to look
 
