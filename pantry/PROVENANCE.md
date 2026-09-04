@@ -11,14 +11,14 @@ Every recorded, composed or transcribed asset held here. Synthesis needs no row;
 | `machine/loop_industrial.flac` | Industrial machine texture loop | [Sonic Pi](https://github.com/sonic-pi-net/sonic-pi) `etc/samples` | CC0 | 2026-08-27 | Same release. |
 | `machine/loop_compus.flac` | Drum/beat loop | [Sonic Pi](https://github.com/sonic-pi-net/sonic-pi) `etc/samples` | CC0 | 2026-08-27 | Same release. |
 | `machine/synth_*_loop.wav` | Two rendered machine loops | cyber_synth `fetch_samples.mjs` | CC0 | 2026-08-27 | Generated, not recorded. 22050 Hz mono — see the note below. |
-| `midi/*.mid` (9 files) | Ragtime and traditional melodies as Standard MIDI | Mutopia Project; Wikimedia Commons (Scarborough Fair) | PD / CC0 | 2026-08-27 | Compositions published 1899–1914 or traditional. Per-file status in `midi/CATALOG.md`. |
+| `midi/*.mid` (11 files) | Ragtime and traditional melodies as Standard MIDI | Mutopia Project; Wikimedia Commons (Scarborough Fair) | PD / CC0 | 2026-09-03 | Compositions published 1899–1914 or traditional. Per-file status in `midi/CATALOG.md`. |
 | `midi/greensleeves.mid` | Traditional melody, guitar arrangement | Mutopia Project | **CC-BY-SA 4.0** | 2026-08-27 | The melody is PD; Mutopia's arrangement carries attribution and share-alike. Attribution is owed if a derived arrangement is distributed. |
 
 ## Public domain determinations
 
 | Work | Jurisdiction | Basis | Verified |
 |---|---|---|---|
-| Joplin rags (7 titles) | US | Compositions published 1899–1914, before the 1929 cutoff; Joplin died 1917 | 2026-08-27 |
+| Joplin rags (9 titles) | US | Compositions published 1899–1914, before the 1929 cutoff; Joplin died 1917 | 2026-09-03 |
 | Greensleeves | US | Traditional, 16th century | 2026-08-27 |
 | Scarborough Fair | US | Traditional, 17th century or earlier; the MIDI carries an author PD dedication | 2026-08-27 |
 

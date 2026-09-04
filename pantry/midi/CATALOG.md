@@ -1,14 +1,14 @@
 # Public-Domain Jazz/Reharm Reference MIDIs
 
-Reference material for the ferine_town procedural-audio engine: public-domain
-melodies in MIDI form chosen because they "jazz up" easily — strong, simple
-melodies over clear chord changes that take well to swing/bebop/lounge
-reharmonization. These are reference seeds for melodic/harmonic ideas, not assets
-shipped in the build (the engine synthesizes everything live and ships no audio
-files).
+Public-domain melodies in MIDI form, chosen because they "jazz up" easily —
+strong, simple melodies over clear chord changes that take well to swing, bebop
+or lounge reharmonisation. They are seeds for melodic and harmonic ideas rather
+than audio: an instrument that reads them still synthesises everything it plays.
 
-Files live in `./midi/`. All MIDIs verified as valid Standard MIDI data (`file`
-reports `Standard MIDI data (format 1)`).
+Files live beside this one. All twelve are verified valid Standard MIDI data
+(`file` reports `Standard MIDI data (format 1)`), and the two most recently
+added were checked against their written key signatures and final cadences as
+well — see the verification note below.
 
 ## Public-domain rationale (general)
 
@@ -35,18 +35,32 @@ reports `Standard MIDI data (format 1)`).
 
 | # | Tune | Composer | Year | File | Source | License | Why it jazzes up |
 |---|------|----------|------|------|--------|---------|------------------|
-| 1 | Maple Leaf Rag | Scott Joplin | 1899 | `midi/maple_leaf_rag.mid` | Mutopia (id 23) | PD / CC0 | Iconic syncopated A/B strains over I–IV–V; ragtime is the literal root of swing — drops straight into a stride/swing feel. |
-| 2 | The Entertainer | Scott Joplin | c. 1902 | `midi/the_entertainer.mid` | Mutopia (id 263) | PD / CC0 | Bright stepwise melody with clear sectional cadences; trivially reharmonized with ii–V turnarounds. |
-| 3 | Elite Syncopations | Scott Joplin | 1902 | `midi/elite_syncopations.mid` | Mutopia (id 1540) | PD / CC0 | Lively syncopation and a singable trio; swings naturally at a lounge tempo. |
-| 4 | Pineapple Rag | Scott Joplin | 1908 | `midi/pineapple_rag.mid` | Mutopia (id 1899) | PD / CC0 | Strong riff-like phrases; the repeated motifs make good comping/head material. |
-| 5 | Bethena (A Concert Waltz) | Scott Joplin | 1905 | `midi/bethena_concert_waltz.mid` | Mutopia (id 463) | PD / CC0 | 3/4 ragtime waltz with a wistful melody — reharmonizes beautifully as a jazz waltz. |
-| 6 | Magnetic Rag | Scott Joplin | c. 1914 | `midi/magnetic_rag.mid` | Mutopia (id 441) | PD / CC0 | Joplin's late, harmonically richer rag (minor strain, chromaticism) — already half-jazz. |
-| 7 | Something Doing | Scott Joplin (w/ Scott Hayden) | 1903 | `midi/something_doing.mid` | Mutopia (id 1541) | PD / CC0 | Punchy two-step strains; tight, danceable phrasing that maps onto a swing groove. |
-| 8 | Wall Street Rag | Scott Joplin | 1909 | `midi/wall_street_rag.mid` | Mutopia (id 1543) | PD / CC0 | Programmatic, mood-shifting strains ("panic" to "good times") — ready-made for dynamic/contextual scoring. |
-| 9 | Greensleeves | Traditional (English, 16th c.) | trad. | `midi/greensleeves.mid` | Mutopia (id 1943, guitar arr.) | CC-BY-SA 4.0 (melody PD) | Modal (Dorian/Aeolian) tune that voice-leads into lush minor-key jazz changes; a lounge-ballad staple. |
-| 10 | Scarborough Fair | Traditional (English, ballad) | trad. | `midi/scarborough_fair.mid` | Wikimedia Commons | PD (author dedication) | Dorian-mode melody with open harmony — perfect for modal reharm and a smoky, slow-swing reading. |
-| 11 | The Easy Winners | Scott Joplin | c. 1901 | `midi/easy_winners.mid` | Mutopia (JoplinS/winners) | PD / CC0 | Bright Ab two-step whose A-strain turns home on its own I7 into the V-of-V chain — a different lift from the other Ab rag here. |
-| 12 | Solace (A Mexican Serenade) | Scott Joplin | 1909 | `midi/solace.mid` | Mutopia (JoplinS/solace) | PD / CC0 | Habanera rhythm and a chromatic melody — the "Spanish tinge"; the one latin-feel entry among the rags. |
+| 1 | Maple Leaf Rag | Scott Joplin | 1899 | `maple_leaf_rag.mid` | Mutopia (id 23) | PD / CC0 | Iconic syncopated A/B strains over I–IV–V; ragtime is the literal root of swing — drops straight into a stride/swing feel. |
+| 2 | The Entertainer | Scott Joplin | c. 1902 | `the_entertainer.mid` | Mutopia (id 263) | PD / CC0 | Bright stepwise melody with clear sectional cadences; trivially reharmonized with ii–V turnarounds. |
+| 3 | Elite Syncopations | Scott Joplin | 1902 | `elite_syncopations.mid` | Mutopia (id 1540) | PD / CC0 | Lively syncopation and a singable trio; swings naturally at a lounge tempo. |
+| 4 | Pineapple Rag | Scott Joplin | 1908 | `pineapple_rag.mid` | Mutopia (id 1899) | PD / CC0 | Strong riff-like phrases; the repeated motifs make good comping/head material. |
+| 5 | Bethena (A Concert Waltz) | Scott Joplin | 1905 | `bethena_concert_waltz.mid` | Mutopia (id 463) | PD / CC0 | 3/4 ragtime waltz with a wistful melody — reharmonizes beautifully as a jazz waltz. |
+| 6 | Magnetic Rag | Scott Joplin | c. 1914 | `magnetic_rag.mid` | Mutopia (id 441) | PD / CC0 | Joplin's late, harmonically richer rag (minor strain, chromaticism) — already half-jazz. |
+| 7 | Something Doing | Scott Joplin (w/ Scott Hayden) | 1903 | `something_doing.mid` | Mutopia (id 1541) | PD / CC0 | Punchy two-step strains; tight, danceable phrasing that maps onto a swing groove. |
+| 8 | Wall Street Rag | Scott Joplin | 1909 | `wall_street_rag.mid` | Mutopia (id 1543) | PD / CC0 | Programmatic, mood-shifting strains ("panic" to "good times") — ready-made for dynamic/contextual scoring. |
+| 9 | Greensleeves | Traditional (English, 16th c.) | trad. | `greensleeves.mid` | Mutopia (id 1943, guitar arr.) | CC-BY-SA 4.0 (melody PD) | Modal (Dorian/Aeolian) tune that voice-leads into lush minor-key jazz changes; a lounge-ballad staple. |
+| 10 | Scarborough Fair | Traditional (English, ballad) | trad. | `scarborough_fair.mid` | Wikimedia Commons | PD (author dedication) | Dorian-mode melody with open harmony — perfect for modal reharm and a smoky, slow-swing reading. |
+| 11 | The Easy Winners | Scott Joplin | c. 1901 | `easy_winners.mid` | Mutopia (JoplinS/winners) | PD / CC0 | Bright Ab two-step whose A-strain turns home on its own I7 into the V-of-V chain — a different lift from the other Ab rag here. |
+| 12 | Solace (A Mexican Serenade) | Scott Joplin | 1909 | `solace.mid` | Mutopia (JoplinS/solace) | PD / CC0 | Habanera rhythm and a chromatic melody — the "Spanish tinge"; the one latin-feel entry among the rags. |
+
+## Verification
+
+Every file reports `Standard MIDI data (format 1)`. The two Joplin rags added
+last were checked further, because a valid MIDI file is not proof it holds the
+piece it is named for:
+
+| File | Written key signatures | Final cadence | Reading |
+|---|---|---|---|
+| `easy_winners.mid` | A♭ major, D♭ major | D♭–F–A♭ | A♭ two-step with the trio in the subdominant, ending there — the standard rag form |
+| `solace.mid` | F major | F–A–C, opening on C | Opens in C and resolves in F, matching the published description of the piece |
+
+Both were fetched from the Mutopia paths listed below and are LilyPond-generated,
+as Mutopia's engravings are.
 
 ## Source URLs
 

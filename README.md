@@ -42,7 +42,7 @@ Apparatus held here until an instrument needs it. Grafted by copy, not by genera
 
 ## The pantry
 
-`pantry/` holds sound material an instrument can draw on, so a new one starts with something to play rather than something to source: 52 percussion one-shots and 13 pitched loops from VCSL, five machine loops from the Sonic Pi library, ten public-domain tunes as MIDI, and the offline tools that authored and index them. Around 11 MB, all CC0 or public domain except one MIDI arrangement that asks for attribution. `pantry/PROVENANCE.md` is the ledger.
+`pantry/` holds sound material an instrument can draw on, so a new one starts with something to play rather than something to source: 52 percussion one-shots and 13 pitched loops from VCSL, five machine loops from the Sonic Pi library, twelve public-domain tunes as MIDI, and the offline tools that authored and index them. Around 11 MB, all CC0 or public domain except one MIDI arrangement that asks for attribution. `pantry/PROVENANCE.md` is the ledger.
 
 ## House stack
 

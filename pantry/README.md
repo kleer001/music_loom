@@ -14,7 +14,7 @@ Roughly 11 MB, all CC0 or public domain except one MIDI arrangement that asks fo
 | `acoustic/strokes/` | 52 percussion one-shots — frame drum, rattle, cabasa, guiro, rain stick — named `<pool>-<stroke>-l<level>-v<variant>` | CC0 (VCSL) |
 | `acoustic/manifest.json` | Generated index of both, with per-stroke loudness and peak | CC0 |
 | `machine/` | 5 machine loops: a 3D printer, an industrial texture, a drum loop, and two rendered here | CC0 (Sonic Pi + local) |
-| `midi/` | 10 public-domain tunes as Standard MIDI, with `CATALOG.md` giving per-file status | PD / CC0, one CC-BY-SA |
+| `midi/` | 12 public-domain tunes as Standard MIDI, with `CATALOG.md` giving per-file status | PD / CC0, one CC-BY-SA |
 | `tools/` | The offline scripts that index, author and import sample material | MIT |
 
 ## Reading it
