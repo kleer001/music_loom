@@ -10,11 +10,11 @@ Everything here resolves `../core/dsp.js` and `../core/rng.js`, which is what th
 
 ## Where it came from
 
-`fx.js` and the three worklets appear byte-identical in cyber_synth and dub_synth — the same duplication `core/` shows, one layer up. The six modules beside them and `master.js` were written in dub_synth and have no counterpart in cyber_synth.
+`fx.js` and the worklets appear byte-identical in more than one instrument built here — the same duplication `core/` shows, one layer up. The modules beside them were written for a single instrument and have no counterpart in the others.
 
 | File | Holds |
 |---|---|
-| `fx.js` | 22 builders: `makeSidechain` `makePump` `makeDelay` `makePitchShifter` `makeBestPitchShifter` `makeFilter` `makeEq` `makeChannelEq` `makeMultiband` `makeReverb` `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` `makeBitcrush` `makeRingmod` `makeChorus` `makeTape` `makePhaser` `makeFlanger` `makeNoiseBed` `makeModMatrix` |
+| `fx.js` | `makeSidechain` `makePump` `makeDelay` `makePitchShifter` `makeBestPitchShifter` `makeFilter` `makeEq` `makeChannelEq` `makeMultiband` `makeReverb` `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` `makeBitcrush` `makeRingmod` `makeChorus` `makeTape` `makePhaser` `makeFlanger` `makeNoiseBed` `makeModMatrix` |
 | `echo.js` | `makeDubEcho` — feedback into a filter, the dub delay. `makeFilterDelay` — one delay per band |
 | `space.js` | `makeSpring` `makePlate` `makeShimmer` — generated impulses, normalised to unit energy |
 | `mixer.js` | `makeDubMixer` — named channels, named buses, post-fader pre-mute sends |

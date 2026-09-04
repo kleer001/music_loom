@@ -6,11 +6,11 @@
 cp -r <music_loom>/rack/R6-voices/voices <instrument>/voices
 ```
 
-Sound sources, gathered from four instruments. Fifty-odd voices across three ways of making one, plus the two readers that feed the buffer-driven kinds from the pantry.
+Sound sources, gathered from several instruments: voices across three ways of making one, plus the readers that feed the buffer-driven kinds from the pantry.
 
 | File | From | Holds |
 |---|---|---|
-| `fire.js` | cyber_synth `cyber/voices.js` | 41 voices, fire-and-forget. Drums, basses, leads, pads, plucks, stabs, risers, two flutes, and `engineVoice` |
+| `fire.js` | cyber_synth `cyber/voices.js` | Fire-and-forget voices: drums, basses, leads, pads, plucks, stabs, risers, flutes, and `engineVoice` |
 | `persistent.js` | dub_synth `engine/voices.js` | `makeVoices` — kick, sampleKick, bass, stab, snare, hat, shaker, perc, pad as retriggered graphs |
 | `buffer.js` | cyber_synth `industrial/voices.js` | `slicer` `granular` `oneShotKit` `loopEnsemble` — buffer-driven, tempo-matched with pitch-lock |
 | `wavetables.js` | cyber_synth | `registerWavetable` `getWavetable` — what `fire.js` imports |

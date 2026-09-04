@@ -40,7 +40,7 @@ This is not a hypothetical library. Most of it already appears byte-identical in
 
 **`spectrum` reads the buffer midpoint at 16k FFT.** Large window for clean harmonic separation, midpoint to skip the attack and the tail. Another window can be passed; a note beside the call says why it was.
 
-**`music.js` and `scales.js` both export `MODES`.** They are different sets in the same shape — `music.js` carries the seven this studio's generators have used plus `PROGRESSIONS` and `degreeToMidi`; `scales.js` carries twelve along with note-name parsing and the drone-span helpers, and came from an instrument whose controls are named keys and scales. Importing both under one name collides, so an instrument that wants both aliases one. They were kept separate rather than merged because two instruments already carry `music.js` byte-identical and a merge would move under them.
+**`music.js` and `scales.js` both export `MODES` and `NOTE_NAMES`.** One set of numbers under two vocabularies: `scales.js` holds the intervals and the note-name parsing, and `music.js` names a working subset of them the way its own callers do, so `MODES.aeolian` and `MODES["minor"]` are the same array. Both files still export both names, so either import path works; importing both under one identifier still collides, and an instrument that wants both aliases one. `pitchClass` is the trap in the pair — `music.js` takes a MIDI number, `scales.js` takes a note name.
 
 **`audio.js` is where a recording enters.** `decodeAudio` sniffs WAV or AIFF, `resample` converts, `toAudioBuffer` hands the result to a context. The pantry has material at 22050 Hz and material at 48000 Hz; a buffer given to an `AudioContext` at the wrong rate plays at the wrong pitch and length.
 
