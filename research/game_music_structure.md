@@ -24,12 +24,11 @@ hundreds of loops without the player wanting to mute it.
 > for *more linear timeline* (more states, more automation lanes, more
 > Markov edges) when the game-music canon says the answer is *less timeline,
 > more state* — fewer, stronger building blocks selected by an intensity/tension
-> signal. §8 maps this onto this repo's `arrangement.js` and `SONG` format
-> directly.
+> signal. Section 8 turns that into concrete guidance for an arrangement
+> state machine.
 
 > **Scope & method.** This is a *sourced* reference: every claim carries a live,
-> authoritative URL. **Verification caveat (same as
-> [`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md)):** compiled by fan-out web
+> authoritative URL. **Verification caveat:** compiled by fan-out web
 > research where `WebFetch` returned **HTTP 403 on essentially every host**
 > (FMOD, Audiokinetic, Game Developer, MIT Press, Wikipedia, GDC Vault, academic
 > PDFs all blocked identically — an anti-bot wall on the fetch tool, *not* dead
@@ -78,12 +77,12 @@ linear and dynamic are poles you *blend*, not a binary.
 [Phillips blog](https://winifredphillips.wpcomstaging.com/2022/02/02/hybrid-linear-dynamic-music-for-game-composers-from-spyder-to-sackboy-gdc-2021/),
 [Game Developer writeup](https://www.gamedeveloper.com/audio/horizontal-resequencing-and-dynamic-transitions-for-game-music-composers))
 
-**Why this matters for a generator:** this repo's `SONG` format (a fixed
-timeline of patterns + automation lanes) is the *linear* pole; the
-`arrangement.js` Markov is a *primitive interactive* pole driven by RNG instead
-of game state. The canon says the powerful move is the **hybrid**: a small
-library of strong chunks, selected by a **state/intensity signal**, not a long
-authored timeline and not a free-wandering chain. See §8.
+**Why this matters for a generator:** a fixed song format — a timeline of
+patterns plus automation lanes — is the *linear* pole. A Markov chain over
+arrangement states driven by RNG rather than by game state is a *primitive
+interactive* pole. The canon says the powerful move is the **hybrid**: a small
+library of strong chunks, selected by a **state or intensity signal**, and
+neither a long authored timeline nor a free-wandering chain. See section 8.
 
 ---
 
@@ -278,13 +277,11 @@ flow**.
 [Game Studies: generative music & flow](https://gamestudies.org/1802/articles/sites_potter),
 [Experience-Driven PCG (Plans & Morelli)](https://www.academia.edu/33522919/Experience_Driven_Procedural_Music_Generation_for_Games))
 
-> **The takeaway for `arrangement.js`:** a Markov chain is fine as the
-> *mechanism*, but on its own it's exactly the "wandering" anti-pattern. Give it
-> **(a)** a planning layer above it (a target arc / bias toward a payoff state),
-> **(b)** a tension/intensity input instead of pure RNG, and **(c)** a tonal
-> home it always resolves to. The repo already has the seeds of all three (the
-> `bias` word, the `cutoffByState` energy profile, modal stasis from
-> `edm_theory.md`) — §8.
+> **The takeaway:** a Markov chain is fine as the *mechanism*, but on its own it
+> is exactly the "wandering" anti-pattern. Give it **(a)** a planning layer above
+> it — a target arc, or a bias toward a payoff state — **(b)** a tension or
+> intensity input instead of pure RNG, and **(c)** a tonal home it always
+> resolves to.
 
 ---
 
@@ -504,46 +501,42 @@ built from minimal pads + synth lead + optional arp/drum stems.
 
 ## 8. Mentoring `cyber_synth`: mapping the canon onto this engine
 
-The "out of hand" feeling is real and the canon explains it: the design has been
-growing the **linear timeline** (the `SONG` format's automation lanes, named
-voices, per-section overrides) *and* a **free-wandering chain**
-(`arrangement.js`'s biased Markov over `intro/build/drop/peak/breakdown/outro`),
-which is the two hardest-to-tame poles at once. The canon's advice is to collapse
-toward the **hybrid middle**: a *small* library of strong blocks, selected by a
-*state/intensity* signal, with a *planned* arc and a *tonal home*.
+The "out of hand" feeling is a common one and the canon explains it. It happens
+when a design grows a **linear timeline** — automation lanes, named voices,
+per-section overrides — *and* a **free-wandering chain**, a biased Markov over
+states like intro / build / drop / peak / breakdown / outro. Those are the two
+hardest-to-tame poles, and growing both at once compounds them. The canon's
+advice is to collapse toward the **hybrid middle**: a *small* library of strong
+blocks, selected by a *state or intensity* signal, with a *planned* arc and a
+*tonal home*.
 
-Concrete, low-risk moves (each maps to an existing seam in the code):
+Four concrete, low-risk moves:
 
-1. **Re-label the Markov as a *tier* system, drive it with intensity, not RNG.**
-   `arrangement.js` already has per-state `PROFILES` (pump/density/voice gating)
-   and `config.arrangement.cutoffByState`. That *is* a vertical-intensity stack
-   (§2, §5). The canon (§4 rule 2, §6 rule 2) says: make the **primary driver a
-   monotonic intensity/tension input** (game scene state, or a slow LFO/“tension”
-   value), and keep RNG only for *humanization within a tier*. This is the single
-   biggest "rein it in" lever — it converts wandering into directed
-   tension/release.
+1. **Re-label the Markov as a *tier* system and drive it with intensity, not
+   RNG.** Per-state profiles governing pump, density and voice gating already
+   amount to a vertical-intensity stack. Make the **primary driver a monotonic
+   intensity or tension input** — a scene state, or a slow tension value — and
+   keep RNG only for *humanisation within a tier*. This is the single biggest
+   "rein it in" lever, because it converts wandering into directed
+   tension and release.
 
-2. **Give the chain a plan and a payoff.** The `bias` word already nudges toward
-   a favored state. Strengthen it into a **planned arc** (a target like
-   `…→build→drop→peak` that the chain *bends toward and resolves to*), per §4's
-   "plan first, fill second" and §6 rule 1 — so a session always reaches a payoff
-   instead of meandering. The `plan` array in `Arrangement` is literally this
-   feature half-built; lean on it as the default, with the Markov as the
-   *variation* layer, not the *structure* layer.
+2. **Give the chain a plan and a payoff.** A bias toward a favoured state is a
+   start; strengthen it into a **planned arc**, a target such as
+   build → drop → peak that the chain bends toward and resolves to. Plan first,
+   fill second, so a session always reaches a payoff instead of meandering. The
+   Markov then becomes the *variation* layer rather than the *structure* layer.
 
-3. **Keep one clock and one key for anything that overlaps.** Already true within
-   a PATTERN (one `tonic`/`mode`, the 16th grid) and reinforced by
-   [`edm_theory.md`](./edm_theory.md)'s **modal-stasis** finding. Treat that as a
-   *hard rule* for the `SONG` format: per-section `key`/`bpm` overrides are the
-   RDR2 "relax the constraint, pay the cost" move — use them **sparingly**, and
-   **bridge** any key/tempo change with a transition section (§2/§5/§6 rule 6)
-   rather than a hard cut.
+3. **Keep one clock and one key for anything that overlaps.** One tonic, one
+   mode, one grid, reinforced by [`edm_theory.md`](./edm_theory.md)'s
+   **modal-stasis** finding. Per-section key and tempo overrides are the RDR2
+   "relax the constraint, pay the cost" move — use them **sparingly**, and
+   **bridge** any key or tempo change with a transition section rather than a
+   hard cut.
 
-4. **Quantize every move to a phrase boundary.** `arrangement.js` already
-   advances per `phraseBars` and fires MOVES on state enter — good. Make sure the
-   `SONG` player's switches and automation snaps also land on **bar/cue
-   boundaries** (§2, §6 rule 5), and treat the existing MOVES (`throw`, `bloom`,
-   `freeze`, `crush`) as **stingers** (§2/§5): short, resolved, grid-synced.
+4. **Quantise every move to a phrase boundary.** Advance state per phrase and
+   fire moves on state entry. Layer switches and automation snaps should land on
+   bar or cue boundaries too, and one-shot gestures — a throw, a bloom, a freeze,
+   a crush — work as **stingers**: short, resolved, grid-synced.
 
 5. **Earn variety from recombination, not more material.** Before adding more
    automation lanes or melodic voices to `SONG`, reach for the cheaper canon
@@ -606,7 +599,6 @@ Concrete, low-risk moves (each maps to an existing seam in the code):
 ---
 
 *Compiled 2026-06 by fan-out web research (5 angles). Links are search-attested,
-not page-fetched — see the verification caveat at the top and
-[`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md). Spot-check load-bearing
+not page-fetched — see the verification caveat at the top. Spot-check load-bearing
 primary sources (the GDC talks, the FMOD/Wwise option names, the RDR/DOOM
 numbers) in a browser before quoting verbatim.*

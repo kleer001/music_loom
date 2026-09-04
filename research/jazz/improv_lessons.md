@@ -1,8 +1,7 @@
 # Jazz Improvisation — Curated Lessons for a Procedural Generator
 
-Research notes for ferine_town's live, generative jazz engine (Web Audio, fully
-procedural — chord progressions, walking bass, comping, melodic improv generated
-at runtime). Each resource below is chosen for *mechanical* content that maps to
+Research notes for a live, generative jazz engine — chord progressions, walking
+bass, comping and melodic improv all generated at runtime rather than sequenced. Each resource below is chosen for *mechanical* content that maps to
 rules, tables, and algorithms. A "rules distilled for a code generator" section
 at the end consolidates the implementable parts.
 
@@ -93,9 +92,8 @@ treated as pitch classes 0–11 for the code mapping.
     [chromatic approach])`
   - `beat[1], beat[2] = chord/scale tones of current chord, biased to step toward
     beat[3]`
-  Seed the random pick so it stays deterministic if the engine ever needs it
-  (ferine_town's audio is outside the determinism contract, but a salted chooser
-  keeps it reproducible for tuning).
+  Seed the random pick. Even where a real-time engine sits outside a determinism
+  contract, a salted chooser keeps a line reproducible while it is being tuned.
 
 ## 5. ii-V-I, 12-Bar Blues & Form — Learn Jazz Standards / Wikipedia
 
@@ -175,9 +173,8 @@ treated as pitch classes 0–11 for the code mapping.
 - Pick patterns from a small weighted table per bar; rests are as important as hits.
 
 ### G. Glue rules
-- Determinism: ferine_town's audio is real-time and outside the seed contract, but
-  for the tuning editor a salted chooser (`stableChooser`) keeps voicings/lines
-  reproducible.
+- Determinism: real-time audio usually sits outside a seed contract, but a salted
+  chooser keeps voicings and lines reproducible while they are being tuned.
 - All voices read the same chord stream from layer A; tempo (bpm) and swing ratio
   (~2:1 long-short 8ths) are global tunables alongside the existing
   `DEFAULT_AUDIO_CONFIG` jazz settings.

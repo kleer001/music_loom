@@ -4,15 +4,10 @@ A curated, sourced index of two things the song-structure work asked the
 "wise old Internet" for: **(1) substantive musical *analyses* of famous game
 music** (form, harmony, leitmotif — the *how it's built*), and **(2) where to
 find reference *MIDI*** of that music to study voicing/structure. Companion to
-the theory in [`game_music_structure.md`](./game_music_structure.md) and the
-applied plan in
-[`../docs/design/song_structure_migration.md`](../docs/design/song_structure_migration.md).
+the theory in [`game_music_structure.md`](./game_music_structure.md).
 
-> **The rights rule — read first (this repo's standing ethos).** Just as
-> `data/spoken_word.json` ships **no vendored audio** and
-> [`spoken_word_sources.md`](./spoken_word_sources.md) only *points at*
-> rights-vetted material, **nothing here is vendored and the famous-game MIDI is
-> reference-only.** A MIDI transcription is a *derivative work*; the underlying
+> **The rights rule — read first.** **Nothing here is vendored, and the
+> famous-game MIDI is reference-only.** A MIDI transcription is a *derivative work*; the underlying
 > composition stays under copyright
 > ([US Copyright Office Circular 14](https://www.copyright.gov/circs/circ14.pdf),
 > [Wikimedia Wikilegal: MIDI Files](https://meta.wikimedia.org/wiki/Wikilegal/MIDI_Files)).
@@ -20,11 +15,10 @@ applied plan in
 > tolerated use; redistributing, bundling, or training-then-shipping is not** —
 > Nintendo's 2024 takedowns hit even *licensed* fan sheet music
 > ([Nintendo Life](https://www.nintendolife.com/news/2024/06/random-welp-now-nintendos-going-after-sheet-music)).
-> **For anything we ship, use the CC0 / public-domain / research-licensed tier in
-> §2.B — never a famous-game transcription.**
+> **For anything shipped, use the CC0, public-domain or research-licensed tier in
+> section 2.B — never a famous-game transcription.**
 
-> **Verification caveat (as in [`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md)).**
-> Compiled by fan-out web research where `WebFetch` returned **HTTP 403 on
+> **Verification caveat.** Compiled by fan-out web research where `WebFetch` returned **HTTP 403 on
 > essentially every host** — so links are **search-attested, not page-fetched.**
 > URLs are live and cross-checked; spot-check load-bearing items (and especially
 > **confirm the VGMIDI repo license in-repo**) in a browser before relying on
@@ -195,7 +189,6 @@ transcriptions):**
 
 ## 3. How this feeds the engine work
 The analyses in §1 are *ear-training and validation* for the migration in
-[`../docs/design/song_structure_migration.md`](../docs/design/song_structure_migration.md):
 the recurring findings — **loop-friendly withheld resolutions** (C418), **single
 chord-per-measure harmonic rhythm** (Zelda), **small leitmotif sets reorchestrated
 by state** (Hollow Knight, Undertale, FF) — are the same levers our arc templates
@@ -206,6 +199,4 @@ the repo's audio-free, rights-first sourcing.
 ---
 
 *Compiled 2026-06 by fan-out web research. Links search-attested, not
-page-fetched — see the verification caveat above and
-[`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md). No audio or MIDI is vendored
-in this repo.*
+page-fetched — see the verification caveat above and. No audio or MIDI is vendored here.*

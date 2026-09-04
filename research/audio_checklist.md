@@ -1,52 +1,44 @@
 # Audio pre-flight checklist
 
-**Run this before presenting ANY render. Never hand over audio you haven't measured.**
-The user rejects "hot" (slammed/clipped) renders on sight — catching that is the engine's job,
-not theirs. Distilled from the psytrance + house deconstructions (`data/*_labnotes.md`).
+Measurement targets for a render, and the failure each one catches. Distilled from psytrance and house deconstructions, where "hot" — slammed, over-saturated, crest crushed — was the recurring way a take went wrong without anyone hearing it go wrong on the pass that produced it.
 
-## 1. The hard gate — `node check_audio.mjs <wav>`
-Must exit 0 (no `FAIL`). It measures:
+The targets below are one working set. They are not derived from a loudness standard; they are what held up in practice on that material.
+
+## 1. The hard gate
 
 | Check | Threshold | Why |
 |---|---|---|
 | **true-peak** | ≤ −1 dBFS | inter-sample clipping |
 | **clipped samples** | 0 | hard clipping |
-| **crest factor** (peak − RMS) | **≥ 9 dB** (FAIL < 7) | **the "too hot" detector** — slammed/over-saturated audio has low crest; a healthy mix is ~9–13 |
-| **DC offset** | < 0.003 | a render bug / asymmetric drive |
-| **width** (side/mid) | full mix ~−10…−20 dB | near-mono mix reads thin; >−2 is phasey. A solo mono stem (bass) reading near-mono is fine |
+| **crest factor** (peak − RMS) | **≥ 9 dB**, fail below 7 | **the "too hot" detector** — slammed audio has low crest; a healthy mix is 9–13 |
+| **DC offset** | < 0.003 | a render bug, or asymmetric drive |
+| **width** (side/mid) | full mix around −10 to −20 dB | near-mono reads thin; above −2 is phasey. A solo mono stem such as a bass reading near-mono is expected |
 
-Run it on **every stem and every full take**. A WARN you understand (e.g. a mono bass stem) is ok;
-a FAIL is not.
+Worth running on every stem and every full take. A warning that has an explanation — a mono bass stem — is different from a failure.
 
 ## 2. Don't out-slam the reference
-Measure the reference track too (`check_audio.mjs data/refs/<ref>.wav`) and match its crest, don't
-beat it. WYHA's real master is crest ~10.5 dB — our renders should sit near that, not below 7.
 
-## 3. Mastering = glue, not a brickwall
-`render_ph.mjs` `SAT` (tanh master) defaults to **0.6** (healthy crest). A `SAT 2.0` slams crest to
-~5 dB — that was shipping hot on every take. Genuinely saturated genres may pass `SAT=` higher, but
-then **re-check crest**. Keep master headroom (genre `master.volume` is a pre-limiter trim).
+Measure the reference track too and match its crest rather than beating it. A real commercial master often sits around 10.5 dB crest; a render at 7 is louder and worse.
 
-## 4. Offline-render caveats (absolute levels lie)
-`node-web-audio-api` under-limits and the gated-reverb convolver runs away → absolute peaks read
-hot. **Relative A/B deltas are faithful; absolute level needs a browser confirm** or the limiter
-bypassed (`render_ph` already bypasses it). Don't trust an offline peak as final.
+## 3. Mastering as glue, not a brickwall
+
+A tanh master around **0.6** keeps a healthy crest. At **2.0** it slams crest to roughly 5 dB, which ships hot on every take. Genuinely saturated genres can push higher, but the crest reading has to be checked again after. Keeping a pre-limiter trim on the master preserves the headroom that makes this adjustable at all.
+
+## 4. Offline-render caveats — absolute levels lie
+
+`node-web-audio-api` under-limits, and a gated-reverb convolver can run away, so absolute peaks read hot offline. **Relative A/B deltas are faithful; an absolute level needs a browser confirmation** or the limiter bypassed. An offline peak is not a final number.
 
 ## 5. Level-match before A/B
-Normalize compared takes to the same peak (−3 dBFS) so "louder" doesn't masquerade as "better."
 
-## Spectral / sound-design sanity (learned the hard way)
-- **Kick owns the sub; the bass sits above it.** HP the bass above the kick's sub band (~55 Hz) or
-  it reads as "kick at full sustain." Measure the bass at an **exposed section** (where drums drop
-  out) — whole-track demucs stems carry kick bleed in the bass stem.
-- **One energy-weighted metric (centroid/rolloff) is blind to low-energy harmonic shifts.** A filter
-  change can be inaudible to centroid yet very audible. Read the **band table** (sub/low/loMid/hiMid),
-  not just one number.
-- **Width lives in the synth/stab layer, not the bass.** Bass is mono/centered.
+Normalise compared takes to the same peak, around −3 dBFS, so that "louder" cannot masquerade as "better".
+
+## Spectral and sound-design sanity
+
+- **Kick owns the sub; the bass sits above it.** High-pass the bass above the kick's sub band, around 55 Hz, or the mix reads as a kick at full sustain. Measure the bass at an **exposed section** where the drums drop out — a whole-track separated stem carries kick bleed into the bass stem.
+- **One energy-weighted metric is blind to low-energy harmonic shifts.** A filter change can be inaudible to a spectral centroid and very audible to a listener. Read a band table — sub, low, low-mid, high-mid — rather than a single number.
+- **Width lives in the synth and stab layers, not the bass.** Bass stays mono and centred.
 
 ## Process discipline
-- After **one** failed tuning attempt, **instrument/measure** — don't blind-iterate. (Cost us several
-  muddy passes.)
-- **Verify the param reaches the render** before concluding a knob is dead: check the *merged* config
-  (`e.config…`) and that the value survives the merge chain. A failed `sed` against linter-reformatted
-  code silently no-ops — confirm the change took.
+
+- After **one** failed tuning attempt, instrument and measure rather than iterating blind. Blind iteration on a mix costs passes and produces mud.
+- **Verify the parameter reaches the render** before concluding a knob is dead. Check the merged config, and check the value survives the merge chain. An edit that silently failed to apply looks exactly like a parameter that does nothing.

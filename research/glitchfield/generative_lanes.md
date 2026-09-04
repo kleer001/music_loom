@@ -35,7 +35,7 @@ holds its own loop length and re-rolls its variation blocks at its own phrase bo
 
 ## LEAD
 
-A through-composed gesture machine (after cyber_synth `cyber/solo.js`). A gesture pool weighted by
+A through-composed gesture machine. A gesture pool weighted by
 `energy = temp · arch(step)`, where `arch` is one late-climax curve across the phrase:
 
 - **low energy** → held/breathing gestures (sing, sigh, motif), wide rests, narrow range

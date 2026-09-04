@@ -374,7 +374,7 @@ A comprehensive collection of freely accessible and public-domain/Creative Commo
 - SongStems.net (free tier)
 - Internet Archive (public access)
 
-**Note on Quality:** Most platforms clearly label royalty-free status. Always check individual pack pages for edge-cases and specific restrictions. ccMixter requires non-commercial use attribution.
+**Note on quality:** most platforms label royalty-free status clearly, but the edge cases and specific restrictions live on individual pack pages rather than the site's summary. ccMixter requires attribution for non-commercial use.
 
 ---
 

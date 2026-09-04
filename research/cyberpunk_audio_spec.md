@@ -1,58 +1,35 @@
 # Cyberpunk Audio Engine — Design Spec
 
-> A procedural, real-time soundtrack engine for a neo-cyberpunk game — the
-> trance/techno/industrial sibling of ferine_town's procedural jazz combo
-> (`web/audio.js`). Same paradigm, same interface, different DNA.
+> A procedural, real-time soundtrack engine for a neo-cyberpunk game: an electronic stack — trance, techno, industrial — rendered live over a 16-step grid rather than sequenced in advance.
 
-**Status:** a working draft (no engine code yet — we iterate on paper first).
-**Home:** the engine will live in its own **new, separate repo** (the cyberpunk
-game is its own project). This document lives in ferine_town only as a design
-reference, because ferine_town's jazz engine is the proven blueprint we are mutating.
+**Status:** a working draft. No engine was built from it.
 
-**Reference build:** `web/audio.js` (~2,850 lines), `web/sampler.js`,
-`web/audio_editor.js`, `src/web/server.js`, `web/audio_suite.json`,
-`scripts/fetch_soundfont.js`, and the "Procedural audio" / "Web interfaces"
-sections of `CLAUDE.md`.
-
-**Companion docs:** [`cyberpunk_audio_songs.md`](./cyberpunk_audio_songs.md)
-(notation, idiom & pattern sourcing) and
-[`cyberpunk_audio_fx.md`](./cyberpunk_audio_fx.md) (effects, the performance/
-knob-riding layer, modular synthesis & resampling).
+**Companion doc:** [`cyberpunk_audio_songs.md`](./cyberpunk_audio_songs.md) — notation, idiom and pattern sourcing.
 
 ---
 
-## 1. Vision & relationship to the jazz engine
+## 1. Vision, and what it inherits
 
-The jazz engine's value is **not the jazz** — it's the scaffolding. The genius
-moves are reusable wholesale; only the *content* (voices, harmony, structure) is
-genre-specific. The thesis of this spec:
+This design started from a working procedural *jazz* engine — a combo improvising over a chord chart in real time. The insight worth carrying is that **the value of such an engine is not the genre; it is the scaffolding.** The machinery is reusable wholesale, and only the content — voices, harmony, structure — is genre-specific.
 
 > **Inherit the scaffolding. Swap the content.**
 
-This is a **sibling, not a fork.** It is not a new mode bolted onto ferine_town —
-it is the same architecture re-grown for a different game and a different musical
-world. Where the jazz engine renders an acoustic combo over a chord chart, this
-one renders an electronic stack over a 16-step grid.
+Where a jazz engine renders an acoustic combo over a chord chart, this one renders an electronic stack over a 16-step grid. The architecture is the same shape; nothing about it is jazz-specific.
 
-What stays identical in spirit:
+What carries across from any such engine:
 
-| Jazz engine asset | Reused as |
+| Machinery | Used here as |
 |---|---|
-| Lookahead scheduler (`_jazzTick` / `_scheduleBeat`) | 16th-note step clock |
-| Context system (`contextKey` / `mergeConfig` / `_resolveContext`) | `district × time × tension` mix map |
-| Style presets (`STYLE_DEFAULTS`, `web/audio.js:1055`) | **Genre presets** (techno/trance/…) |
-| Focus Markov (`FOCUS_STATES`/`FOCUS_MATRIX`, `:240`/`:249`) | **Arrangement Markov** (intro/build/drop/breakdown) |
-| Door-bleed + muffle rings (`_apply`) | Club bass leaking through a door |
-| `temperature`, humanization, mixer strips, saturation bus | Same roles, retuned |
-| Context-grid tuning editor + `{base,contexts}` suite | Ported verbatim |
-| `web/sampler.js` + `scripts/fetch_soundfont.js` | Hybrid texture/foley/vox layer |
+| A lookahead scheduler | A 16th-note step clock |
+| A context system — a key, a sparse config merge, a resolver | A `district × time × tension` mix map |
+| Style presets | **Genre presets** — techno, trance, industrial, and the rest |
+| A focus Markov over states | An **arrangement Markov** over intro / build / drop / breakdown |
+| Door-bleed and muffle filters | Club bass leaking through a door |
+| Temperature, humanisation, mixer strips, a saturation bus | The same roles, retuned |
+| A context-grid tuning editor over a `{base, contexts}` suite | Unchanged |
+| A sampler plus an offline soundfont fetcher | A hybrid texture, foley and vox layer |
 
-What is genuinely **new** (electronic music demands it): a **sidechain pump**,
-**filter-sweep / riser automation**, and a beefed-up **distortion / bitcrush bus** —
-the three *genre-defining* additions to the signal path. Everything else is a
-re-skin. (A fuller performance/FX layer — the dub "moves" system, a modulation
-matrix, reverb/delay modules, resampling — grows on top of these; see the
-[FX companion](./cyberpunk_audio_fx.md).)
+What is genuinely **new**, because electronic music demands it: a **sidechain pump**, **filter-sweep and riser automation**, and a substantial **distortion and bitcrush bus**. Those three are the genre-defining additions to the signal path; the rest is a re-skin. A fuller performance layer — a dub-style "moves" system, a modulation matrix, reverb and delay modules, resampling — grows on top of them.
 
 ---
 
@@ -102,9 +79,9 @@ Condensed from production research conducted during planning (sources at the end
 
 ---
 
-## 3. Architecture (new repo layout)
+## 3. Architecture
 
-Mirror ferine_town's audio surface, genre-generalized:
+One workable layout for the audio surface:
 
 ```
 web/
@@ -112,7 +89,7 @@ web/
                     sidechain, FX bus, voice synth, arrangement Markov
   sampler.js        (ported) hybrid sample playback for foley/vox/breaks
   audio_suite.json  { base, contexts } sparse tuning suite
-  audio_editor.*    context-grid + slider tuning tool (ported)
+  audio_editor.*    context-grid + slider tuning tool
   sequencer.*       NEW: step-sequencer "pattern" authoring tool (jukebox analog)
   samples/          curated hybrid one-shots (see §11)
 scripts/
@@ -120,21 +97,18 @@ scripts/
 src/web/server.js     dev server + /__save_audio, /__save_patterns POST
 ```
 
-**Core/engine split.** Factor the engine as a **genre-agnostic core** + **pluggable
-genre presets**, exactly as the jazz engine layers `STYLE_DEFAULTS` over
-`DEFAULT_AUDIO_CONFIG` (`web/audio.js:1349`):
+**Core/engine split.** Factor the engine as a **genre-agnostic core** with
+**pluggable genre presets** layered over a default config:
 
 - **Core (genre-agnostic):** AudioContext graph, lookahead scheduler, context
-  resolution + sparse merge (`mergeConfig`, `web/audio.js:1118`), zone cross-fade +
-  door bleed (`_apply`), mixer strips, sidechain bus, FX bus, humanization.
+  resolution and sparse config merge, zone cross-fade and door bleed, mixer
+  strips, sidechain bus, FX bus, humanisation.
 - **Genre presets (`GENRES`):** one entry per genre = tempo range + swing/shuffle +
   pattern bank + voice assignment + FX preset + arrangement bias. This is the
   direct analog of `STYLE_DEFAULTS` — *a genre is a word that pulls a bundle of
   feel defaults*, and a context/pattern can still override any field.
 
-`update({...})` keeps the jazz engine's read-only relationship with scene state
-(`web/app.js` passes `{indoor, location, weather, phase, temperature, door,
-doorOpen}`): the cyber engine reads `{district, indoor, time, tension, door,
+`update({...})` keeps the jazz engine's read-only relationship with scene state: the cyber engine reads `{district, indoor, time, tension, door,
 doorOpen}` and doesn't write game state.
 
 ---
@@ -155,8 +129,8 @@ Voices are parameterized so genre presets and the editor can reshape them.
 - **Hats** — HPF'd noise (closed ~40 ms, open ~250 ms); or pulse-oscillator bank for
   the metallic 808 timbre. Off-beat open hat is a house/trance staple.
 - **Rim / clave / cowbell / ride** — short tuned pulses; ride = noise + resonant BPF.
-- Round-robin articulations per piece (port `DRUM_KITS`, `web/audio.js:792`) for
-  variety; humanized velocity + micro-timing.
+- Round-robin articulations per piece, from a kit table, for variety; humanised
+  velocity and micro-timing.
 
 ### Bass
 - **303 acid** — saw/square → resonant LPF (high Q) → amp+filter env, with **accent**
@@ -185,8 +159,8 @@ Voices are parameterized so genre presets and the editor can reshape them.
   through that channel's full FX rack (drive/bitcrush/delay/reverb + sidechain) — the
   period-correct "voice reciting over the machines". A tribute opts in via
   `voices.vox.synth:"sampleVox"` + `voices.vox.sample:"<key>"` (+ `slices`/`rate`); clips
-  load from the audio-free manifest `data/spoken_word.json`. This is the **sample the chops**
-  half of §11a — sourcing + rights vetted in `research/spoken_word_sources.md`.
+  load from an audio-free manifest. This is the **sample the chops**
+  half of section 11a, and the sourcing needs its own rights vetting.
 - **Arpeggiator** — drives any pitched voice; params: rate (1/8…1/16…1/32),
   pattern (up/down/updown/random/as-played), octave range, gate; tempo-synced to
   the scheduler.
@@ -217,8 +191,7 @@ Beyond the jazz graph, three additions (each small):
    a bitcrush stage (sample-rate reduce + quantize via an **`AudioWorklet`** —
    preferred; `ScriptProcessorNode` is deprecated and runs on the main thread),
    and optional ring-mod (gain modulated by an osc). Industrial leans on it; other
-   genres dial it to near-zero. The full FX/performance treatment lives in the
-   [FX companion](./cyberpunk_audio_fx.md).
+   genres dial it to near-zero.
 
 ---
 
@@ -235,12 +208,10 @@ Beyond the jazz graph, three additions (each small):
 ```
 
 Rows are 16-step on/off with per-step **accent** and **slide** flags (303-style).
-A pattern is authored in the sequencer tool (§10), then baked into a context — the
-same design-time flow as jazz songs (`AUDIO_SONGS`, baked via `setConfig`,
-`web/audio.js:1099`).
+A pattern is authored in the sequencer tool (section 10), then baked into a
+context — a design-time flow, not a runtime one.
 
-**Arrangement Markov.** Repoint `FOCUS_STATES`/`FOCUS_MATRIX` (`web/audio.js:240`)
-from solo-trading onto **arrangement states**: `intro · build · drop · peak ·
+**Arrangement Markov.** A weighted state machine over **arrangement states**: `intro · build · drop · peak ·
 breakdown · outro`. Each state is an emphasis/automation profile (which voices
 play, cutoff target, pump depth, density). The matrix biases transitions per genre
 (trance favors long build→drop→breakdown arcs; hypnotic techno dwells in `peak`;
@@ -312,7 +283,7 @@ club bass thumping behind a door onto a wet street, opening up as you approach
 
 ## 9. Context map (districts as contexts)
 
-Generalize `contextKey` (`web/audio.js:1150`) from `weather × time × location` to
+The context key generalises from `weather × time × location` to
 **`district × time × tension`**:
 
 | District / zone | Genre flavor |
@@ -332,11 +303,11 @@ the editor.
 
 ## 10. Editor & authoring tools
 
-Two tools, both ported from ferine_town:
+Two tools:
 
-- **Context tuner** (port `web/audio_editor.js`) — the context grid (now district ×
-  time × tension), the slider wall + voice radios feeding `setConfig()` live, Save
-  to `audio_suite.json` via `/__save_audio`, "Return to default" deltas. New
+- **Context tuner** — the context grid (district × time × tension), a slider wall
+  and voice radios feeding the config live, saving to the suite file, with
+  "return to default" deltas. New
   sliders for the new params: filter cutoff/resonance, drive/bitcrush, sidechain
   depth/release, detune/voices, arp rate/pattern, delay/reverb sends.
 - **Sequencer / "pattern" authoring** (the jukebox analog) — a 16-step grid per
@@ -355,7 +326,7 @@ the new repo with its own key).
 
 ## 11. Determinism, boundaries & the hybrid sample story
 
-Follow ferine_town's audio approach:
+The boundaries worth holding:
 
 - **Reads, doesn't write.** The engine reads scene state; it stays clear of the
   game RNG, seed, clock, and saves, using its own `Math.random` for humanization
@@ -376,9 +347,8 @@ where synthesis falls short:
 
 These ship as a small curated, permissively-licensed one-shot set under `samples/`
 with a `LICENSE.txt` (mirror `web/samples/LICENSE.txt`), fetched/regenerated offline
-by the ported `fetch_soundfont.js`. "Zero **runtime** dependencies" still holds (no
-npm package); the "no audio files" claim is relaxed to this curated set, as in
-ferine_town.
+by an offline fetch script. "Zero **runtime** dependencies" still holds — no npm
+package — while the "no audio files" claim relaxes to this curated set.
 
 ### 11a. Sample & vox sourcing
 
@@ -417,9 +387,9 @@ work**:
   sources sidestep this entirely; prefer them for anything vendored.
 - **Synthesize the pads, sample the chops.** Sustained vox = the **formant vox pad**
   (§4), no files. Reserve samples for rhythmic vocal *chops/phrases* and real
-  *foley* where synthesis can't deliver. The chop half is **implemented** — the
-  `sampleVox` voice (§4) chops a clip across the `vox` row through the FX rack; clips
-  register in `data/spoken_word.json`, none vendored.
+  *foley* where synthesis can't deliver. The chop half is a sample-vox voice that
+  chops a clip across the `vox` row through the FX rack, with clips registered in an
+  audio-free manifest and none vendored.
 - **Industrial machine foley.** The cheapest clean source for metal / machinery /
   HVAC is **Freesound (CC0 filter)** and **Pixabay** (royalty-free, no attribution) —
   mundane appliance / motor / factory recordings are abundant and almost always CC0.
@@ -434,11 +404,9 @@ work**:
 A few minutes of low-fi multilingual speech to chop/stutter is very achievable and
 very on-theme (radio chatter, glitched announcements, half-heard transmissions).
 
-> **Playback is wired** (§4 `sampleVox`): register a clip in `data/spoken_word.json`
-> and point a tribute's `voices.vox.sample` at it. The named-talk angle — chopping a
-> *recognizable* speaker (Leary/McKenna) rather than anonymous CV/LibriVox clips — is
-> researched, rights-checked, and per-source ruled in/out in
-> [`research/spoken_word_sources.md`](../../research/spoken_word_sources.md): lead with
+> **Playback:** register a clip in the manifest and point a tribute's vox voice at
+> it. The named-talk angle — chopping a *recognizable* speaker rather than anonymous
+> Commons or LibriVox clips — needs its own per-source rights ruling: lead with
 > the public-domain **Timothy Leary** material; **McKenna is replaceable**, not cleared
 > for release. The CC0/PD sources below stay the safest default for vendored chops.
 

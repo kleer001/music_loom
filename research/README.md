@@ -56,7 +56,7 @@ Code does not point back into this directory. A reader of the code should not ha
 
 **Two that began as one instrument's design spec**
 
-`cyberpunk_audio_spec.md` and `cyberpunk_audio_songs.md` were written as another project's internal design, and they still read that way — "this repo" inside them means that one, and the files they name do not exist here. They are kept for the material itself: the 808/909/303 lineage, the worklet rationale, and the stock idiom progressions. Read them as background, not as a description of anything here.
+`cyberpunk_audio_spec.md` and `cyberpunk_audio_songs.md` began as another project's internal design and have been rewritten to stand on their own. They describe an engine that was never built, so read them as a design worked out on paper: the 808/909/303 lineage, the worklet rationale, the stock idiom progressions, and a genre-preset architecture argued through in detail.
 
 ## Where the gaps are
 

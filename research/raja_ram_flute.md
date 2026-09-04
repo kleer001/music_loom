@@ -37,8 +37,8 @@ Pairs with the melody grammar in
 
 Each ornament is a **pure function over scale degrees** (1-based, in the section's mode), emitting
 the engine's topline `{degrees, rhythm}` words (rhythm = quarter-beat onsets; a 16th = 0.25,
-a 32nd grace = 0.125 — `cyber/palette.js` `lineNotes`). The skeleton is a few structural notes;
-the flourish *fills between them*. This is §IV's ornamentation/embellishment made executable.
+a 32nd grace = 0.125). The skeleton is a few structural notes; the flourish *fills between them*.
+This is the ornamentation and embellishment described above, made executable.
 
 | Ornament | What Raja Ram does | Codified rule |
 |---|---|---|
@@ -55,14 +55,14 @@ antecedent/consequent of §III, but with the consequent *ornamented* into a virt
 the densest flurry and the highest note in the **back half** of the phrase (the §I.6 / §IV climax-
 late rule); keep ~⅔ stepwise (runs are stepwise by nature) with leaps reserved for emphasis.
 
-## Maps to the engine
+## What an implementation needs
 
-- **Notes:** [`cyber/ornament.js`](../cyber/ornament.js) — `run`/`trill`/`turn`/`mordent`/`grace`
-  + `rajaRamFlourish()` that composes a state→decorate→answer phrase from them. Deterministic
-  (seeded), pure, scale-degree space → drops straight into a SONG `voices.lead` line.
-- **Timbre:** [`cyber/voices.js`](../cyber/voices.js) `fmLead` gains **breath** (a noise-air bed
-  under the tone) and honours **vibrato** (delayed, ~5.5 Hz) — the singing/airy flute quality. The
-  psytrance lead enables both.
+- **Notes:** the five ornaments above as pure seeded functions over scale degrees, plus a
+  composer that assembles a state→decorate→answer phrase from them. Working in degree space
+  rather than absolute pitch keeps the phrase valid when the key or mode changes.
+- **Timbre:** an FM lead needs **breath** — a noise-air bed under the tone — and **vibrato**,
+  delayed and around 5.5 Hz. Those two are the singing, airy flute quality; without them an FM
+  lead reads as a synth playing flute-shaped notes.
 - **Space:** the psy-dub signatures from `shpongle_technique.md` already apply — dotted-16th
   ping-pong delay + reverb on the lead, sub kept dry.
 </content>

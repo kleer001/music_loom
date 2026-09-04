@@ -455,13 +455,12 @@ rhythmic feature, not just mix cleanup.
 
 ---
 
-## How this intersects the repo's current model
+## Turning this into a model
 
-The engine (`core/music.js`, `cyber/genres.js`,
-`cyber/patterns.js`) already encodes named Roman-numeral `PROGRESSIONS`, a `MODES`
-table, per-genre mode/progression assignment, and named `BASS_TEMPLATES`
-(`rolling`/`rolling16`/`acid303`/`ebm`/`reese`/`arp`/`drone`). The theory above
-mostly *validates* those choices; the concrete gaps and fixes:
+An engine that wants the above needs named Roman-numeral progressions, a mode
+table, a mode-and-progression assignment per genre, and named bass templates —
+rolling, rolling-16th, acid 303, EBM, Reese, arpeggio, drone. Most of the theory
+above confirms that shape. The corrections worth making to it:
 
 **Progressions to add / correct:**
 

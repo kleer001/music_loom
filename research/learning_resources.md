@@ -2,9 +2,7 @@
 
 A curated, annotated index of **free** (or free-to-audit / free-tier)
 educational materials for learning electronic music production and sound
-synthesis — gathered as background for the **cyber synth** work and the
-procedural-audio engines in this repo. The
-slant is toward synthesis fundamentals and the cyberpunk / synthwave /
+synthesis. The slant is toward synthesis fundamentals and the cyberpunk / synthwave /
 darksynth aesthetic, but the bulk applies to electronic production generally.
 
 > **Scope & cost.** Every entry is free, free-to-audit, or has a genuinely
@@ -19,9 +17,7 @@ darksynth aesthetic, but the bulk applies to electronic production generally.
 > Discourse forums) return **HTTP 403 to automated fetchers** as anti-bot
 > protection — these are *not* dead links; they load normally in a browser.
 > A handful of exact figures (subscriber counts, etc.) are search-attested
-> approximations. Spot-check any load-bearing link in a real browser. See
-> [`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md) for the full 403 caveat and
-> a re-verification workflow.
+> approximations. Spot-check any load-bearing link in a real browser.
 
 ## Quick-start paths
 
@@ -192,7 +188,7 @@ crawlers but are long-standing public resources.
 - **Harmonic Waveform Generator** — https://meettechniek.info/additional/additive-synthesis.html — mix harmonics to build classic waveshapes.
 - **Sound: An Interactive eBook — Fourier Series** (Physics LibreTexts) — https://phys.libretexts.org/Bookshelves/Waves_and_Acoustics/Book:_Sound_-_An_Interactive_eBook_(Forinash_and_Christian)/08:_Fourier_Series
 - **Circles, Sines, and Signals** (Jack Schaedler) — https://jackschaedler.github.io/circles-sines-signals/ — award-winning interactive DSP primer (signals, sampling, aliasing, DFT).
-- **MDN — OscillatorNode (Web Audio API)** — https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode — canonical docs for building your own oscillators (directly relevant to this repo's `web/audio.js`).
+- **MDN — OscillatorNode (Web Audio API)** — https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode — canonical docs for building your own oscillators.
 - **Syntorial (free demo)** — https://www.syntorial.com/try-for-free/ — interactive ear-training.
 - **Vital** (wavetable + granular, free tier) https://vital.audio/ , **Surge XT** (open-source hybrid) https://surge-synthesizer.github.io/ , **Dexed** (free DX7/FM) https://asb2m10.github.io/dexed/ — see §5/§6 for full entries; all double as hands-on learning sandboxes.
 
@@ -427,7 +423,7 @@ interlibrary loan, university/library subscriptions, or shadow libraries.
 - **Martin Russ — *Sound Synthesis and Sampling*** (Focal Press, 3rd ed. 2008) — the broad, practical synthesis textbook used in many courses.
 - **Mark Vail — *The Synthesizer*** (Oxford, 2014) — comprehensive history + practice; **Vintage Synthesizers** (Vail) for the gear lineage.
 - **Trevor Pinch & Frank Trocco — *Analog Days: The Invention and Impact of the Moog Synthesizer*** (Harvard, 2002) — the cultural/historical foundation of the synthwave lineage.
-- **Will C. Pirkle — *Designing Software Synthesizer Plugins in C++*** and ***Designing Audio Effect Plugins in C++*** (Routledge, 2nd eds.) — implementation-level; build your own synth/FX (relevant to this repo's engines). Companion code is posted officially at https://www.willpirkle.com/.
+- **Will C. Pirkle — *Designing Software Synthesizer Plugins in C++*** and ***Designing Audio Effect Plugins in C++*** (Routledge, 2nd eds.) — implementation-level; build your own synth and effects. Companion code is posted officially at https://www.willpirkle.com/.
 - **Udo Zölzer (ed.) — *DAFX: Digital Audio Effects*** (Wiley, 2nd ed. 2011) — the effects-DSP bible; many of its papers are free in the DAFx archive (see (c)).
 - **Richard Boulanger (ed.) — *The Csound Book*** (MIT, 2000) and **Boulanger & Lazzarini (eds.) — *The Audio Programming Book*** (MIT, 2010) — deep synthesis programming.
 - **Gareth Loy — *Musimathics*** (MIT, 2 vols.) — the mathematics of music & sound, synthesis included.
@@ -478,7 +474,7 @@ Mostly **[legal]** open archives — the highest-value scholarly material is fre
 - **Yamaha DX7 / FM SysEx** (deepest seam) — Bobby Blues' ~13–14k-patch aggregation https://bobbyblues.recup.ch/yamaha_dx7/dx7_soundbanks.html **[grey]** · Yamaha Black Boxes (factory + commercial cartridge dumps) https://yamahablackboxes.com/ **[grey]** · Caskexe/DX (factory/VRC ROMs → SF2/`.dx7x`) https://github.com/Caskexe/DX **[grey]** · This DX7 Cartridge Does Not Exist (AI-generated, novel-ish) https://www.thisdx7cartdoesnotexist.com/ **[legal-grey]** · all load into Dexed (§6).
 - **Multi-brand patches** — Coffeeshopped Patch Base / Sysex Base (editor/librarian, commercial) https://coffeeshopped.com/patch-base **[legal]** · ManyMIDI SysEx libraries (commercial) https://www.manymidi.com/ **[legal]** · SynthLib https://synthlib.com/ , The Patchbay https://thepatchbay.io/ **[grey/mixed]** · Vintage Synth Explorer's free-patch index https://www.vintagesynth.com/articles/best-places-download-free-synth-patches-presets **[legal]**.
 - **Vintage-patch / sample archives** — Polynominal https://www.polynominal.com/ , SynthMania https://synthmania.com/ **[grey/mixed]**.
-- **SoundFonts (.sf2/.sfz)** — Musical Artifacts (check each license tag) https://musical-artifacts.com/ **[mixed]** · GeneralUser GS **[legal]** · FluidR3_GM (MIT — the lineage this repo vendors) https://member.keymusician.com/Member/FluidR3_GM/index.html **[legal]** · SGM-V2.01 https://archive.org/details/SGM-V2.01 **[grey-leaning]** · Internet Archive SF2 caches (E-MU EII/Emax II, Creative AWE32, "500 Soundfonts") e.g. https://archive.org/details/500-soundfonts-full-gm-sets **[grey]** · Soundfonts 4U https://sites.google.com/site/soundfonts4u/ **[grey]**.
+- **SoundFonts (.sf2/.sfz)** — Musical Artifacts (check each license tag) https://musical-artifacts.com/ **[mixed]** · GeneralUser GS **[legal]** · FluidR3_GM (MIT) https://member.keymusician.com/Member/FluidR3_GM/index.html **[legal]** · SGM-V2.01 https://archive.org/details/SGM-V2.01 **[grey-leaning]** · Internet Archive SF2 caches (E-MU EII/Emax II, Creative AWE32, "500 Soundfonts") e.g. https://archive.org/details/500-soundfonts-full-gm-sets **[grey]** · Soundfonts 4U https://sites.google.com/site/soundfonts4u/ **[grey]**.
 - **Vintage gear ROMs/EPROM dumps** — DBWBP synth EPROM archive (the biggest free firmware/soundchip dump set) https://dbwbp.com/index.php/9-misc/37-synth-eprom-dumps (IA mirror https://archive.org/details/httpsdbwbp.com ; Series Circuits reformat https://seriescircuits.com/vintage-synthesizer-rom-archive/ ) **[legal-grey, preservation]**.
 - **Manuals & service docs / schematics** — Synth Manuals https://synthmanuals.com/ **[legal-ish]** · Internet Archive Synthesizer Manuals (Jason Scott) https://archive.org/details/synthmanuals and Korg service manuals https://archive.org/details/korg_service_manuals **[legal-grey, preservation]** · Series Circuits service manuals https://seriescircuits.com/service-manuals-and-schematics/ , Transanalog https://www.transanalog.com/manuals/ **[grey]**.
 

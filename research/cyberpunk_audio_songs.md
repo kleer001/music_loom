@@ -4,17 +4,16 @@
 > spec covers the *engine*, this covers the **content**: where the "songs" come
 > from when the genre has no Real Book.
 
-**Status:** exploration note (no code yet). **Home:** the engine targets a new repo;
-this lives in ferine_town as a design reference, alongside the engine spec.
+**Status:** an exploration note. Nothing here has been built.
 
 ---
 
 ## 0. The question
 
-ferine_town's jazz engine digests *tunes* — its `SONGS` table is built from lead
-sheets: a chord chart + a motif, the fake-book model. Electronic genres don't have
-fake books. So: **what is the source material for techno/trance/industrial "songs",
-and how do we notate them?**
+A generative jazz engine digests *tunes*: its song table is built from lead
+sheets, a chord chart plus a motif, which is the fake-book model. Electronic genres
+have no fake book. So: **what is the source material for techno/trance/industrial
+"songs", and how would it be notated?**
 
 Short answer, and it's a happy one:
 
@@ -122,10 +121,9 @@ author reshapes. Cautions:
   a vendored `.mid` from a pack as a data asset without a license that permits it.
 - Prefer extracting the **uncopyrightable structure** (the progression, the rhythm)
   and re-encoding it as our own archetype, rather than embedding pack files.
-- The vox sample layer now exists (the `sampleVox` voice — spec §4/§11a): real
-  spoken-word clips chopped across the `vox` row through the FX rack. It's the place
-  to be license-careful — audio, governed by the §11 sample-licensing story (and the
-  per-source rights vetting in `research/spoken_word_sources.md`), not this note.
+- A vox sample layer — real spoken-word clips chopped across a `vox` row and sent
+  through the FX rack — is the place to be licence-careful. It is recorded audio, so
+  it carries a rights question that generated material does not.
 
 ### D. Found-rhythm extraction — the machine as drummer
 The most *industrial* idea of all: feed a machine recording (washing machine, dryer,
@@ -156,10 +154,9 @@ engine *to* audio; found-rhythm ingests audio *into* the engine's symbolic patte
 domain. And you can do both — transcribe the machine into a pattern *and* keep its
 grind as an industrial audio layer (spec §11).
 
-> This found-rhythm idea is developed in full into its **own standalone concrète
-> engine** — the machine corpus as instrument — in
-> [`industrial_sound_engine_spec.md`](./industrial_sound_engine_spec.md). That engine
-> can *export* patterns back here, so the two interoperate via the `PATTERN` format.
+> Taken far enough, the found-rhythm idea stops being a layer and becomes its own
+> instrument: a concrète engine with a machine corpus as its sound source, exporting
+> patterns that a conventional sequencer can play.
 
 **Recommendation:** ship on **A** (generators) + **B** (a few authored signatures) +
 **D** (found-rhythm for industrial texture); treat **C** as inspiration rather than a

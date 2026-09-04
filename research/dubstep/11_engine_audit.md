@@ -1,51 +1,43 @@
-# Engine Audit — cyber_synth vs. Dubstep Requirements
+# Engine Requirements — what dubstep demands of a synthesis engine
 
-Maps the dubstep DSP requirements (see [00_index.md](00_index.md) gap list) against the current `cyber/` engine. Verdicts: **HAVE** / **PARTIAL** / **MISSING**.
+The gap list from [`00_index.md`](00_index.md), turned into a checklist an engine can be measured against. The first table is the baseline — a genre preset that boots without these is not playing dubstep. The second is what separates a competent classic-wobble engine from one that reaches modern brostep, riddim and tearout.
 
-There is already a `dubstep` genre preset (`cyber/genres.js`): 140 BPM, `halfTime` drums, phrygian/andalusian, `reese` bass with the wobble engaged, gated reverb, diode drive, bitcrush, multiband glue, and an FFT-balanced channel mix. So the genre boots today — this audit is about how close it gets to *modern* (brostep / riddim / tearout) dubstep and what's worth adding.
+## Baseline
 
-## Scorecard
+| Requirement | What it is for |
+|---|---|
+| 140 BPM half-time drum grid | Kick on 1, snare on 3. The space between them is what the bass fills |
+| Layered kick (sub + click), snare, hats | The click carries through a small speaker; the sub carries the weight |
+| Tempo-synced wobble LFO on the bass filter | The genre's signature. Rate as a note division, not Hz |
+| Mono sub bass, sine, 20–70 Hz | Held separate from the mid bass so it can stay mono and clean |
+| Reese bass — detuned saws | Phase movement between the saws is the sound, not the detune amount |
+| FM / audio-rate cross-modulation | The growl source |
+| Resonant ladder filter with a nonlinearity in the feedback path | Growl needs the filter to distort, not just cut |
+| LP / HP / BP selectable on the bass chain | Wobble on a high-pass is a different animal from wobble on a low-pass |
+| Kick-keyed sidechain, plus a ghost pump and a trance gate | Pump is rhythm here, not glue |
+| Mod matrix — LFO, sample-and-hold, slewed S&H, kick envelope → any parameter | The thing that makes modulation compositional rather than decorative |
+| Drive palette: tanh, hard clip, diode, wavefolder, bitcrush, ring mod | Grit is layered, so one distortion is never enough |
+| Tempo-synced ping-pong delay with filtered feedback and tape saturation | Inherited straight from dub |
+| Reverb with gated, reverse and freeze modes | Gated reverb on the snare is period-correct and still used |
+| Mastering chain: EQ → multiband → glue → saturation → brickwall limiter | With enough pre-limiter headroom that the render is not hot |
+| Arrangement state machine: intro / build / drop / peak / breakdown / outro | With a filter sweep tied to the state |
+| Riser and uplift FX | The build is half the drop |
+| Per-strip parametric EQ, mono-friendly high-pass on the bass | The bass HP sits around 55 Hz so the sub owns everything below |
 
-| Requirement | Verdict | Where |
-|---|---|---|
-| 140 BPM half-time drums | **HAVE** | `genres.js` dubstep + `patterns.js halfTime()` |
-| Kick (layered sub+click), snare, hats | **HAVE** | `voices.js kick/snare/hat`; tuned per genre |
-| Tempo-synced wobble LFO on bass filter | **HAVE** | `engine.js _applyWobble`, `wobbleHz`, `bass.wobble{sync,depth,base,shape}` |
-| Sub bass (mono sine) | **HAVE** | `voices.js subBass`; `bass.sub` layer on acid/reese |
-| Reese bass (detuned saws) | **HAVE** | `voices.js reeseBass` (3 saws) |
-| FM / audio-rate growl | **HAVE** | `voices.js fmBass` (2-op + soft-clip) |
-| Resonant ladder filter w/ growl | **HAVE** | `ladder-worklet.js` (cubic soft-clip feedback) |
-| LP / HP / BP filter types on bass | **HAVE** | `bass.filterType`, `buildFilter` |
-| Sidechain pump (kick-keyed) | **HAVE** | `config.sidechain`, `fx.makeSidechain` |
-| Ghost pump + trance gate | **HAVE** | `config.pump`, `config.gate` |
-| Mod matrix (LFO / S&H / slewed S&H / kick-env → any param) | **HAVE** | `engine.js` routes, `fx.makeModMatrix` |
-| Drive palette (tanh/clip/diode), wavefolder, bitcrush, ringmod | **HAVE** | `config.drive/fold/bitcrush/ringmod` |
-| Tempo-synced ping-pong dub-delay (filtered feedback, tape sat) | **HAVE** | `config.delay`, `fx` delay |
-| Reverb incl. gated (snare) / reverse / freeze | **HAVE** | `config.reverb.mode` |
-| Mastering EQ + multiband + brickwall limiter + headroom trim | **HAVE** | `config.eq/mbc/limiter/master`; dubstep `master.volume 0.37` leaves pre-limiter headroom |
-| Arrangement Markov: intro/build/**drop**/peak/breakdown/outro + filter sweep | **HAVE** | `config.arrangement`, `cutoffByState` |
-| Riser / uplift FX | **HAVE** | `EXTRA_VOICES.riser` |
-| Per-strip parametric EQ + mono-friendly HP on bass | **HAVE** | `fx.makeChannelEq`; dubstep bass HP@55 |
-| **Formant / "talking" bass** (vowel filter on the bass chain) | **PARTIAL** | `formantVox` exists but is a *choir* voice, not a bass-chain option |
-| **Wavetable-position morph** (Serum/Vital core growl) | **MISSING** | only saw/square/sine/`PeriodicWave`(hoover); no scannable wavetable |
-| **Rhythmic / patterned wobble** (LFO rate or shape varying per step within a bar) | **MISSING** | wobble is one fixed `sync` rate + one native shape per section |
-| **Custom LFO shapes** (multi-step designer shapes) | **PARTIAL** | LFO limited to native sine/tri/saw/square (`oscType`) |
-| **OTT / upward compression** | **PARTIAL** | `mbc` is downward-only; no upward expansion for the "slammed" mid |
-| **Pitch-dive / sub-drop / impact / downlifter** transition FX | **MISSING** | riser only; no downlifter, impact, sub-drop, or "drop dive" pitch automation |
-| Reese phase/detune movement over time | **PARTIAL** | reese saws are static; no slow evolving detune/phase |
+## What actually separates the eras
 
-## What actually matters (ranked)
+Ranked by how much each one moves a render toward modern dubstep, against how much work it is.
 
-The engine covers the **classic / Knife-Party wobble** end of dubstep well today. To reach **modern brostep / riddim / tearout**, in priority order:
+1. **Patterned wobble.** Let the wobble take a per-step rhythm — a 16-step rate or on/off pattern — instead of one fixed division held for a whole section. This is the single biggest "sounds like dubstep" lever, and it is cheap wherever the LFO can already be retargeted live. *Low effort, high payoff.*
+2. **Talking / formant bass.** A vowel-filter bank as an insert on the bass chain, its position swept by an LFO or sample-and-hold. This is the riddim "wob–wob–talk" character. Engines often already have formant filters built for a choir or vox voice; the work is exposing them on the bass chain rather than building them.
+3. **OTT / upward compression.** Downward multiband compression alone does not produce the slammed mid-bass timbre — the upward half is what pulls the quiet detail up into the wall. *Medium effort.*
+4. **A fuller transition kit.** A riser on its own is not enough: a downlifter, an impact, a sub-drop, a pitch-dive on the drop entry, and the deliberate silence gap immediately before it. An arrangement state machine already knows when to fire these.
+5. **Wavetable oscillator with position morph.** The authentic growl source, and the only large build on this list. FM plus a nonlinear ladder is a serviceable stand-in, which is why this ranks last despite being the "real" answer.
 
-1. **Patterned wobble** — let `bass.wobble` take a per-step rhythm (a 16-step rate or on/off pattern) instead of one fixed `sync`. This is the single biggest "sounds like dubstep" lever and rides entirely on existing wiring (`_applyWobble` already retargets the LFO live). *Low effort, high payoff.*
-2. **Talking/formant bass** — expose the existing formant bandpass bank as a bass-chain insert (vowel sweep driven by an LFO/S&H), giving the riddim "wob–wob–talk" character. *Reuses `formantVox` filters.*
-3. **OTT / upward compression** — add upward makeup to `mbc` (or a dedicated 3-band OTT) for the slammed mid-bass timbre. *Medium effort.*
-4. **Transition FX kit** — a `downlifter`, `impact`, and `subDrop` to sit alongside `riser`, plus a pitch-dive automation on the drop entry and the deliberate pre-drop silence gap. *Medium effort; arrangement already has the state machine to fire them.*
-5. **Wavetable oscillator** — the authentic growl source. *High effort; the FM-bass + ladder cubic clip is a serviceable stand-in, so this is optional.*
+## Out of scope for a generative engine
 
-Resampling (bounce→re-pitch→re-process) is intentionally **out of scope** — this is a generative real-time engine, not sample-based; the equivalent here is layering voices + the mod matrix.
+Resampling — bounce, re-pitch, re-process, repeat — is central to how the genre is made in a DAW and does not transfer to a real-time generative engine. The equivalent is layering voices through the mod matrix. Worth naming rather than leaving as an unexplained absence, because a reader coming from the production literature will look for it.
 
 ## Bottom line
 
-Nothing structural is missing — the role table, mod matrix, FX bus, and arrangement Markov already express dubstep. The gaps are **expressiveness within the bass** (patterned wobble, formant talk, wavetable) and a **fuller transition-FX kit**. Items 1–2 are small, additive, and reuse existing nodes; 3–4 are modest; 5 is the only large build and is optional.
+Nothing structural is exotic. A role table, a mod matrix, an FX bus and an arrangement state machine already express dubstep. What separates eras is **expressiveness inside the bass** — patterned wobble, formant talk, wavetable morph — and a **complete transition kit**. The first two items are small and additive; the last is the only one that is a real build.

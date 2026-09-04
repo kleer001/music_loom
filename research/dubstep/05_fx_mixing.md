@@ -44,7 +44,7 @@ Sources: [Sound on Sound: Mixing Bass](https://www.soundonsound.com/techniques/m
 
 **Kick vs. Sub split:**
 - Kick drum: peak around 60–80 Hz (the "punch" or "body"). Carve a narrow notch (1–2 dB, Q ~3–5) in pads or synths at this frequency to let kick breathe.
-- Sub bass: fundamental sits 30–50 Hz. Never notch sub; protect it fiercely.
+- Sub bass: fundamental sits 30–50 Hz. The genre's practice is to protect that band rather than notch it — carving elsewhere is what makes room for it.
 - Snare: boost slightly at 2–5 kHz for presence; avoid sub region entirely.
 
 **Notch fighting:** If synth and bass share frequencies, use a narrow notch EQ on the synth (high Q, 1–3 dB cut) rather than broadband EQ. This preserves the synth's character while clearing space.
@@ -137,7 +137,7 @@ Sources: [iZotope: Mix Bus Compression 101](https://www.izotope.com/en/learn/mix
 **Dubstep application:**
 - **Kick drum:** +2 to +4 dB of attack boost to punch through the mix, especially in dense arrangements.
 - **Snare:** +1 to +2 dB of attack boost for snap; reduce sustain (−1 to −3 dB) to tighten the reverb tail's decay shape.
-- **Avoid over-processing:** Excessive transient shaping can create artificial, brittle sounds. Use sparingly.
+- **Over-processing:** excessive transient shaping produces artificial, brittle sounds, so the practice is sparing use.
 
 Sources: [Sound on Sound: Using Transient Processors](https://www.soundonsound.com/techniques/using-transient-processors)
 

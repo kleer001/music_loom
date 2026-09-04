@@ -427,22 +427,21 @@ Sidechain Envelope (from kick)
 
 ---
 
-## Mapping to Web Audio & cyber/engine.js
+## Mapping to Web Audio
 
-Your existing wobble implementation in `/cyber/engine.js` (line 64–76) already captures the core math:
+The core of a tempo-synced wobble is one formula — a note division and a tempo in,
+an LFO frequency out:
 
 ```javascript
-// Existing: correct tempo-sync formula
+// sync is the division (4 = 1/4 note, 8 = 1/8, 16 = 1/16), bpm the tempo
 export function wobbleHz(sync, bpm) {
   return 1 / (Math.max(1, sync) * (60 / bpm / 4));
 }
-
-// Existing: _wobbleStep implementation (line 676–703)
-// Already modulates filter cutoff via LFO
-// Supports: sine, triangle, square, sawtooth LFO shapes
 ```
 
-**Enhancements based on FL Studio research:**
+With that driving an oscillator into a filter's cutoff, sine, triangle, square and
+sawtooth shapes are all reachable from native nodes. **What the FL Studio practice
+adds on top:**
 
 1. **Add resonance modulation** to your filter (currently only cutoff is modulated)
    - Store `wobble.resonance` and `wobble.resonanceModDepth` in config

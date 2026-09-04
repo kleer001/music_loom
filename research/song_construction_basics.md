@@ -1,6 +1,6 @@
 # Song Construction Basics — the Arithmetic Before the Calculus
 
-The **foundation layer** the rest of this repo's music research was quietly
+The **foundation layer** the rest of the music research here was quietly
 standing on. [`edm_theory.md`](./edm_theory.md) codifies each EDM genre's
 *vocabulary* (mode, progression, bassline, the intro→build→drop curve);
 [`game_music_structure.md`](./game_music_structure.md) codifies the *interactive*
@@ -25,16 +25,14 @@ and *rhythm* primitives, and the working songwriter's *tried-and-true recipes*.
 
 > **Scope & method.** A *sourced* reference written **for a generator, not a
 > listener** — every section ends in a codifiable rule. Compiled by fan-out web
-> research (5 angles). **Verification caveat (same as
-> [`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md)):** `WebFetch` returns
+> research (5 angles). **Verification caveat:** `WebFetch` returns
 > **HTTP 403 on essentially every host** in this environment (Wikipedia,
 > archive.org, the Pressbooks/Open Music Theory hosts, hooktheory.com,
 > coursera.org, MIT Press — all blocked identically, an anti-bot wall on the
 > fetch tool, *not* dead links). So every external link is **search-attested**,
 > not page-fetched. The URLs are correct and cross-checked, but spot-check
-> load-bearing ones in a real browser — or run
-> [`scripts/check-links.mjs`](../scripts/check-links.mjs) locally, where your
-> IP/UA clears the wall.
+> load-bearing ones in a real browser, where a normal IP and User-Agent clear
+> the wall.
 
 ---
 
@@ -573,41 +571,38 @@ as release.
 
 # Part VII — How this intersects the repo's current model
 
-The engine already encodes the *genre dialects* (`core/music.js` `MODES` /
-`PROGRESSIONS` / `BASS_TEMPLATES`; `cyber/genres.js`; `cyber/patterns.js`) and the
-*arrangement* layer (`cyber/arrangement.js` `ARC_TEMPLATES` / `ENERGY_LADDER` /
-`setIntensity`; `cyber/song.js` `SONG`). The fundamentals above mostly *validate*
-and *connect* those; the concrete gaps the basics expose:
+A generator that encodes *genre dialects* — modes, progressions, bass templates,
+per-genre assignment — and an *arrangement* layer of arc templates and an energy
+ladder still tends to have four gaps, and the fundamentals above are what expose
+them:
 
-1. **Melody is authored-only, never *developed*.** A banked tribute's `topline`/
-   `arpLine`/`counterLine` are played **verbatim and cycled per bar**
-   ([`README.md`](../README.md) "The `PATTERN` interchange"), and the arp's
-   default is a chord-climb. There is **no motivic-development engine** — none of
-   Part IV's transformation table (sequence, inversion, augmentation,
-   fragmentation…), no contour model, no climax placement, no gap-fill, no
-   tendency-tone resolution. This is the single biggest "we skipped the
-   arithmetic" gap. The **theme-breeder** (`cyber/breed.js`, the GA over lead
-   hooks) is the natural home: make Part IV's transformations the *mutation
-   operators*, and score candidates on contour + repetition-vs-variety balance.
+1. **Melody is authored-only, never *developed*.** Stored toplines, arp lines and
+   counter-lines get played verbatim and cycled per bar, with a chord-climb as the
+   arp default. That is no motivic-development engine at all — none of Part IV's
+   transformation table (sequence, inversion, augmentation, fragmentation), no
+   contour model, no climax placement, no gap-fill, no tendency-tone resolution.
+   This is the single biggest place the arithmetic gets skipped. A genetic
+   algorithm over lead hooks is the natural home: make Part IV's transformations
+   the *mutation operators*, and score candidates on contour and on the balance
+   between repetition and variety.
 
-2. **Phrase structure isn't modeled.** Patterns are 16-step one-bar grids looped;
-   there is no period/sentence/antecedent–consequent and no hypermeter beyond the
-   arrangement's `phraseBars`. Cheapest win: author toplines as **periods** — a
-   weak (half) cadence at bar 4, a strong (PAC) at bar 8 — so the lead asks and
-   answers instead of merely repeating (Part III).
+2. **Phrase structure is not modelled.** One-bar 16-step grids looped give no
+   period, no sentence, no antecedent-consequent, and no hypermeter beyond a
+   phrase length. Cheapest win: author toplines as **periods** — a weak half
+   cadence at bar 4, a strong perfect authentic cadence at bar 8 — so the lead
+   asks and answers instead of merely repeating (Part III).
 
-3. **Harmony has no function/cadence semantics.** `PROGRESSIONS` are bare degree
-   lists. For the genres that *do* move (trance/house/synthwave per
-   `edm_theory.md`), tagging each chord's **T/PD/D function** and marking **cadence
-   types** at section ends (HC to open, PAC to close) would let the arranger place
-   tension/release deliberately instead of looping a degree array (Part V).
+3. **Harmony has no function or cadence semantics.** Progressions held as bare
+   degree lists cannot express tension. For the genres that *do* move — trance,
+   house, synthwave per `edm_theory.md` — tagging each chord's **tonic /
+   predominant / dominant** function and marking **cadence types** at section ends
+   lets an arranger place tension and release deliberately rather than looping a
+   degree array (Part V).
 
-4. **The climax-proportion principle can seed the default arc.** `arrangement.js`
-   already has the energy ladder + `setIntensity` + named templates; Part I §6
-   says aim the arc at **one payoff ~two-thirds through** the planned span. Make
-   that the default target the templates bend toward — the cleanest cure for the
-   "wandering" the migration plan is already fighting
-   ([`docs/design/song_structure_migration.md`](../docs/design/song_structure_migration.md)).
+4. **The climax-proportion principle can seed the default arc.** Part I says aim
+   the arc at **one payoff about two-thirds through** the planned span. Making
+   that the target arc templates bend toward is the cleanest cure for
+   wandering.
 
 5. **Groove primitives are partly there.** `swing` exists; the **tresillo 1-4-7
    onset mask** (Part V) is a reusable bass/perc cell worth adding alongside the
@@ -694,8 +689,7 @@ and *connect* those; the concrete gaps the basics expose:
 
 **YouTube — song analysis & writing** (not synthesis; all *free*): Holistic
 Songwriting, Rick Beato ("What Makes This Song Great"), Adam Neely, 12tone,
-**8-bit Music Theory** (game-music structural analysis — closest to this repo's
-domain), David Bennett, Signals Music Studio, Nahre Sol, Charles Cornell.
+**8-bit Music Theory** (game-music structural analysis), David Bennett, Signals Music Studio, Nahre Sol, Charles Cornell.
 
 **Free lead-sheet / corpus data (for analysis, mind the rights):**
 - OpenEWLD — public-domain subset of the Wikifonia/EWLD lead-sheet corpus
@@ -707,9 +701,6 @@ domain), David Bennett, Signals Music Studio, Nahre Sol, Charles Cornell.
 
 *Compiled 2026-06 by fan-out web research (5 angles: form · melody/motif ·
 harmony/rhythm · philosophy · songwriting craft). Links are **search-attested**,
-not page-fetched — see the verification caveat at top and
-[`VERIFICATION_NOTES.md`](./VERIFICATION_NOTES.md). Run
-[`scripts/check-links.mjs`](../scripts/check-links.mjs) locally to clear the 403s.
-Two things to flag before quoting verbatim: "repetition legitimizes" is a
+not page-fetched — see the verification caveat at top. Two things to flag before quoting verbatim: "repetition legitimizes" is a
 **paraphrase** (rigorously, Deutsch/Margulis), and the "climax in the back ~⅔"
 and "hook every 6 s" figures are **heuristics**, not hard statistics.*

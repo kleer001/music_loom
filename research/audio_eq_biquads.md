@@ -1,7 +1,6 @@
 # Audio analysis — render & measure, don't guess
 
-The procedural audio (`web/audio.js`) is tuned by ear in the editor (`npm run
-audio`), but ears alone stall on questions like *"is there a low rumble?"*,
+Procedural audio gets tuned by ear, but ears alone stall on questions like *"is there a low rumble?"*,
 *"why does that filter sound stepped?"*, *"is this clipping?"*. The fix is to
 **render the sound to a WAV and measure its spectrum** — turning "I think I hear
 X" into a number you can act on and then verify the fix against.
@@ -23,9 +22,9 @@ Two ways; pick by how faithful you need to be. Either produces a mono 16-bit WAV
 
 ### A. Throwaway re-implementation (fast — never commit)
 
-Write a short Node script in `/tmp` that mirrors the **relevant synth path** —
-copy the exact constants and filter math from `web/audio.js` (the Kellet pink
-generator, the gust one-pole, the biquads), render N seconds, write the WAV,
+Write a short throwaway Node script that mirrors the **relevant synth path** —
+copy the exact constants and filter math out of the graph under test (the noise
+generator, the one-poles, the biquads), render N seconds, write the WAV,
 analyze, delete. Dependency-free and quick.
 
 It is a *measurement, not a fixture*: write it fresh each time against the
