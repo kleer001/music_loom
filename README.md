@@ -15,24 +15,24 @@ python3 scripts/new_instrument.py my-instrument
 cd bench/my-instrument && ./run.sh
 ```
 
-That gets you a page served on the first free port, with a live `AudioContext` behind a start button and a `TODO` where the graph goes. The scaffolding is done — the server, the gesture handling, the test runner, the licence, the stamp — so the first thing you write is the sound.
+That gets you a page on the first free port, with a start button that opens an `AudioContext` — the browser's audio engine — and a `TODO` where your sound goes. Everything around the sound is already done: the server, the click-to-start a browser insists on, the test runner, the licence.
 
-From there the studio hands over apparatus as you reach for it: a shared audio core, an effects rack, a library of voices and samplers, a harness that renders your graph offline so you can measure it. You take what you want and nothing else.
+After that you take equipment as you need it, by copying it in: a shared audio core, an effects rack, a library of voices and samplers, a harness for measuring what you built. Nothing arrives that you did not ask for.
 
 ## Why it is built this way
 
-**The tooling stays behind; the instrument travels clean.** The studio itself is Python, Node and bash — a scaffolder, a version-stamp checker, and the offline tools that trimmed the samples and derived the wavetable and patch banks. None of that leaves with the instrument. What leaves is plain Web Audio and ES modules the browser loads as written: no bundler, no framework, no CDN, zero dependencies, and tests that pass on a bare Node install. Grafting the measurement harness adds one devDependency, and it is the only one the house stack has ever needed.
+**What you build has no dependencies. The tools that built it do.** This repo runs on Python, Node and bash — a scaffolder, a script that tells an instrument when the studio's conventions have moved on, and the offline tools that trimmed the sample library and prepared the sound banks. None of it goes with you. What goes with you is JavaScript the browser runs as written: no bundler, no framework, nothing fetched from a CDN, and tests that pass on a plain Node install. Copy in the measuring harness and you gain exactly one development dependency, which is the only one anything here has ever needed.
 
-**The same graph renders headlessly.** Which means you can measure it: peak and RMS, DC offset, stereo width, spectral centroid, band energy. That does not tell you whether it sounds good — ears do that. It tells you *what changed, and by how much*, which is how you find out whether it changed the way you predicted.
+**The same code runs without a browser, writing a file instead of a sound.** Which means you can put numbers on it — how loud, how bright, how wide, how much energy in the bass against the top. None of that says whether it sounds good; ears do that. What it says is *how far the thing moved when you changed something*, which is the question ears are worst at. A change you predicted and then measured is a change you understand.
 
-**Research before code.** A constant somebody guessed is a constant nobody can defend six months later. The digests in `research/` cover dub techno, psytrance flute, wavetable and FM synthesis, dubstep down to the anatomy of a drop, jazz voice leading, and a long survey of world and historical traditions — raga, gamelan, maqam, Tuvan overtone singing, medieval mensuration canon — each read for what it actually specifies about tuning, instrumentation and form.
+**Research before code.** A constant somebody guessed is a constant nobody can defend six months later. The digests in `research/` cover dub techno, psytrance flute, wavetable and frequency-modulation synthesis, dubstep down to the anatomy of a drop, jazz voice leading, and a long survey of world and historical traditions — raga, gamelan, maqam, Tuvan overtone singing, medieval mensuration canon — each read for what it actually specifies about tuning, instrumentation and form.
 
 **A stocked pantry.** Recorded percussion and pitched loops, machine noise, public-domain tunes as MIDI, and the tools that indexed them. Every file traces to a release that states its terms, tracked in `pantry/PROVENANCE.md`, because an instrument you might publish should not carry material whose licence nobody read.
 
-**Instruments grow up and move out.** A budded instrument keeps a stamp naming the studio version it descends from, so when a convention here improves it can ask what changed. The mechanism is built and tested; no instrument has used it in anger yet.
+**Instruments grow up and move out.** When one is finished it is split off into a repository of its own, keeping its full history and a note of which version of the studio it grew up in — so when something here improves, it can come back and ask what changed. That whole mechanism is built and tested, and no instrument has used it for real yet.
 
 ## Where to look
 
-`CLAUDE.md` is the studio brief — the working method, the house stack, and what has tended to break. `RESEARCH.md` is how a musical claim earns its place. `RIGHTS.md` is what a shipped recording carries with it. `rack/` holds the apparatus, `research/` the reading, `pantry/` the sound.
+`CLAUDE.md` is the studio brief — the working method, the house stack, and what has tended to break. `RESEARCH.md` is how a musical claim earns its place. `RIGHTS.md` is what a shipped recording carries with it. `rack/` holds the equipment, `research/` the reading, `pantry/` the sound.
 
 MIT.
