@@ -21,7 +21,7 @@ From there the studio hands over apparatus as you reach for it: a shared audio c
 
 ## Why it is built this way
 
-**Plain Web Audio, ES modules, no build step.** The browser loads the source as written. A new instrument has zero dependencies and passes its tests on a bare Node install; grafting the measurement harness adds one devDependency, and that is the only one the house stack has ever needed.
+**The tooling stays behind; the instrument travels clean.** The studio itself is Python, Node and bash — a scaffolder, a version-stamp checker, and the offline tools that trimmed the samples and derived the wavetable and patch banks. None of that leaves with the instrument. What leaves is plain Web Audio and ES modules the browser loads as written: no bundler, no framework, no CDN, zero dependencies, and tests that pass on a bare Node install. Grafting the measurement harness adds one devDependency, and it is the only one the house stack has ever needed.
 
 **The same graph renders headlessly.** Which means you can measure it: peak and RMS, DC offset, stereo width, spectral centroid, band energy. That does not tell you whether it sounds good — ears do that. It tells you *what changed, and by how much*, which is how you find out whether it changed the way you predicted.
 
