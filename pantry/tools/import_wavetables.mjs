@@ -2,15 +2,14 @@
 //
 // Reads a directory of single-cycle wavetable WAV banks, slices each bank into fixed-length
 // single-cycle frames, FFTs each frame (core/dsp.js), keeps the first H harmonics, downsamples
-// to ~16 frames, and writes one derived table per bank to data/wavetables/<name>.json plus a
-// data/wavetables/index.json manifest. The scanner (cyber/voices.js wavetableFrames via
-// cyber/wavetables.js) consumes these through the same frame interface as the procedural
-// generators. See docs/design/wavetable_scanning.md (Phase 2).
+// to ~16 frames, and writes one derived table per bank to <bank>/<name>.json plus an
+// index.json manifest. A wavetable scanner consumes these through the same frame interface
+// as the procedural generators — see voices/wavetable_scanning.md.
 //
 // SOURCE (CC0-1.0 — public domain, no attribution required but credited): clone the WaveEdit
 // Online bank archive, then point this at its sample folder:
 //   git clone --depth 1 https://github.com/smpldsnds/wavedit-online.git /tmp/wavedit
-//   node scripts/import_wavetables.mjs /tmp/wavedit/samples ZAP VOXSYNTH VIRUS_SA WAVETABL
+//   node pantry/tools/import_wavetables.mjs /tmp/wavedit/samples ZAP VOXSYNTH VIRUS_SA WAVETABL
 // A WaveEdit bank is 64 frames × 256 samples (mono 16-bit). Pass bank file stems (without
 // .WAV) after the dir to import a chosen subset; omit them to import every WAV in the dir.
 // Raw .wav files are NOT vendored — only the derived coefficient JSON is committed
@@ -99,7 +98,7 @@ function importBank(path, opts, name) {
 const { opts, positional } = parseArgs(process.argv.slice(2));
 const dir = positional[0];
 if (!dir) {
-  console.error("usage: node scripts/import_wavetables.mjs <wav-dir> [bankStem ...] [--frame=256 --frames=16 --harmonics=32]");
+  console.error("usage: node pantry/tools/import_wavetables.mjs <wav-dir> [bankStem ...] [--frame=256 --frames=16 --harmonics=32]");
   process.exit(1);
 }
 

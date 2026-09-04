@@ -1,5 +1,5 @@
 // Source: cyber_synth/cyber/patches.js
-// cyber/patches.js — patch loader / normalizer. Pure, headless, no DOM.
+// Patch loader and normaliser. Pure, headless, no DOM.
 //
 // A stored patch (data/patches/**/*.json, or a genre/DAW/UI override) is validated here
 // before it reaches the engine: unknown keys are dropped, missing keys are filled from
@@ -7,8 +7,8 @@
 // returns the flat `poly` object ready to merge as `voices.<role>.poly` via core/merge.js.
 //
 // This is the serialization half of voices/patch_schema.md (the "ignore what you don't
-// understand" / clamp-on-load rules). Defaults and ranges mirror cyber/config.js POLY_BASE and
-// the pages/cyber-synth-app.js sliders; they are kept here (not imported) so the loader stays a
+// understand" / clamp-on-load rules). Defaults and ranges match the synth's own base config
+// and its UI sliders; they are kept here rather than imported so the loader stays a
 // self-contained, engine-free normalizer with no AudioContext / config-graph dependency.
 
 export const ENGINES = ["subtractive", "fm", "wavetable"];
@@ -17,10 +17,12 @@ export const WT_TABLES = ["basic", "harmonic-sweep", "pwm", "sync", "fold"];
 export const FILTER_TYPES = ["lp", "hp", "bp"];
 export const DRIVE_MODES = ["tanh", "diode", "clip"];
 export const LFO_SHAPES = ["tri", "sine", "square", "saw", "sample-hold", "shslew"];
-// The note-scope modulation destinations (cyber/voices.js MOD_TARGETS). A route to a name
+// The note-scope modulation destinations. A route to a name
 // outside this set is dropped, not defaulted and not fatal (voices/patch_schema.md rule 2).
 export const MOD_TARGETS = ["cutoff", "resonance", "pitch", "amp", "pan", "fmIndex", "wtPos"];
-// Tempo-synced LFO divisions in 16th-steps per cycle (pages/cyber-synth-app.js LFO_DIVS).
+// Tempo-synced LFO divisions in 16th-steps per cycle. dsp/lfo.js exports an
+// LFO_DIVS too, as {label, beats} objects for a different consumer — same idea,
+// incompatible shape, so the two are not interchangeable.
 export const LFO_DIVS = [32, 16, 8, 6, 4, 8 / 3, 2, 4 / 3, 1];
 // The canonical default LFO route — the normalizer's fallback AND what the editors pad a
 // route list with before setting one field.
@@ -38,11 +40,11 @@ export function mergePatch(basePoly, patch) {
   return out;
 }
 
-const MAX_LFOS = 4;   // cyber/voices.js MAX_LFOS
+const MAX_LFOS = 4;
 const MAX_MODS = 8;   // voices/patch_schema.md "≤8 slots"
 const MAX_MACROS = 4;
 
-// Scalar fields + their default (mirrors cyber/config.js POLY_BASE). lfos/vel/mods/macros are
+// Scalar fields and their defaults. lfos/vel/mods/macros are
 // structured and handled separately.
 const SCALAR_DEFAULTS = {
   peak: 0.4, engine: "subtractive", wave1: "saw", wave2: "square",
@@ -53,7 +55,7 @@ const SCALAR_DEFAULTS = {
   wtPos: 0.3, wtWarp: 0, wtTable: "basic", drive: 0, driveMode: "tanh",
 };
 
-// [min, max] clamp ranges (from the pages/cyber-synth-app.js sliders).
+// [min, max] clamp ranges, matching the synth's UI sliders.
 const RANGES = {
   peak: [0, 1], osc2: [0, 1], oct2: [-4, 4], detune2: [0, 24], sub: [0, 1],
   uni: [1, 7], uniDetune: [0, 40], cutoff: [40, 16000], resonance: [0, 20], filterEnv: [0, 1], keytrack: [0, 1],

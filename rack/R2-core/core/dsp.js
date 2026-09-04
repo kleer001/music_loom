@@ -1,5 +1,5 @@
 // DSP helpers. Pure curve/FFT functions (Node-testable) + AudioContext buffer
-// factories (browser). Ported in spirit from web/audio.js (pink noise, impulse).
+// factories (browser).
 
 import { mulberry32 } from "./rng.js";
 
@@ -97,7 +97,7 @@ export function whiteNoise(ctx, secs = 2, opts = {}) {
   return buf;
 }
 
-// Kellett 3-pole pink noise (from web/audio.js _makePink).
+// Kellett 3-pole pink noise.
 export function pinkNoise(ctx, secs = 3, opts = {}) {
   const random = noiseSource(opts, "pink", secs, ctx.sampleRate);
   const buf = ctx.createBuffer(1, (ctx.sampleRate * secs) | 0, ctx.sampleRate);
@@ -113,7 +113,7 @@ export function pinkNoise(ctx, secs = 3, opts = {}) {
   return buf;
 }
 
-// Synthesized reverb impulse (from web/audio.js _impulse). dark 0..1 = tail darkness.
+// Synthesized reverb impulse. dark 0..1 = tail darkness.
 // Seeded from its own parameters (see noiseSource) — the same decay/dark/stereo at
 // the same sample rate always builds the same IR. `seed` picks a different room;
 // `random` supplies the stream directly.

@@ -1,4 +1,4 @@
-// Deep config merge + sparse diff — ported from web/audio.js (mergeConfig / sparseDiff).
+// Deep config merge + sparse diff.
 // Only keys present in `base` survive a merge, so a partial/unknown override can never
 // corrupt the config shape.
 

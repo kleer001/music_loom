@@ -1,5 +1,5 @@
 // Source: dub_synth/engine/voices.js
-// dub_synth/voices.js — the sound sources.
+// The sound sources.
 //
 // Sparse music exposes everything, so these are built to the genre's stated
 // specifications rather than to generic taste:

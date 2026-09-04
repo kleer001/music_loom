@@ -34,7 +34,7 @@ export function cosineSim(a, b) {
 }
 
 
-// ---- integer helpers (from drone_flute_synth/engine/rng.js) ----
+// ---- integer helpers ----
 
 /* Round half to even. Half-up biases every exact .5 upward, and grid arithmetic
    lands on .5 often enough for that to show as a rhythmic lean. */

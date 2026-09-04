@@ -1,4 +1,4 @@
-// dub_synth/scan_samples.mjs — index the sample library's noise material. Stage 6.
+// Index a sample library's noise material.
 //
 // Noise is a compositional layer in this genre, not a defect: all 50 of the 50
 // tracks Koçer spectrum-analysed carry one, and he sorts them into exactly three
@@ -25,7 +25,7 @@
 // Writes data/noise_corpus.json — a committed index. The audio stays on the
 // library volume; only the manifest travels.
 //
-//   node dub_synth/scan_samples.mjs [--root=/path/to/samples] [--verbose]
+//   node pantry/tools/scan_samples.mjs [--root=/path/to/samples] [--verbose]
 
 import { readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, extname, join } from "node:path";

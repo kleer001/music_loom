@@ -1,14 +1,14 @@
-// import_patches.mjs — Vital preset → cyber_synth patch importer.
+// import_patches.mjs — Vital preset → patch importer.
 //
 // Walks a directory of `.vital` presets (plain JSON), maps each to a patch in our schema
-// (cyber/patches.js / docs/design/patch_schema.md), normalizes + clamps via loadPatch, groups
+// (voices/patches.js, documented in voices/patch_schema.md), normalizes + clamps via loadPatch, groups
 // by the preset's own `preset_style`, and writes one patch per file:
 //   data/patches/<style>/<name>.json   ({ schema:1, name, ...flat poly fields })
 // Then prints a count-per-style summary. Build-time, deterministic (no randomness).
 //
 // SOURCE (CC-BY-4.0 — attribute): clone the patch archive, then point this at its Vital folder:
 //   git clone --depth 1 https://github.com/instatetragrammaton/Patches.git /tmp/Patches
-//   node scripts/import_patches.mjs "/tmp/Patches/Matt Tytel Vital"
+//   node pantry/tools/import_patches.mjs "/tmp/Patches/Matt Tytel Vital"
 // (atsushieno/open-vital-resources is CC0 if you want a public-domain set.) Raw `.vital` files
 // are NOT vendored into this repo — only the derived patch JSON is committed.
 //
@@ -16,11 +16,11 @@
 //   engine     ← "wavetable" (Vital is a wavetable synth)
 //   peak       ← osc_1_level, capped at 0.6 to keep master headroom
 //   uni        ← osc_1_unison_voices
-//   uniDetune  ← range·100·(detune/10)^power cents  (the mine_presets.mjs approximation)
+//   uniDetune  ← range·100·(detune/10)^power cents  (an approximation)
 //   osc2/oct2  ← osc_2_on ? osc_2_level / round(osc_2_transpose/12)
 //   wtPos      ← osc_1_spectral_morph_amount ;  wtWarp ← (osc_1_distortion_amount-0.5)·2
 //   filterType ← filter_1_blend  (0 lp · ~1 bp · 2 hp — Vital analog blend morph)
-//   cutoff     ← midiToHz(filter_1_cutoff)        resonance ← filter_1_resonance·20
+//   cutoff     ← midiToFreq(filter_1_cutoff)      resonance ← filter_1_resonance·20
 //   drive      ← filter_1_drive(dB)/20            A/D/S/R   ← env_1_attack/decay/sustain/release
 //   filterEnv  ← |amount| of any env_N → filter cutoff modulation
 //   lfos[0]    ← first lfo_N modulation: rate 2^lfo_N_frequency Hz, dest mapped from its target
@@ -31,6 +31,7 @@ import { readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "n
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadPatch } from "../../rack/R6-voices/voices/patches.js";
+import { midiToFreq } from "../../rack/R2-core/core/music.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -43,9 +44,7 @@ function walk(dir, out = []) {
   return out;
 }
 
-const midiToHz = (n) => 440 * Math.pow(2, (n - 69) / 12);
-
-// Reused from mine_presets.mjs: Vital unison detune → cents (approx; Vital skews this).
+// Vital unison detune → cents (approx; Vital skews this).
 function detuneCents(s, i) {
   const d = s[`osc_${i}_unison_detune`] ?? 0, range = s[`osc_${i}_detune_range`] ?? 2, pow = s[`osc_${i}_detune_power`] ?? 1;
   return range * 100 * Math.pow(Math.max(0, d) / 10, pow);
@@ -93,7 +92,7 @@ function mapPreset(j) {
     wtPos: s.osc_1_spectral_morph_amount ?? 0.3,
     wtWarp: ((s.osc_1_distortion_amount ?? 0.5) - 0.5) * 2,
     filterType: filterTypeOf(s),
-    cutoff: fOn ? midiToHz(s.filter_1_cutoff ?? 60) : 2000,
+    cutoff: fOn ? midiToFreq(s.filter_1_cutoff ?? 60) : 2000,
     resonance: fOn ? (s.filter_1_resonance ?? 0) * 20 : 0.8,
     drive: fOn ? (s.filter_1_drive ?? 0) / 20 : 0,
     attack: s.env_1_attack ?? 0.01,
@@ -120,7 +119,7 @@ function mapPreset(j) {
 const slug = (s) => String(s || "").trim().replace(/[^A-Za-z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase() || "untitled";
 
 const dir = process.argv[2];
-if (!dir) { console.error("usage: node scripts/import_patches.mjs <vital-presets-dir>"); process.exit(1); }
+if (!dir) { console.error("usage: node pantry/tools/import_patches.mjs <vital-presets-dir>"); process.exit(1); }
 
 const outRoot = join(HERE, "..", "data", "patches");
 const files = walk(dir);
@@ -150,7 +149,7 @@ for (const f of files) {
   (bank[style] ||= []).push(nameSlug);
 }
 
-// Manifest the patch browser (pages/cyber-synth-app.js) fetches: { <style>: [name, ...] }.
+// Manifest a patch browser fetches: { <style>: [name, ...] }.
 const index = {};
 for (const style of Object.keys(bank).sort()) index[style] = bank[style].sort();
 writeFileSync(join(outRoot, "index.json"), JSON.stringify(index, null, 2) + "\n");

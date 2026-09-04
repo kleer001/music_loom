@@ -1,4 +1,4 @@
-// 16th-note lookahead step clock. Mirrors web/audio.js `_jazzTick`: a 25 ms setInterval
+// 16th-note lookahead step clock: a 25 ms setInterval
 // polls and schedules every step whose time falls inside a ~120 ms lookahead window,
 // so note timing is sample-accurate (set on AudioParams) while the JS timer stays loose.
 

@@ -1,17 +1,23 @@
 // Pitch / harmony model: minor modes, degree→midi→frequency, chords, and the
 // stock idiom progressions, which are uncopyrightable.
+//
+// The mode intervals and the note names live in scales.js, which holds the fuller
+// table. This file names a working subset of them the way its own callers do —
+// one set of numbers, two vocabularies, so neither can drift from the other.
+
+import { MODES as SCALE_MODES, NOTE_NAMES as SCALE_NOTE_NAMES } from "./scales.js";
 
 export const MODES = {
-  aeolian: [0, 2, 3, 5, 7, 8, 10], // natural minor
-  dorian: [0, 2, 3, 5, 7, 9, 10],
-  phrygian: [0, 1, 3, 5, 7, 8, 10], // the dark/psychedelic one
-  mixolydian: [0, 2, 4, 5, 7, 9, 10], // major with a flat-7 (the wistful Porcelain color)
-  harmonicMinor: [0, 2, 3, 5, 7, 8, 11],
-  minorPent: [0, 3, 5, 7, 10],
-  major: [0, 2, 4, 5, 7, 9, 11],
+  aeolian: SCALE_MODES["minor"],            // natural minor
+  dorian: SCALE_MODES["dorian"],
+  phrygian: SCALE_MODES["phrygian"],        // the dark/psychedelic one
+  mixolydian: SCALE_MODES["mixolydian"],    // major with a flat-7 (the wistful Porcelain color)
+  harmonicMinor: SCALE_MODES["harmonic minor"],
+  minorPent: SCALE_MODES["minor pentatonic"],
+  major: SCALE_MODES["major"],
 };
 
-export const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+export const NOTE_NAMES = SCALE_NOTE_NAMES;
 
 export const midiToFreq = (m) => 440 * Math.pow(2, (m - 69) / 12);
 
@@ -23,6 +29,9 @@ export const centsToRatio = (cents) => Math.pow(2, (cents || 0) / 1200);
 
 // Fold any (possibly negative) semitone/degree number into a pitch class 0..11. The single
 // home for the `((n % 12) + 12) % 12` idiom the analysis extractors lean on repeatedly.
+// Takes a MIDI number. scales.js exports a `pitchClass` that takes a note NAME
+// and returns the same kind of value — same word, different input. Importing both
+// into one file is a mistake waiting to happen; import one and alias it.
 export const pitchClass = (n) => ((n % 12) + 12) % 12;
 
 export function tonicToMidi(tonic, octave = 3) {

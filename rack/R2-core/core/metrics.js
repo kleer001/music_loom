@@ -6,6 +6,11 @@
 import { magnitude } from "./dsp.js";
 
 export const DEFAULT_SR = 48000;
+// POWER dB — 10·log10. Everything handed to this is already squared: a mean
+// square, or a side/mid energy ratio. dsp/master.js defines a `dB` that is
+// 20·log10 because it takes amplitude. Both are correct and they must not be
+// merged: 20·log10(√x) equals 10·log10(x), which is why `rmsDb` agrees across
+// the two despite the different constant.
 const dB = (x) => 10 * Math.log10(Math.max(1e-12, x));
 
 // Peak / RMS(dB) / DC offset / stereo width(dB). `R` optional (mono → width 0, R=L).

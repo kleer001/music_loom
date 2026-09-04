@@ -1,8 +1,7 @@
 // Source: dub_synth/engine/dsp/lfo.js
-// the LFO tool, carried over from GLITCHFIELD.
+// The LFO tool.
 //
-// Ported from the sibling instrument's modulation engine (`../glitchfield`,
-// `rollLFOs` / `lfoValue` / `updateMod`). What is worth having is its vocabulary:
+// Its vocabulary is what makes it worth having:
 // four shapes, tempo-synced divisions from four measures down to a 1/16, a
 // deterministic roll from a seed, and **meta-modulation** — an LFO that re-rates
 // or re-depths another LFO, which is what stops a modulation bed from settling

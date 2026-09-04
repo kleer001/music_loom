@@ -1,5 +1,5 @@
 // Source: cyber_synth/cyber/wavetables.js
-// cyber/wavetables.js — a tiny registry for imported (CC0) wavetables.
+// A tiny registry for imported (CC0) wavetables.
 //
 // A wavetable is an ordered list of frames; each frame is a harmonic spectrum
 // `{ real: Float32Array, imag: Float32Array }` (index n = the nth harmonic), the same
@@ -9,7 +9,7 @@
 // procedural generator. See voices/wavetable_scanning.md (Phase 2).
 //
 // Pure + headless: no fs, no DOM, no AudioContext. Build-time importers
-// (scripts/import_wavetables.mjs) write derived coefficient JSON to data/wavetables/; the
+// (pantry/tools/import_wavetables.mjs) write derived coefficient JSON to a bank directory; the
 // browser and tests read that JSON and feed it here via `loadWavetableData` →
 // `registerWavetable`. Deterministic: fixed data in, fixed frames out, no Math.random.
 

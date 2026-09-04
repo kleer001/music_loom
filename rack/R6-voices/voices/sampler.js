@@ -1,15 +1,17 @@
 // Source: ferine_town/web/sampler.js
-// Sampled-instrument playback for the jazz combo — a zero-dependency loader over
-// the vendored FluidR3_GM subset in web/samples/ (per-note base64 MP3, fetched
-// offline by scripts/fetch_soundfont.js). Browser-only and OUTSIDE the
-// determinism contract, like web/audio.js: it observes, never perturbs the game.
+// Sampled-instrument playback — a loader over a vendored soundfont subset held as
+// per-note base64 MP3 and fetched offline, never at runtime. Browser-only, and
+// outside any determinism contract: it observes, it does not perturb.
 //
 // FluidR3 samples every semitone, so a note plays from its own (or an adjacent)
 // sample with playbackRate doing at most a ~1-semitone shift — clean timbre, no
 // looping needed for the combo's short notes. Decode is lazy: an instrument's
 // notes are decoded the first time it's selected, so a broad audition pool does
 // not stall startup. The shared gain envelope (attack/sustain/release) is passed
-// in from GameAudio so sampled and synth voices shape identically.
+// in by the caller so sampled and synth voices shape identically.
+
+import { pitchRatio } from "../core/dsp.js";
+import { centsToRatio } from "../core/music.js";
 
 const PC = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
 
@@ -64,7 +66,7 @@ export class Sampler {
   /**
    * @param {AudioContext} ctx
    * @param {(t:number, dur:number, opts:object)=>GainNode} makeEnv shared envelope
-   *   factory (GameAudio._envGain): returns a GainNode shaped attack/sustain/release.
+   *   factory: returns a GainNode shaped attack/sustain/release.
    */
   constructor(ctx, makeEnv) {
     this.ctx = ctx;
@@ -183,7 +185,7 @@ export class Sampler {
     // the note START. Fall: hold, then a descending gliss "to nowhere" that
     // accelerates downward and runs on THROUGH the note's release tail, so it
     // trails off and dies instead of landing on a fixed lower pitch — the note END.
-    const rate = Math.pow(2, (m - sampleMidi) / 12), bend = opts.bend;
+    const rate = pitchRatio(m - sampleMidi), bend = opts.bend;
     const pr = src.playbackRate;
     if (bend && bend.kind === "scoop") {
       const st = Math.max(0.03, Math.min(0.1, dur * 0.4));
@@ -280,7 +282,7 @@ export class Sampler {
     const entry = map.get(sampleMidi);
     const src = this.ctx.createBufferSource();
     src.buffer = entry.buffer;
-    src.playbackRate.value = Math.pow(2, (midi - sampleMidi) / 12 + (opts.detune ?? 0) / 1200);
+    src.playbackRate.value = pitchRatio(midi - sampleMidi) * centsToRatio(opts.detune ?? 0);
     const dur = entry.buffer.duration;
     const peak = Math.max(0.0001, (opts.peak ?? 0.12) * entry.gain);
     const g = this.ctx.createGain();

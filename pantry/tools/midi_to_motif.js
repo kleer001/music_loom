@@ -1,19 +1,22 @@
 // Offline dev tool — turn a Standard MIDI File into a digest-ready melodic
-// motif (the "hook") for web/audio.js SONGS. Zero-dep Node; NOT part of the
+// motif (the "hook") a song table can use. Zero-dep Node; NOT part of the
 // game runtime or the determinism path. Run by hand and paste the suggested
 // `motif:` block into a song digest.
 //
-//   node scripts/midi_to_motif.js <file.mid> [--tonic=<pitch-class 0-11|note>] [--mode=ionian] [--notes=8] [--track=N]
+//   node pantry/tools/midi_to_motif.js <file.mid> [--tonic=<pitch-class 0-11|note>] [--mode=ionian] [--notes=8] [--track=N]
 //
 // MIDI gives notes, not chords — so this extracts only the melody skeleton.
 // Chord progression / form still come from the lead-sheet catalog by hand.
 
 import { readFileSync } from "node:fs";
+import { MODES as SCALE_MODES } from "../../rack/R2-core/core/scales.js";
 
 const PC_NAMES = { c: 0, "c#": 1, db: 1, d: 2, "d#": 3, eb: 3, e: 4, f: 5, "f#": 6, gb: 6, g: 7, "g#": 8, ab: 8, a: 9, "a#": 10, bb: 10, b: 11 };
+// The church-mode names this tool takes on the command line, over the intervals
+// scales.js already holds.
 const MODES = {
-  ionian: [0, 2, 4, 5, 7, 9, 11], dorian: [0, 2, 3, 5, 7, 9, 10], phrygian: [0, 1, 3, 5, 7, 8, 10],
-  mixolydian: [0, 2, 4, 5, 7, 9, 10], aeolian: [0, 2, 3, 5, 7, 8, 10],
+  ionian: SCALE_MODES["major"], dorian: SCALE_MODES["dorian"], phrygian: SCALE_MODES["phrygian"],
+  mixolydian: SCALE_MODES["mixolydian"], aeolian: SCALE_MODES["minor"],
 };
 
 function parseArgs(argv) {
@@ -78,7 +81,7 @@ function readTrack(buf, start, end) {
 // --- motif extraction ---------------------------------------------------
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!args.file) { console.error("usage: node scripts/midi_to_motif.js <file.mid> [--tonic=] [--mode=] [--notes=] [--track=]"); process.exit(1); }
+  if (!args.file) { console.error("usage: node pantry/tools/midi_to_motif.js <file.mid> [--tonic=] [--mode=] [--notes=] [--track=]"); process.exit(1); }
   const { division, tracks } = readChunks(readFileSync(args.file));
   const tpq = division & 0x8000 ? 24 : division; // ignore SMPTE; assume PPQ
 

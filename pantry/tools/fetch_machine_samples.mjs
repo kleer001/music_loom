@@ -1,4 +1,4 @@
-// One-time sample setup for the industrial engine. Mirrors scripts/fetch_soundfont.js.
+// One-time sample setup: fetch CC0 machine loops into the pantry.
 //
 //   node fetch_samples.mjs   (or: npm run samples)
 //
@@ -34,7 +34,7 @@ async function download(file) {
   const dest = join(OUT, file);
   if (await exists(dest)) { console.log(`  ✓ ${file} (already present)`); return true; }
   try {
-    const res = await fetch(`${CC0_BASE}/${file}`, { headers: { "user-agent": "cyber_synth/0.1" } });
+    const res = await fetch(`${CC0_BASE}/${file}`, { headers: { "user-agent": "music_loom/0.1" } });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const bytes = Buffer.from(await res.arrayBuffer());
     await writeFile(dest, bytes);
@@ -138,7 +138,7 @@ async function main() {
   await writeFile(join(OUT, "synth_machine_loop.wav"), Buffer.from(encodeWav([machineLoop()], SR)));
   console.log("  ✓ synth_techno_loop.wav, synth_machine_loop.wav");
 
-  const license = `Sample sources — cyber_synth / industrial engine
+  const license = `Sample sources — machine loops
 ======================================================
 
 LOCAL (rendered by fetch_samples.mjs):

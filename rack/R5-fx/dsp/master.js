@@ -19,6 +19,9 @@
 // working hard, the mix upstream is wrong — `report()` says so out loud rather
 // than quietly squashing it.
 
+// AMPLITUDE dB — 20·log10. Peaks, RMS and true peak all arrive as amplitude.
+// core/metrics.js defines a `dB` that is 10·log10 because it takes power. Both
+// are correct; sharing one helper between them would break whichever side lost.
 const dB = (x) => 20 * Math.log10(Math.max(1e-12, x));
 const fromDb = (d) => Math.pow(10, d / 20);
 

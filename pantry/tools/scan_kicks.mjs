@@ -1,4 +1,4 @@
-// dub_synth/scan_kicks.mjs — index kick one-shots for the kick selector.
+// Index kick one-shots for the kick selector.
 //
 //   node scan_kicks.mjs [--root=/path/to/samples] [--top=12]
 //

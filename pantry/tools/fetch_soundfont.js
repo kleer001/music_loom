@@ -1,19 +1,19 @@
 // Offline dev tool — fetch jazz instruments from public soundfonts
 // (gleitz/midi-js-soundfonts) and vendor each as a trimmed JSON of per-note base64
 // MP3, for web/sampler.js to load. Zero-dep Node (uses the global fetch, Node 18+).
-// NOT part of the game runtime or determinism path; run by hand. The engine never
-// fetches from the network — it reads the vendored files under web/samples/.
+// An offline tool, run by hand and never at runtime: an instrument reads the
+// vendored files, it does not fetch them.
 //
-//   node scripts/fetch_soundfont.js                 # fetch the built-in jazz preset
-//   node scripts/fetch_soundfont.js <inst> [<inst>…] [--lo=<note|midi>] [--hi=<note|midi>]
-//   node scripts/fetch_soundfont.js --soundfont=MusyngKite <inst> …   # alt library
-//   node scripts/fetch_soundfont.js --drums         # fetch the FluidR3 acoustic drum kit
-//   node scripts/fetch_soundfont.js --list          # print the preset and exit
+//   node pantry/tools/fetch_soundfont.js                 # fetch the built-in jazz preset
+//   node pantry/tools/fetch_soundfont.js <inst> [<inst>…] [--lo=<note|midi>] [--hi=<note|midi>]
+//   node pantry/tools/fetch_soundfont.js --soundfont=MusyngKite <inst> …   # alt library
+//   node pantry/tools/fetch_soundfont.js --drums         # fetch the FluidR3 acoustic drum kit
+//   node pantry/tools/fetch_soundfont.js --list          # print the preset and exit
 //
 // Per-host courtesy: a 6-second delay between requests to a host.
 // FluidR3_GM is MIT (Frank Wen); MusyngKite is CC-BY-SA 3.0. The drum kit comes
 // from Surikov's webaudiofont (per-note MP3 of the same FluidR3_GM standard kit,
-// MIT). See web/samples/LICENSE.txt.
+// MIT). A LICENSE.txt travels with the fetched set.
 
 import { mkdirSync, writeFileSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -44,7 +44,7 @@ const PRESET = [
 
 // The FluidR3 acoustic drum kit (GM percussion), vendored as one "kit" sample
 // file: each role lists the GM note numbers the engine round-robins through for
-// same-kind variety (see DRUM_KITS in web/audio.js). Stored by note NAME so
+// same-kind variety, from a kit table. Stored by note NAME so
 // web/sampler.js parses them like any pitched table.
 const DRUM_KIT = {
   id: "fluid_kit",

@@ -1,6 +1,6 @@
 // Source: cyber_synth/cyber/phase-vocoder-worklet.js
 // AudioWorklet pitch shifter — the high-fidelity path (no granular warble; pitch
-// decoupled from time). This MIRRORS cyber/phase-vocoder-core.js verbatim: AudioWorklet
+// decoupled from time). The processing core is duplicated verbatim: AudioWorklet
 // global scope can't ES-import, so the algorithm (Bernsee's public-domain smbPitchShift)
 // is inlined here. Keep the two in sync; the core module is the one that's unit-tested.
 //

@@ -1,7 +1,7 @@
 // Source: cyber_synth/cyber/fx.js
 // effect builders + the sidechain. Each builder returns a graph
 // fragment { input, output, set(params), ... } the engine wires into its FX chain.
-// Pure Web Audio, no libraries. Mirrors web/audio.js idioms: exponential ramps with
+// Pure Web Audio, no libraries. Exponential ramps with
 // a 0.0001 floor, convolver reverb on a send, parallel saturation bus, _ramp-style
 // setTargetAtTime automation.
 //
@@ -217,7 +217,7 @@ export function makePitchShifter(ctx, { semitones = 12, window = 0.1 } = {}) {
   };
 }
 
-// The phase-vocoder AudioWorklet (cyber/phase-vocoder-worklet.js) — higher fidelity than
+// The phase-vocoder AudioWorklet (./phase-vocoder-worklet.js) — higher fidelity than
 // the granular shifter. Loaded once per context; pitchWorkletReady() reports success so
 // makeBestPitchShifter can pick the worklet synchronously afterwards.
 // Build a once-per-context AudioWorklet module loader as a { load(ctx), ready() } pair,
@@ -270,7 +270,7 @@ export function makeBestPitchShifter(ctx, { semitones = 12 } = {}) {
 
 // ---- Ladder filter (analog 4-pole) -------------------------------------------
 
-// The moog-ladder AudioWorklet (cyber/ladder-worklet.js) — a nonlinear 24 dB/oct
+// The moog-ladder AudioWorklet (./ladder-worklet.js) — a nonlinear 24 dB/oct
 // resonant lowpass, the analog character a 2-pole BiquadFilter can't give. Loaded once
 // per context; makeFilter() returns it, or a BiquadFilter handle as the fallback.
 const _ladderLoader = makeWorkletLoader("./ladder-worklet.js", "[fx] ladder worklet unavailable; using a 2-pole biquad:");

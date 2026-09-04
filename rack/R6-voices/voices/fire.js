@@ -4,19 +4,20 @@
 // Every voice is a self-contained scheduler: `(ctx, t, dest, params, extras) => void`.
 // It creates its own Web Audio nodes at time `t`, connects them to the passed `dest`
 // GainNode, and starts/stops them — fire-and-forget, with no shared mutable graph beyond
-// `dest`. This mirrors web/audio.js's _kick/_snare/_hit idioms (a sine + downward
+// `dest`. The construction is the classic one (a sine + downward
 // pitch-env + amp-env kick, noise-through-biquad percussion), generalized to the
 // 808/909/303/supersaw electronic lineage.
 //
 // Determinism: generation/sequencing is seeded upstream (engine passes the chosen
 // params). These functions use Math.random just for real-time humanization (a noise
-// buffer's contents, a hair of detune) — outside the seeded path, like web/audio.js
+// buffer's contents, a hair of detune) — outside the seeded path
 // does. They don't read game state.
 //
-// Envelopes (web/audio.js _envGain): exponential ramps avoid exact 0 — we floor at
+// Envelopes: exponential ramps avoid exact 0 — we floor at
 // 0.0001 and only setValueAtTime(0.0001) to silence.
 
 import { getWavetable } from "./wavetables.js";
+import { MOD_TARGETS as MOD_TARGET_LIST } from "./patches.js";
 
 const FLOOR = 0.0001;
 
@@ -99,7 +100,7 @@ export const SUPERSAW_PROFILES = {
 // start at identical phase). Humanization only — outside the seeded path.
 const drift = (cents = 3) => (Math.random() * 2 - 1) * cents;
 
-// Shared ADSR gain node (mirrors web/audio.js _envGain). Returns a GainNode the
+// Shared ADSR gain node. Returns a GainNode the
 // caller routes a source into; the caller is responsible for stopping its source
 // after t + attack + hold + decay + release.
 export function adsr(ctx, t, { peak = 0.3, attack = 0.008, hold = 0.0, decay = 0.2, release = 0.0, sustain = 0.0 } = {}) {
@@ -1387,10 +1388,11 @@ export function fluteAdd(ctx, t, dest, p = {}, extras = {}) {
 const WAVE = { saw: "sawtooth", square: "square", pulse: "square", tri: "triangle", triangle: "triangle", sine: "sine" };
 
 // The per-note (patch-scope) modulation destinations engineVoice's LFOs can address — the
-// note-scoped sibling of the genre matrix's bus-scoped registry (cyber/engine.js _modRegistry).
+// note-scoped sibling of a genre matrix's bus-scoped registry.
 // A route to a name not in this set is skipped, not fatal (voices/patch_schema.md rule 2),
 // so an old patch authored against a newer/other engine still plays.
-export const MOD_TARGETS = new Set(["cutoff", "resonance", "pitch", "amp", "pan", "fmIndex", "wtPos"]);
+// The same destinations patches.js lists, as a Set for membership tests.
+export const MOD_TARGETS = new Set(MOD_TARGET_LIST);
 const MAX_LFOS = 4; // per-note LFO cap — a runaway patch can't spawn unbounded oscillators
 
 // A 1024-sample drive curve: tanh (smooth), clip (hard), diode (asymmetric/warm).
@@ -1414,7 +1416,7 @@ function wavetableFrames(table = "basic", warp = 0, N = 16, H = 32) {
   const key = `${table}|${warp}|${N}|${H}`;
   const hit = WT_FRAMES.get(key);
   if (hit) return hit;
-  // Imported CC0 tables (cyber/wavetables.js, registered from data/wavetables/*.json) win
+  // Imported CC0 tables (registered through wavetables.js from a derived bank) win
   // over the procedural generators (voices/wavetable_scanning.md Phase 2). They carry
   // their own frame count + harmonic resolution; we apply the same `warp` spectral tilt the
   // procedural path does (harmonic n × n^-warp) without mutating the registered originals.
