@@ -101,10 +101,9 @@ that fell back to native nodes under Node runs as itself here. That alone can
 move the numbers, and it is the intended reading: the page shows what the
 instrument actually sounds like.
 
-Underneath that, the two runtimes build their band-limited waveform tables
-differently, so they keep different numbers of harmonics. A bare oscillator with
-nothing else in the graph is enough to show it — 8 s at 440 Hz, 48 kHz, no
-processing:
+Underneath that, the two runtimes give an oscillator measurably different
+harmonics. A bare oscillator with nothing else in the graph is enough to show it
+— 8 s at 440 Hz, 48 kHz, no processing:
 
 ```
               node-web-audio-api 2.2.0     Chrome 151
@@ -118,6 +117,24 @@ the FFT, the metrics and the render path all read a known signal back correctly
 in both places. What diverges is the harmonic content the oscillator was given
 in the first place — up to 15% on the triangle's centroid, and 1.4 dB of level
 on the sawtooth, with no dynamics processing anywhere.
+
+It is not that one runtime keeps more harmonics than the other. Counted at
+bin-aligned frequencies, the two land close, and which one reaches higher
+changes with pitch: for a sawtooth at 750 Hz the last harmonic above 1% of the
+fundamental is the 27th under Node and the 25th in Chrome, and at 187.5 Hz it is
+the 72nd under Node and the 99th in Chrome. What separates them is accuracy
+rather than reach. Chrome tracks the ideal 1/n spectrum until it is nearly at
+its band limit — first departing by more than 10% at the 26th harmonic of 32,
+and at the 102nd of 128. Node-web-audio-api departs a third to a half of the way
+up: the 12th of 32, and the 45th of 128.
+
+Two things make a small energy difference read as a large one here. `spectrum()`
+weights each bin by magnitude rather than power, which gives the weak upper
+harmonics far more influence on the centroid than their energy alone would; and
+the upper harmonics are exactly where the runtimes disagree. So a centroid gap
+of a few hundred Hz can sit on top of an audible difference much smaller than it
+looks. The level figures carry no such amplification — the sawtooth's 1.4 dB is
+a real energy difference.
 
 So a brightness or loudness figure quoted from an offline render is a figure
 about `node-web-audio-api`. A delta between two offline renders is a figure
