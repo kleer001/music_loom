@@ -13,8 +13,6 @@ written for someone building the thing it describes.
 Words no dictionary holds, or ordinary words this project uses as terms. Listed
 so the detector raises them; each still needs a decision.
 
-- graft
-- rung
 - riddim
 - colotomic
 - gamaka
@@ -30,6 +28,8 @@ so the detector raises them; each still needs a decision.
   history and a note of the studio version it grew up in
 - rack: the equipment the studio keeps until an instrument wants it, copied in
   rather than depended on
+- FFT: keep, and say at first use what it is for — "an FFT for reading a sound
+  as the frequencies inside it". A plain substitute would name a different thing
 
 ## Decided - replace
 
@@ -44,6 +44,14 @@ Slogans and terms of art that were standing where a plain fact belonged.
 - devDependency: development dependency, spelled out on first use
 - apparatus: equipment
 - grafting: copying it in
+- graft: say what happens instead — copied into your project rather than
+  installed as a dependency
+- rung: unit. The ladder is internal, and the order it implies is explicitly not
+  a sequence of gates
+- FM: spell out frequency-modulation. The acronym is only obvious to someone who
+  already knows the synthesis
+- psychoacoustics: describe the question instead — a reason for where one
+  frequency band should end and the next begin
 
 ## Decided - fine as-is
 
@@ -64,6 +72,17 @@ would cost a paragraph and buy nothing.
 - wavetable
 - raga
 
+Instrument names, unglossed inside the list of percussion they belong to. The
+company they keep says they are instruments, which is all the sentence needs
+them to say:
+
+- cabasa
+- guiro
+
+Transparent compounds for a reader curious about making sound:
+
+- microtiming
+
 Known to the audience by assumption:
 
 - repo
@@ -82,3 +101,4 @@ Not acronyms — filenames the detector cannot tell apart from initialisms:
 
 - CLAUDE
 - RIGHTS
+- INDEX
