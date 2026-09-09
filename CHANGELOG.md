@@ -34,6 +34,26 @@ prologue.
 
 ---
 
+## [0.3.0] — 2026-09-09
+
+### TIGHTEN — R3 ships a browser-confirm page
+**Rung:** R3
+**Trigger:** the instrument has R3 grafted and quotes an absolute loudness or brightness figure anywhere — a spec sheet, a release note, a README.
+**Read:** `rack/R3-measure/confirm.html` and the "Confirming in a browser" section of `rack/R3-measure/README.md`
+**Compare to:** the instrument's own `render.mjs` and whatever it quotes offline numbers in
+**Action:** copy `confirm.html` next to `index.html`, open it on the same seed as `npm run render`, and check any absolute figure against it. The two runtimes build their band-limited waveform tables to different harmonic counts, so a bare oscillator can differ by 1.4 dB of level and 15% of spectral centroid with no processing in the graph at all. A delta between two offline renders is still a figure about the change; a single absolute number is a figure about `node-web-audio-api`.
+**Skip if:** the instrument only ever quotes A/B deltas, or has no absolute figure written down.
+
+### CLARIFY — `--headroom` prints a gain, not a trim
+**Rung:** R3
+**Trigger:** the instrument has `render.mjs` grafted.
+**Read:** `rack/R3-measure/render.mjs` — the argv.headroom branch
+**Compare to:** the same branch in the instrument's copy
+**Action:** the printed factor is `0.9 / p99.9`, which is above 1 whenever the graph is quiet — a boost, where "suggested master trim" named a cut. Take the new wording, which prints the factor with its dB value and says boost or cut. Any master trim set from the old label should be re-read.
+**Skip if:** the instrument does not use `--headroom`.
+
+---
+
 ## [0.2.0] — 2026-08-27
 
 ### TIGHTEN — two new rack units, R5-fx and R6-voices
