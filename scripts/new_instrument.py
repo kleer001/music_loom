@@ -9,7 +9,7 @@ grafts rack units. Refuses to overwrite an existing instrument.
 
 Grafts:
   core     rack/R2-core/core/  ->  core/         (+ node-web-audio-api devDep)
-  measure  rack/R3-measure/    ->  render.mjs, test/regression.test.js, src/graph.js
+  measure  rack/R3-measure/    ->  render.mjs, confirm.html, test/regression.test.js, src/graph.js
   release  rack/R4-release/    ->  RELEASE-CHECKLIST.md, PROVENANCE.md
 """
 
@@ -97,13 +97,14 @@ def graft_core(dest):
 
 def graft_measure(dest):
     shutil.copy2(STUDIO / "rack" / "R3-measure" / "render.mjs", dest / "render.mjs")
+    shutil.copy2(STUDIO / "rack" / "R3-measure" / "confirm.html", dest / "confirm.html")
     shutil.copy2(STUDIO / "rack" / "R3-measure" / "regression.test.js", dest / "test" / "regression.test.js")
     (dest / "src" / "graph.js").write_text(GRAFT_SEED)
     pkg_path = dest / "package.json"
     pkg = json.loads(pkg_path.read_text())
     pkg["scripts"]["render"] = "node render.mjs"
     pkg_path.write_text(json.dumps(pkg, indent=2) + "\n")
-    return ["render.mjs", "test/regression.test.js", "src/graph.js (seed figure — replace it)"]
+    return ["render.mjs", "confirm.html", "test/regression.test.js", "src/graph.js (seed figure — replace it)"]
 
 
 def graft_release(dest):

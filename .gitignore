@@ -12,5 +12,7 @@ tmp/
 !pantry/acoustic/strokes/*.wav
 !pantry/machine/*.wav
 *.webm
+# Snapshots and console logs a browser driver leaves behind confirming a render.
+.playwright-mcp/
 .DS_Store
 BREADCRUMB.md

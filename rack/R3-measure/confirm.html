@@ -1,0 +1,77 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>browser confirm</title>
+<link rel="stylesheet" href="styles.css" />
+<h1>Browser confirm</h1>
+<p>
+  The same graph, the same measurements, rendered by this browser instead of by
+  <code>node-web-audio-api</code>. Compare against <code>npm run render</code> on the same
+  seed. Relative deltas agree between the two; an absolute level need not.
+</p>
+<p>
+  Query string: <code>?seed=1&amp;seconds=8</code>. Defaults match
+  <code>render.mjs</code>.
+</p>
+<pre id="out">rendering…</pre>
+
+<script type="module">
+  // Mirrors render.mjs exactly — same builder, same metrics, same line format —
+  // so a difference in the output is a difference between the two runtimes and
+  // nothing else. An OfflineAudioContext here has a real `audioWorklet`, which
+  // is the point: a worklet that fell back to native nodes under Node runs as
+  // itself in this page.
+  import { build, SAMPLE_RATE as SR } from "./src/graph.js";
+  import { stats, spectrum } from "./core/metrics.js";
+
+  const SAMPLE_RATE = SR ?? 48000;
+  const q = new URLSearchParams(location.search);
+  const seed = Number(q.get("seed") ?? 1);
+  const seconds = Number(q.get("seconds") ?? 8);
+
+  const dB = (x) => (20 * Math.log10(Math.max(1e-12, x))).toFixed(2);
+
+  async function render() {
+    const frames = Math.ceil(seconds * SAMPLE_RATE);
+    const ctx = new OfflineAudioContext(2, frames, SAMPLE_RATE);
+    await build(ctx, { seed, seconds });
+    const buf = await ctx.startRendering();
+    return {
+      L: buf.getChannelData(0),
+      R: buf.numberOfChannels > 1 ? buf.getChannelData(1) : buf.getChannelData(0),
+    };
+  }
+
+  // p99.9 — the sustained loud level, as render.mjs --headroom reads it.
+  function percentile(r, p = 0.999) {
+    const a = Float32Array.from(r.L, Math.abs).sort();
+    return a[Math.min(a.length - 1, Math.floor(a.length * p))];
+  }
+
+  const r = await render();
+  const s = stats(r);
+  const f = spectrum(r, SAMPLE_RATE);
+  const total = f.lo + f.md + f.hi || 1;
+  const pct = (x) => ((100 * x) / total).toFixed(0).padStart(3);
+  const p999 = percentile(r);
+  const gain = 0.9 / Math.max(1e-6, p999);
+  const gainDb = 20 * Math.log10(gain);
+
+  const lines = [
+    `${`seed ${seed}`.padEnd(14)} peak ${dB(s.peak).padStart(7)} dBFS   ` +
+      `rms ${s.rmsDb.toFixed(2).padStart(7)} dB   ` +
+      `dc ${s.dc.toExponential(1).padStart(9)}   ` +
+      `width ${s.widthDb.toFixed(1).padStart(6)} dB`,
+    `${"".padEnd(14)} centroid ${f.centroid.toFixed(0).padStart(5)} Hz   ` +
+      `bands lo ${pct(f.lo)}%  mid ${pct(f.md)}%  hi ${pct(f.hi)}%`,
+    ``,
+    `  p99.9 ${dB(p999)} dBFS  ->  master gain ${gain.toFixed(3)}x ` +
+      `(${gainDb >= 0 ? "+" : ""}${gainDb.toFixed(2)} dB ${gainDb >= 0 ? "boost" : "cut"})`,
+  ];
+
+  document.getElementById("out").textContent = lines.join("\n");
+
+  // Read by whatever drives the page. `done` is the flag to wait on — the render
+  // is asynchronous and the element is populated before it is set.
+  window.__measure = { seed, seconds, ...s, ...f, p999, gain, gainDb, text: lines.join("\n") };
+  window.__measureDone = true;
+</script>

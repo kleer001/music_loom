@@ -8,6 +8,7 @@ Graft this when the instrument makes sound and a change needs checking against w
 
 ```sh
 cp <music_loom>/rack/R3-measure/render.mjs      <instrument>/render.mjs
+cp <music_loom>/rack/R3-measure/confirm.html    <instrument>/confirm.html
 cp <music_loom>/rack/R3-measure/regression.test.js <instrument>/test/
 ```
 
@@ -68,11 +69,60 @@ seed 1         peak   -1.20 dBFS   rms  -18.34 dB   dc   1.2e-6   width  -15.3 d
 
 **A prediction written down first.** A measurement that confirms a prediction teaches something; the same number read afterwards and rationalised teaches nothing, because any number can be rationalised.
 
-**Relative deltas travel; absolute levels sometimes do not.** Under `node-web-audio-api` some nodes — dynamics compression especially — do not behave identically to a browser. A/B of the same graph with a feature on and off is real either way. An absolute loudness claim holds up better after a browser has seen it.
+**Relative deltas travel; absolute levels sometimes do not.** Under `node-web-audio-api` some nodes do not behave identically to a browser — dynamics compression is the usual suspect, but a bare oscillator is enough to do it. A/B of the same graph with a feature on and off is real either way. An absolute loudness or brightness claim holds up after a browser has seen it, which is what `confirm.html` is for.
 
 **The harness can be wrong too.** When a number is surprising, a known signal — a sine at a known level — says whether it reads back right.
 
 **Bisection after one failed attempt.** Muting voices until the artifact goes away localises it. `--sweep` across seeds separates "this seed is unlucky" from "this is broken".
+
+## Confirming in a browser
+
+`confirm.html` renders the same graph through the browser's own
+`OfflineAudioContext` and prints the same line `render.mjs` prints. Serve the
+instrument and open it:
+
+```sh
+./run.sh                        # prints the port it found
+# then open  http://127.0.0.1:<port>/confirm.html?seed=1&seconds=8
+```
+
+Defaults match `render.mjs` — seed 1, 8 seconds. Compare the two outputs line by
+line on the same seed.
+
+To read it without a person at the keyboard, the page sets `window.__measure`
+with every field and `window.__measureDone` once the render resolves. Wait on the
+flag, then read the object; the `<pre>` is filled before the flag is set, so the
+flag is the one to poll.
+
+### What a difference means
+
+An `OfflineAudioContext` in a browser has a real `audioWorklet`, so a worklet
+that fell back to native nodes under Node runs as itself here. That alone can
+move the numbers, and it is the intended reading: the page shows what the
+instrument actually sounds like.
+
+Underneath that, the two runtimes build their band-limited waveform tables
+differently, so they keep different numbers of harmonics. A bare oscillator with
+nothing else in the graph is enough to show it — 8 s at 440 Hz, 48 kHz, no
+processing:
+
+```
+              node-web-audio-api 2.2.0     Chrome 151
+sine          rms  -9.03  centroid  440    rms  -9.03  centroid  440
+triangle      rms -10.79  centroid 1039    rms -10.79  centroid  907
+sawtooth      rms -10.90  centroid 4748    rms -12.28  centroid 4355
+```
+
+The sine agrees to the digit in both level and centroid, which is the control:
+the FFT, the metrics and the render path all read a known signal back correctly
+in both places. What diverges is the harmonic content the oscillator was given
+in the first place — up to 15% on the triangle's centroid, and 1.4 dB of level
+on the sawtooth, with no dynamics processing anywhere.
+
+So a brightness or loudness figure quoted from an offline render is a figure
+about `node-web-audio-api`. A delta between two offline renders is a figure
+about the change. Quote the second freely; confirm the first here before it goes
+in a spec sheet or a release note.
 
 ## The regression tests
 
