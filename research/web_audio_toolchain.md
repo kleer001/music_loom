@@ -142,7 +142,7 @@ What this would buy: a measurement that can say whether an instrument built from
 | [@tonejs/midi](https://github.com/Tonejs/Midi) | — | MIT | `midi-file` | A friendlier object model over the same parser |
 | [midi-parser-js](https://github.com/colxi/midi-parser-js) | 4.0.4 | **GPL** | none | Frequently described as the light dependency-free option; the licence is the thing to check, not the dependency count |
 
-The studio already has a partial parser. `pantry/tools/midi_to_motif.js` reads a Standard MIDI File to pull a melodic skeleton out of the public-domain tunes in `pantry/midi/`, and it is a one-way offline tool with no writer.
+The studio already has a partial parser. `pantry/tools/midi_to_motif.mjs` reads a Standard MIDI File to pull a melodic skeleton out of the public-domain tunes in `pantry/midi/`, and it is a one-way offline tool with no writer.
 
 **Verdict: write from spec, reusing what is here.** Promoting that parser into a `core/midi.js` with a writer alongside it costs less than a dependency and makes the ten tunes in the pantry addressable from an instrument rather than from a script. `midi-file` is the **read-only reference** for the parts the existing tool skips — running status, tempo maps, meta events.
 

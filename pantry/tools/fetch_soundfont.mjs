@@ -4,11 +4,11 @@
 // An offline tool, run by hand and never at runtime: an instrument reads the
 // vendored files, it does not fetch them.
 //
-//   node pantry/tools/fetch_soundfont.js                 # fetch the built-in jazz preset
-//   node pantry/tools/fetch_soundfont.js <inst> [<inst>…] [--lo=<note|midi>] [--hi=<note|midi>]
-//   node pantry/tools/fetch_soundfont.js --soundfont=MusyngKite <inst> …   # alt library
-//   node pantry/tools/fetch_soundfont.js --drums         # fetch the FluidR3 acoustic drum kit
-//   node pantry/tools/fetch_soundfont.js --list          # print the preset and exit
+//   node pantry/tools/fetch_soundfont.mjs                 # fetch the built-in jazz preset
+//   node pantry/tools/fetch_soundfont.mjs <inst> [<inst>…] [--lo=<note|midi>] [--hi=<note|midi>]
+//   node pantry/tools/fetch_soundfont.mjs --soundfont=MusyngKite <inst> …   # alt library
+//   node pantry/tools/fetch_soundfont.mjs --drums         # fetch the FluidR3 acoustic drum kit
+//   node pantry/tools/fetch_soundfont.mjs --list          # print the preset and exit
 //
 // Per-host courtesy: a 6-second delay between requests to a host.
 // FluidR3_GM is MIT (Frank Wen); MusyngKite is CC-BY-SA 3.0. The drum kit comes

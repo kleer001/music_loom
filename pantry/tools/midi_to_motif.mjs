@@ -1,12 +1,18 @@
 // Offline dev tool — turn a Standard MIDI File into a digest-ready melodic
-// motif (the "hook") a song table can use. Zero-dep Node; NOT part of the
-// game runtime or the determinism path. Run by hand and paste the suggested
+// motif (the "hook") a song table can use. Zero-dep Node; NOT part of an
+// instrument's runtime or the determinism path. Run by hand and paste the suggested
 // `motif:` block into a song digest.
 //
-//   node pantry/tools/midi_to_motif.js <file.mid> [--tonic=<pitch-class 0-11|note>] [--mode=ionian] [--notes=8] [--track=N]
+//   node pantry/tools/midi_to_motif.mjs <file.mid> [--tonic=<pitch-class 0-11|note>] [--mode=ionian] [--notes=8] [--track=N]
 //
 // MIDI gives notes, not chords — so this extracts only the melody skeleton.
 // Chord progression / form still come from the lead-sheet catalog by hand.
+//
+// Needs Node 20.19+ or 22.7+. It reads the mode intervals out of the rack
+// rather than restating them, and `core/scales.js` is a bare `.js` with no
+// package.json above it — the rack modules keep that extension because
+// instruments and browser pages import them under it. Older Node refuses to
+// load such a file as a module.
 
 import { readFileSync } from "node:fs";
 import { MODES as SCALE_MODES } from "../../rack/R2-core/core/scales.js";
@@ -81,7 +87,7 @@ function readTrack(buf, start, end) {
 // --- motif extraction ---------------------------------------------------
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!args.file) { console.error("usage: node pantry/tools/midi_to_motif.js <file.mid> [--tonic=] [--mode=] [--notes=] [--track=]"); process.exit(1); }
+  if (!args.file) { console.error("usage: node pantry/tools/midi_to_motif.mjs <file.mid> [--tonic=] [--mode=] [--notes=] [--track=]"); process.exit(1); }
   const { division, tracks } = readChunks(readFileSync(args.file));
   const tpq = division & 0x8000 ? 24 : division; // ignore SMPTE; assume PPQ
 
