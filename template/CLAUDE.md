@@ -21,7 +21,14 @@ npm test          # node --test test/ — pure logic, no AudioContext
 
 Consequences rather than rules. An instrument that wants the trade can take it, and a note here saying so keeps the next reader from treating it as a slip.
 
-- **Browser-only nodes in a required path.** An `OfflineAudioContext` has no `audioWorklet`, so a graph that needs one cannot render headlessly and the measurement harness goes with it. A worklet that degrades to native nodes keeps both.
+- **Worklets do render offline.** `node-web-audio-api` 2.x supports
+  `audioWorklet` on an `OfflineAudioContext`. Its `addModule` wants a filesystem
+  path rather than a `URL`, and its loader needs `Promise.withResolvers` — Node 22,
+  or a small polyfill. `dsp/comp.js` shows both shims if you graft R5.
+- **Anything that must agree between a render and a browser belongs in a worklet.**
+  A `BiquadFilterNode` diverges from Chrome as its corner drops, completely by
+  about 1 Hz, and a `DelayNode` in a feedback loop has different implicit latency
+  in each. JS you wrote runs the same in both.
 - **Unseeded sources.** Seeded RNG with an independent stream per layer gives the same output from the same seed, and lets one layer be edited without reshuffling the others. Real-time humanisation often sits outside that deliberately; saying so where it happens saves a hunt later.
 - **Absolute pitch in a sequencer.** Scale degrees retune when key or mode changes. MIDI numbers do not, and converting afterwards is a rewrite.
 - **Per-hit scheduling of a repeating part.** Nothing frees a source that has finished, so CPU per audio second climbs with length — measured at ~36x by five minutes, against flat for a persistent graph with retriggered envelopes or a bar-length buffer looped by one node. A part that genuinely varies per hit is a different case.

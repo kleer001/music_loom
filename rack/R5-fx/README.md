@@ -20,7 +20,8 @@ The effect builders and the worklets appear byte-identical in more than one inst
 | `reverb.js` | `makeReverb` — convolver with switchable modes |
 | `filter.js` | `makeFilter` — ladder worklet, or a BiquadFilter fallback |
 | `eq.js` | `makeEq` `makeChannelEq` |
-| `multiband.js` | `makeMultiband` — three-band glue |
+| `multiband.js` | `makeMultiband` — three-band glue, on `DynamicsCompressorNode` |
+| `comp.js` | `loadComp` `makeComp` — single-band compressor. The DSP is in `comp-worklet.js`, so a render and a browser produce the same samples |
 | `pitch.js` | `makePitchShifter` `makeBestPitchShifter` |
 | `sidechain.js` | `makeSidechain` `makePump` |
 | `chorus.js` `flanger.js` `phaser.js` | `makeChorus` `makeFlanger` `makePhaser` |
@@ -33,7 +34,7 @@ The effect builders and the worklets appear byte-identical in more than one inst
 | `lfo.js` | `attachLfo` `metaModulate` `rollLfos` `divToHz` — tempo-synced modulation |
 | `knob.js` | `ride` `randomWalk` `sineLfo` — performance gestures on an `AudioParam` |
 | `master.js` | Offline mastering on Float32 channels: `truePeak` `measure` `glue` `limit` `normalize` `masterChain` |
-| `*-worklet.js` | Ladder filter, bitcrush, phase vocoder |
+| `*-worklet.js` | Ladder filter, bitcrush, phase vocoder, compressor |
 
 ## Two contracts, and where they differ
 
@@ -62,7 +63,7 @@ Passing the object throws inside `impulse`. The voices on R6 take the object ins
 
 ## Worklets
 
-`loadLadderWorklet`, `loadPitchWorklet` and the bitcrush loader resolve their module with `new URL(file, import.meta.url)`, so the worklets travel correctly as long as they stay in the same directory as the modules that load them. Each has a native fallback: `makeFilter` drops to a `BiquadFilter`, `makeBestPitchShifter` to the `makePitchShifter` overlap-add. An `OfflineAudioContext` has no `audioWorklet`, so a render takes the fallback path and a browser takes the worklet — the same graph sounds slightly different in each, which shows up as a delta when comparing a render against what you heard.
+`loadLadderWorklet`, `loadPitchWorklet` and the bitcrush loader resolve their module with `new URL(file, import.meta.url)`, so the worklets travel correctly as long as they stay in the same directory as the modules that load them. Each has a native fallback: `makeFilter` drops to a `BiquadFilter`, `makeBestPitchShifter` to the `makePitchShifter` overlap-add. These fallbacks date from a time when an `OfflineAudioContext` could not run a worklet at all. `node-web-audio-api` 2.x can, so a render need not take the fallback path — but these three still declare one, and a graph that leans on them renders as the fallback unless it loads the worklet first. `comp.js` takes the other approach and refuses to run without its worklet, on the grounds that a compressor silently doing nothing is worse than one that is absent.
 
 `phase-vocoder-core.js` in cyber_synth is a test-side mirror of the worklet, not a runtime dependency. It is not copied here.
 

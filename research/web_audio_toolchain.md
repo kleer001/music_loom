@@ -150,7 +150,7 @@ The studio already has a partial parser. `pantry/tools/midi_to_motif.mjs` reads 
 
 Chromium desktop and mobile, Samsung Internet and Firefox 108+ ship it; Safari on macOS and iOS do not, and neither does Firefox for Android. Global support sits near 78 per cent, and WebKit has declined to ship it over fingerprinting for years with no published roadmap. Support table: <https://caniuse.com/midi>.
 
-The offline consequence matters more here than the browser one. `OfflineAudioContext` has no MIDI access, exactly as it has no `audioWorklet` — so a graph that requires live MIDI cannot render headlessly, and the measurement harness goes with it. The pattern that already works for worklets works here: an optional input path, with the same graph reachable from a stored sequence.
+The offline consequence matters more here than the browser one. `OfflineAudioContext` has no MIDI access — so a graph that requires live MIDI cannot render headlessly, and the measurement harness goes with it. The answer is an optional input path, with the same graph reachable from a stored sequence. Note that the worklet half of this analogy no longer holds: `node-web-audio-api` 2.x does run an `AudioWorklet` under an `OfflineAudioContext`. Live MIDI is the one that stays browser-only.
 
 ## 9. Samplers and instrument formats
 

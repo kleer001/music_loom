@@ -22,8 +22,10 @@ cpSync(join(RACK, "R2-core/core"), join(G, "core"), { recursive: true });
 cpSync(join(RACK, "R5-fx/dsp"), join(G, "dsp"), { recursive: true });
 cpSync(join(RACK, "R6-voices/voices"), join(G, "voices"), { recursive: true });
 
-const { OfflineAudioContext, AudioBuffer } = await import("node-web-audio-api");
+const { OfflineAudioContext, AudioBuffer, AudioWorkletNode } = await import("node-web-audio-api");
 globalThis.AudioBuffer = AudioBuffer;
+// The effects construct AudioWorkletNode as a global, the way a page would.
+globalThis.AudioWorkletNode = AudioWorkletNode;
 const g = (p) => import(join(G, p));
 
 let failed = 0;
@@ -46,6 +48,7 @@ const expected = [
   ["dsp/pitch.js", ["makePitchShifter", "makeBestPitchShifter"]],
   ["dsp/eq.js", ["makeEq", "makeChannelEq"]],
   ["dsp/multiband.js", ["makeMultiband"]],
+  ["dsp/comp.js", ["makeComp", "loadComp"]],
   ["dsp/sidechain.js", ["makeSidechain", "makePump"]],
   ["dsp/phaser.js", ["makePhaser"]],
   ["dsp/flanger.js", ["makeFlanger"]],
@@ -86,6 +89,7 @@ const { makePlate } = await g("dsp/space.js");
 const { makeDubMixer } = await g("dsp/mixer.js");
 const { makeMasterBus } = await g("dsp/masterbus.js");
 const { makeChorus } = await g("dsp/chorus.js");
+const { makeComp, loadComp } = await g("dsp/comp.js");
 const { masterChain } = await g("dsp/master.js");
 
 const SR = 48000, SECS = 4, BEAT = 0.48;
@@ -136,7 +140,7 @@ console.log("\n# determinism (same graph rendered twice, bytes compared)");
 async function twice(build) {
   const run = async () => {
     const c = new OfflineAudioContext(2, SR * 2, SR);
-    build(c, makeRng(1));
+    await build(c, makeRng(1));   // comp loads a worklet, so a case may be async
     return Buffer.from((await c.startRendering()).getChannelData(0).buffer.slice(0));
   };
   return (await run()).equals(await run());
@@ -159,6 +163,14 @@ const cases = [
     const ch = makeChorus(c);
     const o = c.createOscillator(); const gn = c.createGain(); gn.gain.value = 0.2;
     o.connect(gn).connect(ch.input); ch.output.connect(c.destination); o.start(0); o.stop(1.5);
+  }],
+  // Also proves an AudioWorklet renders under an OfflineAudioContext at all,
+  // which node-web-audio-api gained in 2.x.
+  ["dsp/comp.js makeComp (worklet, offline)", true, async (c) => {
+    await loadComp(c);
+    const cp = makeComp(c, { thresholdDb: -24, ratio: 6, attackMs: 5, releaseMs: 120 });
+    const o = c.createOscillator(); const gn = c.createGain(); gn.gain.value = 0.6;
+    o.connect(gn).connect(cp.input); cp.output.connect(c.destination); o.start(0); o.stop(1.8);
   }],
 ];
 for (const [name, expectStable, build] of cases) {

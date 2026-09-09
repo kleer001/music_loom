@@ -35,7 +35,7 @@ export async function build(ctx, { seed, seconds }) { /* wire to ctx.destination
 
 The page calls `build` to play and the harness calls it to measure, so it runs against both a real `AudioContext` and an `OfflineAudioContext`. One builder means what gets measured is what gets heard.
 
-That is where the worklet question comes from: an `OfflineAudioContext` has no `audioWorklet`, so a worklet in a required path takes the harness out with it. A worklet that degrades to native nodes keeps both.
+That is where the worklet question comes from, and the answer has moved: `node-web-audio-api` 2.x does support `audioWorklet` on an `OfflineAudioContext`, so a worklet in a required path no longer takes the harness with it. Its `addModule` wants a path rather than a `URL`, and its loader wants `Promise.withResolvers` — Node 22, or a polyfill; `dsp/comp.js` carries both. The reverse now matters more: a *native* node is the thing that may not agree between a render and a browser, so anything whose job is to agree is better written as a worklet.
 
 ## Use
 

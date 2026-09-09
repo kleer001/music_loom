@@ -33,7 +33,21 @@ Something else may suit a given instrument better. This is the set that has work
 
 Each of these cost time at least once. They are consequences rather than rules — an instrument that wants the trade is free to take it.
 
-- **Browser-only nodes in a required path.** An `OfflineAudioContext` has no `audioWorklet`, so a graph that needs one cannot render headlessly, and the measurement harness goes with it. A worklet that degrades to native nodes keeps both.
+- **Assuming a worklet cannot render offline.** It can. `node-web-audio-api` 2.x
+  supports `audioWorklet` on an `OfflineAudioContext`, verified by rendering one
+  and comparing the samples against Chrome. Two things differ from a browser:
+  `addModule` wants a filesystem path rather than a `URL`, and the loader reaches
+  for `Promise.withResolvers`, which needs Node 22 or a four-line polyfill.
+  `dsp/comp.js` carries both shims. A native fallback is still worth having for
+  older setups, but it is no longer the price of being measurable.
+- **Native nodes that do not agree between the two runtimes.** A
+  `BiquadFilterNode` matches Chrome to −128 dB at a 1 kHz corner, −69 dB at
+  10 Hz, −46 dB at 5 Hz, and not at all by 1 Hz, where the disagreement is the
+  size of the signal. A `DelayNode` inside a feedback loop carries about a
+  quantum more implicit latency in Chrome, so identical coefficients give
+  different time constants. Anything whose job is to agree — an envelope
+  follower, a detector, a control signal — belongs in a worklet, where the
+  arithmetic is yours and both runtimes run the same JS.
 - **Unseeded sources.** Seeded RNG (`core/rng.js`) with an independent stream per layer gives byte-identical renders, and lets one layer be edited without reshuffling the others. A stray `Math.random` in an impulse or a noise buffer makes every later A/B ambiguous. Real-time humanisation often sits outside the seeded path deliberately; saying so where it happens saves the next reader a hunt.
 - **Absolute pitch in a sequencer.** Sequences stored as scale degrees retune when key or mode changes. Stored as MIDI numbers they do not, and converting afterwards is a rewrite.
 - **Per-hit scheduling of a repeating part.** Measured in dub_synth at 125 BPM, in ms of CPU per audio second:
