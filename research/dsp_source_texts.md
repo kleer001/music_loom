@@ -2,11 +2,11 @@
 
 Where the numbers would come from. Each section names one text, what it settles, and whether it can be read for free — so that a constant landing in `core/` or `dsp/` has a citation with a section number behind it rather than a plausible value.
 
-`learning_resources.md` is the wider index of free material for learning the craft. This is narrower: the specific papers and books behind capabilities the rack either has without a citation, or does not have yet. Access status in section 11.
+`learning_resources.md` is the wider index of free material for learning the craft. This is narrower: the specific papers and books behind capabilities the rack either has without a citation, or does not have yet. Access status in section 12.
 
 ## 1. Why a source, and not a good value
 
-`research/README.md` puts it directly: a constant with no citation is one nobody can account for six months later. Two places in the rack are in that position today. `dsp/ladder-worklet.js` implements a ladder filter and cites nothing. `core/scheduler.js` has one linear swing parameter and cites nothing. Neither is wrong; both are unaccountable.
+`research/README.md` puts it directly: a constant with no citation is one nobody can account for six months later. Three places in the rack are in that position today. `dsp/ladder-worklet.js` implements a ladder filter and cites nothing. `core/scheduler.js` has one linear swing parameter and cites nothing. `core/dsp.js` holds the FFT every measurement in the rack is read against and cites nothing. None of them is wrong; all three are unaccountable.
 
 The sections below are ordered by what the studio would reach for first, not by importance.
 
@@ -108,7 +108,17 @@ The `setTimeout` clock is accurate to the millisecond and skews by ten or more u
 
 The same formulae Web Audio's `BiquadFilterNode` is specified against. `audio_eq_biquads.md` already names this as the provenance behind the filters in `dsp/fx.js`; it is repeated here so this page is a complete list rather than a partial one.
 
-## 11. Access status
+## 11. Spectral analysis
+
+**James W. Cooley and John W. Tukey, "An algorithm for the machine calculation of complex Fourier series", Math. Comp. 19 (1965), 297–301.** Free from the AMS at <https://www.ams.org/journals/mcom/1965-19-090/S0025-5718-1965-0178586-1/S0025-5718-1965-0178586-1.pdf>, DOI [10.1090/S0025-5718-1965-0178586-1](https://doi.org/10.1090/S0025-5718-1965-0178586-1). A plain HTTP client gets a 403 from ams.org; a browser is served the PDF normally.
+
+`core/dsp.js` implements the radix-2 decimation-in-time case — a bit-reversal permutation followed by log₂N butterfly stages — and names no source. It is the most-used uncited thing in `core/`: `core/metrics.js` runs it at 16384 points for the spectral centroid and the lo/mid/hi band split, which is what every A/B in the rack is read against.
+
+What this would settle: less than the other sections here, because the algorithm is not in doubt. The value is accountability rather than correctness — the one number-producing routine the whole measurement story rests on currently rests on nothing written down.
+
+The window is the part still open. `magnitude()` applies a Hann window before the transform, and the choice of window sets what the centroid reads for a given signal — main-lobe width traded against side-lobe level. No source is named for it, and the survey that would settle it has not been read.
+
+## 12. Access status
 
 | Source | Access |
 |---|---|
@@ -126,9 +136,10 @@ The same formulae Web Audio's `BiquadFilterNode` is specified against. `audio_eq
 | Scala format spec | Free |
 | Wilson, "A Tale of Two Clocks" | Free on web.dev |
 | RBJ EQ cookbook | Free, W3C Audio WG |
+| Cooley & Tukey 1965 | Free from the AMS. ams.org returns 403 to a plain HTTP client and serves the PDF to a browser |
 
 Several `.edu` and vendor hosts — CCRMA, Native Instruments, KVR — return HTTP 403 to automated fetchers while loading normally in a browser. A 403 from one of those is not a dead link.
 
-## 12. What is not free, and what to do about it
+## 13. What is not free, and what to do about it
 
 Giannoulis et al. 2012 is the one entry here behind a real paywall that no free equivalent replaces. The design it recommends is described in enough secondary literature to implement, but a digest written from a summary is a digest with a weaker citation, and `RESEARCH.md` is explicit that a source read is different from a source cited from memory. Either the paper gets bought, or the digest says plainly which of its claims came from the paper and which from elsewhere.

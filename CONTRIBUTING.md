@@ -13,6 +13,8 @@ mother = "https://github.com/kleer001/music_loom.git"
 
 It records the studio version the instrument descends from, and where to fetch the studio. When a convention here improves, the instrument pulls it forward as a **proposal**, never as an automatically applied patch.
 
+**Where the shape comes from.** [Copier](https://copier.readthedocs.io/) does the same job for project templates: it writes a `.copier-answers.yml` into the generated project recording the template version, and updates by regenerating from that version, diffing against the project as it stands, and re-applying. `.music_loom.toml` is that idea with one deliberate divergence — a proposal a session interprets rather than a patch a merge algorithm computes, because the payload here is mostly prose, and no merge algorithm reconciles two paragraphs that nearly agree.
+
 From the instrument's root:
 
 ```sh
