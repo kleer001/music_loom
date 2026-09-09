@@ -42,7 +42,7 @@ That is where the worklet question comes from: an `OfflineAudioContext` has no `
 npm run render                                  # 8 s, seed 1, print measurements
 npm run render -- --seconds=30 --out=tmp/a.wav  # bounce to disk
 npm run render -- --sweep=1,2,3,4,5             # every seed, compare
-npm run render -- --headroom                    # sustained level, suggested trim
+npm run render -- --headroom                    # sustained level, and the gain that fixes it
 ```
 
 Output:

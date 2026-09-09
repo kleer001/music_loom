@@ -4,7 +4,7 @@
 //
 //   node render.mjs --seconds=8 --seed=7 --out=tmp/take.wav
 //   node render.mjs --sweep                  every seed in a small set
-//   node render.mjs --headroom               pre-limiter level, suggested trim
+//   node render.mjs --headroom               pre-limiter level, and the gain that fixes it
 //
 // The graph is built by src/graph.js, which must run against a plain
 // AudioContext and an OfflineAudioContext alike. That is the whole reason the
@@ -68,7 +68,7 @@ function report(label, r) {
 }
 
 // p99.9 — the sustained loud level, ignoring the handful of transient peaks a
-// limiter would catch anyway. This is what a master trim should be set against.
+// limiter would catch anyway. This is what the master gain should be set against.
 function percentile(r, p = 0.999) {
   const a = Float32Array.from(r.L, Math.abs).sort();
   return a[Math.min(a.length - 1, Math.floor(a.length * p))];
@@ -82,13 +82,18 @@ if (argv.sweep) {
     .map(Number);
   for (const seed of seeds) report(`seed ${seed}`, await render({ seed, seconds }));
 } else if (argv.headroom) {
-  // Render long enough to reach steady state, then say what trim would put the
-  // sustained level just under a limiter's reach.
+  // Render long enough to reach steady state, then say what gain would put the
+  // sustained level just under a limiter's reach. A quiet graph needs a boost,
+  // so the figure is above 1 as often as below it — which is why it is not
+  // called a trim.
   const r = await render({ seed: num("seed", 1), seconds: Math.max(seconds, 12) });
   const p = percentile(r);
   report("headroom", r);
+  const gain = 0.9 / Math.max(1e-6, p);
+  const gainDb = 20 * Math.log10(gain);
   console.log(
-    `\n  p99.9 ${dB(p)} dBFS  ->  suggested master trim ${(0.9 / Math.max(1e-6, p)).toFixed(3)}`,
+    `\n  p99.9 ${dB(p)} dBFS  ->  master gain ${gain.toFixed(3)}x ` +
+      `(${gainDb >= 0 ? "+" : ""}${gainDb.toFixed(2)} dB ${gainDb >= 0 ? "boost" : "cut"})`,
   );
   console.log("  (aim for p99.9 near 0.9 so the limiter catches transients, not everything)");
 } else {
