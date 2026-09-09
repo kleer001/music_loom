@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 import { encodeWav } from "../../rack/R2-core/core/wav.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OUT = join(HERE, "industrial", "samples");
+const OUT = join(HERE, "..", "machine");
 
 // CC0 loops from the Sonic Pi sample library (CC0 / public domain per their README).
 const CC0_BASE = "https://raw.githubusercontent.com/sonic-pi-net/sonic-pi/dev/etc/samples";

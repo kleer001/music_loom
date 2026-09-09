@@ -1,6 +1,6 @@
 // Offline dev tool — fetch jazz instruments from public soundfonts
 // (gleitz/midi-js-soundfonts) and vendor each as a trimmed JSON of per-note base64
-// MP3, for web/sampler.js to load. Zero-dep Node (uses the global fetch, Node 18+).
+// MP3, for a sampler to load. Zero-dep Node (uses the global fetch, Node 18+).
 // An offline tool, run by hand and never at runtime: an instrument reads the
 // vendored files, it does not fetch them.
 //
@@ -20,7 +20,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT_DIR = join(ROOT, "web", "samples");
+const OUT_DIR = join(ROOT, "soundfonts");
 const HOST_DELAY_MS = 6000;
 
 // Soundfont sources on gleitz.github.io (same per-note MP3 format). The `tag`

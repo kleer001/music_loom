@@ -17,7 +17,7 @@ const set = new SampleSet(man.loops.files, 0);
 set.voiceFor(midiOf("A4"));   // -> ["G#4_loop.wav", 100]  nearest recording, cents to shift
 ```
 
-The recordings are whole-tone spaced, so anything inside their range is at most a semitone from a real one and anything outside is a whole number of octaves further.
+The recordings are whole-tone spaced from C4 up to F#5, then G5, A#5, C6 — one semitone step and one minor third where the pattern would have put G#5. Any equal-tempered note inside the range is still at most a semitone from a real recording, because the minor third's two interior notes each sit a semitone from one of its ends. Anything outside the range is a whole number of octaves further.
 
 ## Sample rates vary
 

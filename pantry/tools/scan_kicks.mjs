@@ -17,7 +17,7 @@
 // under 350 Hz" and "when does it fall below -40 dB" are unambiguous, and they
 // separate the candidates cleanly. No classifier is being guessed at.
 
-import { readFileSync, readdirSync, writeFileSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { decodeAudio } from "../../rack/R2-core/core/audio.js";
@@ -89,6 +89,7 @@ for (const path of walk(ROOT)) {
 rows.sort((p, q) => (q.lowShare - p.lowShare) || (p.ms - q.ms));
 const curated = rows.filter((r) => r.lowShare >= 0.9 && r.ms <= 320).slice(0, TOP);
 
+mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify({
   root: ROOT,
   scanned: rows.length,

@@ -5,7 +5,7 @@ Every recorded, composed or transcribed asset held here. Synthesis needs no row;
 | Asset | What it is | Source | Licence | Verified | Notes |
 |---|---|---|---|---|---|
 | `acoustic/strokes/*.wav` | 52 percussion one-shots — frame drum, rattle, cabasa, guiro, rain stick | [VCSL](https://github.com/sgossner/VCSL), via drone_flute_synth `tools/oneshot.py` | CC0 | 2026-08-27 | Trimmed, levelled and renamed from VCSL's own recordings. The authoring is ours; the recordings are VCSL's. |
-| `acoustic/loops/*.wav` | 13 pitched sustain loops, C4–C6, whole-tone spaced | [VCSL](https://github.com/sgossner/VCSL), via drone_flute_synth `tools/loopfind.py` | CC0 | 2026-08-27 | Loop points written into the RIFF `smpl` chunk by the authoring tool. |
+| `acoustic/loops/*.wav` | 13 pitched sustain loops, C4–C6, whole-tone spaced but for G5 where the pattern would put G#5 | [VCSL](https://github.com/sgossner/VCSL), via drone_flute_synth `tools/loopfind.py` | CC0 | 2026-08-27 | Loop points written into the RIFF `smpl` chunk by the authoring tool. |
 | `acoustic/manifest.json` | Generated index of both directories, with per-stroke loudness and peak | drone_flute_synth `tools/manifest.py` | CC0 | 2026-08-27 | Regenerate with `tools/py/manifest.py`. `voices/samples.js` reads this shape. |
 | `machine/loop_3d_printer.flac` | Field recording of a 3D printer | [Sonic Pi](https://github.com/sonic-pi-net/sonic-pi) `etc/samples` | CC0 | 2026-08-27 | Their `etc/samples/README.md` places the whole library in the public domain; sourced from freesound.org / donated by Uwe Zahn (Arovane). |
 | `machine/loop_industrial.flac` | Industrial machine texture loop | [Sonic Pi](https://github.com/sonic-pi-net/sonic-pi) `etc/samples` | CC0 | 2026-08-27 | Same release. |
