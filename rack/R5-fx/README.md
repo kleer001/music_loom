@@ -10,11 +10,22 @@ Everything here resolves `../core/dsp.js` and `../core/rng.js`, which is what th
 
 ## Where it came from
 
-`fx.js` and the worklets appear byte-identical in more than one instrument built here — the same duplication `core/` shows, one layer up. The modules beside them were written for a single instrument and have no counterpart in the others.
+The effect builders and the worklets appear byte-identical in more than one instrument built here — the same duplication `core/` shows, one layer up. They arrived as a single thousand-line `fx.js` and are kept here as a file per effect. The modules beside them were written for a single instrument and have no counterpart in the others.
 
 | File | Holds |
 |---|---|
-| `fx.js` | `makeSidechain` `makePump` `makeDelay` `makePitchShifter` `makeBestPitchShifter` `makeFilter` `makeEq` `makeChannelEq` `makeMultiband` `makeReverb` `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` `makeBitcrush` `makeRingmod` `makeChorus` `makeTape` `makePhaser` `makeFlanger` `makeNoiseBed` `makeModMatrix` |
+| `fx-common.js` | `ramp` `dipAndRewire` `makeWorkletLoader` — the helpers the builders share |
+| `sat.js` | `makeDrive` `makeFuzz` `makeAsymSat` `makeFold` — one waveshaper topology, four voicings |
+| `delay.js` | `makeDelay` — tempo-synced, filtered feedback, ping-pong |
+| `reverb.js` | `makeReverb` — convolver with switchable modes |
+| `filter.js` | `makeFilter` — ladder worklet, or a BiquadFilter fallback |
+| `eq.js` | `makeEq` `makeChannelEq` |
+| `multiband.js` | `makeMultiband` — three-band glue |
+| `pitch.js` | `makePitchShifter` `makeBestPitchShifter` |
+| `sidechain.js` | `makeSidechain` `makePump` |
+| `chorus.js` `flanger.js` `phaser.js` | `makeChorus` `makeFlanger` `makePhaser` |
+| `bitcrush.js` `ringmod.js` `tape.js` | `makeBitcrush` `makeRingmod` `makeTape` |
+| `noise.js` `modmatrix.js` | `makeNoiseBed` `makeModMatrix` |
 | `echo.js` | `makeDubEcho` — feedback into a filter, the dub delay. `makeFilterDelay` — one delay per band |
 | `space.js` | `makeSpring` `makePlate` `makeShimmer` — generated impulses, normalised to unit energy |
 | `mixer.js` | `makeDubMixer` — named channels, named buses, post-fader pre-mute sends |
@@ -26,7 +37,7 @@ Everything here resolves `../core/dsp.js` and `../core/rng.js`, which is what th
 
 ## Two contracts, and where they differ
 
-**Graph blocks** — `fx.js`, `echo.js`, `space.js`, `mixer.js`, `masterbus.js` — return objects with `input` and `output` nodes. They chain, and `makeDubMixer`'s `insert(busName, fx)` takes any of them.
+**Graph blocks** — every effect file, plus `echo.js`, `space.js`, `mixer.js`, `masterbus.js` — return objects with `input` and `output` nodes. They chain, and `makeDubMixer`'s `insert(busName, fx)` takes any of them.
 
 **`master.js` is not a graph block.** It takes an array of `Float32Array` channels, **mutates them in place**, and returns a report rather than audio:
 
@@ -51,7 +62,7 @@ Passing the object throws inside `impulse`. The voices on R6 take the object ins
 
 ## Worklets
 
-`loadLadderWorklet`, `loadPitchWorklet` and the bitcrush loader resolve their module with `new URL(file, import.meta.url)`, so the worklets travel correctly as long as they stay beside `fx.js`. Each has a native fallback: `makeFilter` drops to a `BiquadFilter`, `makeBestPitchShifter` to the `makePitchShifter` overlap-add. An `OfflineAudioContext` has no `audioWorklet`, so a render takes the fallback path and a browser takes the worklet — the same graph sounds slightly different in each, which shows up as a delta when comparing a render against what you heard.
+`loadLadderWorklet`, `loadPitchWorklet` and the bitcrush loader resolve their module with `new URL(file, import.meta.url)`, so the worklets travel correctly as long as they stay in the same directory as the modules that load them. Each has a native fallback: `makeFilter` drops to a `BiquadFilter`, `makeBestPitchShifter` to the `makePitchShifter` overlap-add. An `OfflineAudioContext` has no `audioWorklet`, so a render takes the fallback path and a browser takes the worklet — the same graph sounds slightly different in each, which shows up as a delta when comparing a render against what you heard.
 
 `phase-vocoder-core.js` in cyber_synth is a test-side mirror of the worklet, not a runtime dependency. It is not copied here.
 

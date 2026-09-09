@@ -35,7 +35,23 @@ const expected = [
   ["core/audio.js", ["decodeAudio", "resample", "toAudioBuffer"]],
   ["core/scales.js", ["MODES", "midiOf", "nameOf", "pitches", "dronePitches"]],
   ["core/math.js", ["round", "mod", "clamp01"]],
-  ["dsp/fx.js", ["makeReverb", "makeBitcrush", "makeChorus", "makeModMatrix", "makeFilter"]],
+  ["dsp/fx-common.js", ["ramp", "dipAndRewire", "makeWorkletLoader"]],
+  ["dsp/reverb.js", ["makeReverb"]],
+  ["dsp/bitcrush.js", ["makeBitcrush"]],
+  ["dsp/chorus.js", ["makeChorus"]],
+  ["dsp/modmatrix.js", ["makeModMatrix"]],
+  ["dsp/filter.js", ["makeFilter"]],
+  ["dsp/sat.js", ["makeDrive", "makeFuzz", "makeAsymSat", "makeFold"]],
+  ["dsp/delay.js", ["makeDelay"]],
+  ["dsp/pitch.js", ["makePitchShifter", "makeBestPitchShifter"]],
+  ["dsp/eq.js", ["makeEq", "makeChannelEq"]],
+  ["dsp/multiband.js", ["makeMultiband"]],
+  ["dsp/sidechain.js", ["makeSidechain", "makePump"]],
+  ["dsp/phaser.js", ["makePhaser"]],
+  ["dsp/flanger.js", ["makeFlanger"]],
+  ["dsp/tape.js", ["makeTape"]],
+  ["dsp/ringmod.js", ["makeRingmod"]],
+  ["dsp/noise.js", ["makeNoiseBed"]],
   ["dsp/echo.js", ["makeDubEcho", "makeFilterDelay"]],
   ["dsp/space.js", ["makeSpring", "makePlate", "makeShimmer"]],
   ["dsp/mixer.js", ["makeDubMixer"]],
@@ -69,7 +85,7 @@ const { makeDubEcho } = await g("dsp/echo.js");
 const { makePlate } = await g("dsp/space.js");
 const { makeDubMixer } = await g("dsp/mixer.js");
 const { makeMasterBus } = await g("dsp/masterbus.js");
-const { makeChorus } = await g("dsp/fx.js");
+const { makeChorus } = await g("dsp/chorus.js");
 const { masterChain } = await g("dsp/master.js");
 
 const SR = 48000, SECS = 4, BEAT = 0.48;
@@ -139,7 +155,7 @@ const cases = [
     const o = c.createOscillator(); const gn = c.createGain(); gn.gain.value = 0.2;
     o.connect(gn).connect(p.input); p.output.connect(c.destination); o.start(0); o.stop(0.1);
   }],
-  ["dsp/fx.js makeChorus", true, (c) => {
+  ["dsp/chorus.js makeChorus", true, (c) => {
     const ch = makeChorus(c);
     const o = c.createOscillator(); const gn = c.createGain(); gn.gain.value = 0.2;
     o.connect(gn).connect(ch.input); ch.output.connect(c.destination); o.start(0); o.stop(1.5);

@@ -13,7 +13,7 @@
 // dry and the space is a separate, ridable channel.
 
 import { impulse, springImpulse } from "../core/dsp.js";
-import { makeBestPitchShifter } from "./fx.js";
+import { makeBestPitchShifter } from "./pitch.js";
 import { ride } from "./knob.js";
 
 // Scale an impulse to unit energy. Convolution multiplies RMS by sqrt(sum of the
