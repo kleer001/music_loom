@@ -2,6 +2,13 @@
 // Three-band compressor for master glue.
 
 import { ramp } from "./fx-common.js";
+import { loadComp, makeComp } from "./comp.js";
+
+// The bands are comp.js, not DynamicsCompressorNode. Measured against Chrome, a
+// DynamicsCompressorNode does not agree with itself across the two runtimes —
+// masterbus.js keeps one out of its chain for the same reason, and this file
+// used three. Call loadMultiband(ctx) before makeMultiband(ctx).
+export const loadMultiband = (ctx) => loadComp(ctx);
 
 // ---- Multiband compressor (master glue) --------------------------------------
 
@@ -27,11 +34,14 @@ export function makeMultiband(ctx) {
     a.connect(b);
     return { in: a, out: b, freqs: [a.frequency, b.frequency] };
   };
+  // Defaults chosen to match what a DynamicsCompressorNode did here: its own
+  // defaults, with the knee this file always set to 6.
   const band = () => {
-    const comp = ctx.createDynamicsCompressor();
-    comp.knee.value = 6;
+    const comp = makeComp(ctx, {
+      thresholdDb: -24, ratio: 12, kneeDb: 6, attackMs: 3, releaseMs: 250, makeupDb: 0,
+    });
     const g = ctx.createGain();
-    comp.connect(g).connect(wet);
+    comp.output.connect(g).connect(wet);
     return { comp, g };
   };
 
@@ -39,17 +49,21 @@ export function makeMultiband(ctx) {
   const lowLP = edge("lowpass", 250);
   const midHP = edge("highpass", 250), midLP = edge("lowpass", 3000);
   const highHP = edge("highpass", 3000);
-  input.connect(lowLP.in); lowLP.out.connect(low.comp);
-  input.connect(midHP.in); midHP.out.connect(midLP.in); midLP.out.connect(mid.comp);
-  input.connect(highHP.in); highHP.out.connect(high.comp);
+  input.connect(lowLP.in); lowLP.out.connect(low.comp.input);
+  input.connect(midHP.in); midHP.out.connect(midLP.in); midLP.out.connect(mid.comp.input);
+  input.connect(highHP.in); highHP.out.connect(high.comp.input);
 
   const ramp = (param, v) => param.setTargetAtTime(v, ctx.currentTime, 0.06);
+  // Parameter names are the DynamicsCompressorNode ones this file has always
+  // taken — threshold in dB, attack and release in seconds — mapped onto comp.js.
   const setBand = (b, p) => {
     if (!p) return;
-    if (p.threshold !== undefined) ramp(b.comp.threshold, p.threshold);
-    if (p.ratio !== undefined) ramp(b.comp.ratio, p.ratio);
-    if (p.attack !== undefined) ramp(b.comp.attack, p.attack);
-    if (p.release !== undefined) ramp(b.comp.release, p.release);
+    const next = {};
+    if (p.threshold !== undefined) next.thresholdDb = p.threshold;
+    if (p.ratio !== undefined) next.ratio = p.ratio;
+    if (p.attack !== undefined) next.attackMs = p.attack * 1000;
+    if (p.release !== undefined) next.releaseMs = p.release * 1000;
+    if (Object.keys(next).length) b.comp.set(next);
     if (p.gain !== undefined) ramp(b.g.gain, Math.pow(10, p.gain / 20)); // dB → linear makeup
   };
 

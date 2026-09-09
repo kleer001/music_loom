@@ -13,6 +13,7 @@
 
 import { satCurve } from "../core/dsp.js";
 import { randomWalk, ride, sineLfo } from "./knob.js";
+import { makeShaper } from "./fx-common.js";
 
 const MAX_DELAY = 2.0;
 
@@ -65,11 +66,11 @@ export function makeDubEcho(ctx, opts = {}) {
     const fb = ctx.createGain(); fb.gain.value = p.feedback;
 
     // Tape colour, as a dry/wet blend into a fixed tanh shaper.
-    // node-web-audio-api forbids reassigning WaveShaperNode.curve, so the curve
-    // is written once and `sat` crossfades rather than rebuilding it.
-    const shaper = ctx.createWaveShaper();
+    // The curve is written once and `sat` crossfades rather than rebuilding it —
+    // node-web-audio-api forbids reassigning WaveShaperNode.curve, and the
+    // crossfade is the cheaper move anyway.
+    const shaper = makeShaper(ctx, 4);
     shaper.curve = satCurve(0.8);
-    shaper.oversample = "4x";
     const clean = ctx.createGain(); clean.gain.value = 1 - p.sat;
     const dirty = ctx.createGain(); dirty.gain.value = p.sat;
     const sum = ctx.createGain();

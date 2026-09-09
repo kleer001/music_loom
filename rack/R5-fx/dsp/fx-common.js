@@ -71,3 +71,54 @@ export function makeWorkletLoader(file, warn) {
     ready(ctx) { return settled.get(ctx) === true; },
   };
 }
+
+// ---- The oversampling waveshaper ---------------------------------------------
+
+const _shaperLoader = makeWorkletLoader("./shaper-worklet.js",
+  "[fx] shaper worklet unavailable; falling back to WaveShaperNode at oversample none:");
+export const loadShaper = (ctx) => _shaperLoader.load(ctx);
+
+// A drop-in for ctx.createWaveShaper(): same `.curve` and `.oversample`
+// properties, so a builder swaps its constructor and changes nothing else.
+//
+// `.oversample` is read-only in effect — the factor is fixed when the node is
+// built, and assigning to it is ignored. That is deliberate. The whole reason
+// this exists is that WaveShaperNode's own oversampling does not agree between
+// a render and a browser, so letting a caller turn it back on would undo it.
+//
+// Without the worklet the fallback is a real WaveShaperNode pinned to
+// oversample "none", which still agrees across runtimes (measured at -150 dB)
+// and aliases more. Harsher, never different.
+export function makeShaper(ctx, oversample = 4) {
+  if (!_shaperLoader.ready(ctx)) {
+    const ws = ctx.createWaveShaper();
+    ws.oversample = "none";
+    Object.defineProperty(ws, "oversample", {
+      get: () => "none", set: () => {}, configurable: true,
+    });
+    return ws;
+  }
+  const node = new AudioWorkletNode(ctx, "oversampled-shaper", {
+    processorOptions: { oversample },
+    numberOfInputs: 1, numberOfOutputs: 1,
+  });
+  let cur = null;
+  Object.defineProperty(node, "curve", {
+    get: () => cur,
+    set: (c) => { cur = c; node.port.postMessage({ curve: c }); },
+    configurable: true,
+  });
+  Object.defineProperty(node, "oversample", {
+    get: () => `${oversample}x`, set: () => {}, configurable: true,
+  });
+  return node;
+}
+
+// Load every worklet R5 can use, in one call, before building a graph.
+// Returns a report so a caller can see what is actually available.
+export async function loadFxWorklets(ctx, extra = []) {
+  const jobs = [["shaper", loadShaper(ctx)], ...extra];
+  const out = {};
+  for (const [name, promise] of jobs) out[name] = await promise;
+  return out;
+}

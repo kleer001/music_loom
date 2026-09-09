@@ -20,6 +20,7 @@
 
 import { satCurve } from "../core/dsp.js";
 import { ride } from "./knob.js";
+import { makeShaper } from "./fx-common.js";
 
 export const MASTER_DEFAULTS = {
   // A peaking dip where a wet dub mix piles up. GLITCHFIELD watches this band
@@ -62,9 +63,8 @@ export function makeMasterBus(ctx, opts = {}) {
 
   // Glue, not a brickwall. The curve is normalised so unity in stays unity out
   // and `sat` only changes how the peaks bend.
-  const clip = ctx.createWaveShaper();
+  const clip = makeShaper(ctx, 4);
   clip.curve = satCurve(p.sat);
-  clip.oversample = "4x";
 
   input.connect(mud).connect(sub).connect(air).connect(trim).connect(clip).connect(output);
 

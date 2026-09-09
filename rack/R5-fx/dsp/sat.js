@@ -3,15 +3,20 @@
 // four voicings of it.
 
 import { satCurve, clipCurve, foldCurve, diodeCurve } from "../core/dsp.js";
-import { ramp } from "./fx-common.js";
+import { ramp, makeShaper, loadShaper } from "./fx-common.js";
+
+// Call loadShaper(ctx) before building any of these. Without it they fall back
+// to a WaveShaperNode at oversample "none" — the same sound in both runtimes,
+// with more aliasing.
+export { loadShaper };
 
 // ---- Drive / saturation ------------------------------------------------------
 
 // WaveShaper (sat/clip) + tone lowpass + makeup gain. The parallel-grit core.
 export function makeDrive(ctx) {
   const input = ctx.createGain();
-  const shaper = ctx.createWaveShaper();
-  shaper.curve = satCurve(0.001); shaper.oversample = "4x"; // anti-alias the saturation harmonics
+  const shaper = makeShaper(ctx, 4);
+  shaper.curve = satCurve(0.001);   // the worklet anti-aliases; see fx-common.js
   const tone = ctx.createBiquadFilter(); tone.type = "lowpass"; tone.frequency.value = 6500;
   const makeup = ctx.createGain(); makeup.gain.value = 0.7;
   const output = ctx.createGain();
@@ -45,7 +50,7 @@ export function makeDrive(ctx) {
 export function makeFuzz(ctx) {
   const input = ctx.createGain();
   const pre = ctx.createGain(); pre.gain.value = 1;
-  const shaper = ctx.createWaveShaper(); shaper.curve = satCurve(0.001); shaper.oversample = "4x";
+  const shaper = makeShaper(ctx, 4); shaper.curve = satCurve(0.001);
   const tone = ctx.createBiquadFilter(); tone.type = "lowpass"; tone.frequency.value = 7000;
   const makeup = ctx.createGain(); makeup.gain.value = 1;
   input.connect(pre).connect(shaper).connect(tone).connect(makeup);
@@ -74,7 +79,7 @@ export function makeFuzz(ctx) {
 export function makeAsymSat(ctx) {
   const input = ctx.createGain();
   const pre = ctx.createGain(); pre.gain.value = 1;
-  const shaper = ctx.createWaveShaper(); shaper.curve = diodeCurve(0.6); shaper.oversample = "4x"; // fixed asymmetric curve
+  const shaper = makeShaper(ctx, 4); shaper.curve = diodeCurve(0.6);   // fixed asymmetric curve
   const dc = ctx.createBiquadFilter(); dc.type = "highpass"; dc.frequency.value = 18; dc.Q.value = 0.5; // block the DC the asymmetry adds
   const tone = ctx.createBiquadFilter(); tone.type = "lowpass"; tone.frequency.value = 6000;
   const makeup = ctx.createGain(); makeup.gain.value = 1;
@@ -106,8 +111,8 @@ export function makeAsymSat(ctx) {
 
 export function makeFold(ctx) {
   const input = ctx.createGain();
-  const shaper = ctx.createWaveShaper();
-  shaper.curve = foldCurve(1); shaper.oversample = "4x";
+  const shaper = makeShaper(ctx, 4);
+  shaper.curve = foldCurve(1);
   const output = ctx.createGain();
   input.connect(shaper).connect(output);
   return {

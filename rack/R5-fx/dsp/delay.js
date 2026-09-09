@@ -2,7 +2,7 @@
 // Tempo-synced delay with filtered feedback and ping-pong.
 
 import { satCurve } from "../core/dsp.js";
-import { FLOOR, ramp, dipAndRewire } from "./fx-common.js";
+import { FLOOR, ramp, dipAndRewire, makeShaper } from "./fx-common.js";
 
 // ---- Delay (tempo-synced, filtered feedback, ping-pong) ----------------------
 
@@ -29,7 +29,7 @@ export function makeDelay(ctx) {
   // curve, so we crossfade into a FIXED tanh shaper rather than rebuild the curve on set().
   const mkSat = () => ({
     dry: Object.assign(ctx.createGain(), {}), wet: Object.assign(ctx.createGain(), {}),
-    shaper: (() => { const s = ctx.createWaveShaper(); s.curve = satCurve(0.8); s.oversample = "4x"; return s; })(),
+    shaper: (() => { const s = makeShaper(ctx, 4); s.curve = satCurve(0.8); return s; })(),
     sum: ctx.createGain(),
   });
   const stL = mkSat(), stR = mkSat();

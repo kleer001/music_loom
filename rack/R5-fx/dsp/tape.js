@@ -2,7 +2,7 @@
 // Tape character: wow, flutter, saturation.
 
 import { satCurve } from "../core/dsp.js";
-import { ramp } from "./fx-common.js";
+import { ramp, makeShaper } from "./fx-common.js";
 
 // ---- Tape character (wow / flutter / saturation) -----------------------------
 
@@ -22,7 +22,7 @@ export function makeTape(ctx) {
   const flD = ctx.createGain(); flD.gain.value = 0.0003;
   wow.connect(wowD).connect(d.delayTime);
   flutter.connect(flD).connect(d.delayTime);
-  const sat = ctx.createWaveShaper(); sat.curve = satCurve(0.001); sat.oversample = "2x";
+  const sat = makeShaper(ctx, 2); sat.curve = satCurve(0.001);
   input.connect(dry).connect(output);
   input.connect(d).connect(sat).connect(wet).connect(output);
   try { wow.start(); flutter.start(); } catch (_) {}
