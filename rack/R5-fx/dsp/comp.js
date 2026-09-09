@@ -18,25 +18,11 @@
 // Parameters, all k-rate AudioParams on the returned node:
 //   thresholdDb  ratio  kneeDb  attackMs  releaseMs  makeupDb
 
+import { addWorkletModule } from "./fx-common.js";
+
 const WORKLET = "./comp-worklet.js";
 const NAME = "music-loom-comp";
 const loaded = new WeakMap();   // ctx -> Promise<boolean>
-
-// Browsers take a URL. node-web-audio-api takes a filesystem path, and on Node
-// below 22 its loader also reaches for Promise.withResolvers.
-async function addModule(ctx) {
-  const url = new URL(WORKLET, import.meta.url);
-  if (url.protocol !== "file:") return ctx.audioWorklet.addModule(url);
-  if (typeof Promise.withResolvers !== "function") {
-    Promise.withResolvers = function () {
-      let resolve, reject;
-      const promise = new Promise((res, rej) => { resolve = res; reject = rej; });
-      return { promise, resolve, reject };
-    };
-  }
-  const { fileURLToPath } = await import("node:url");
-  return ctx.audioWorklet.addModule(fileURLToPath(url));
-}
 
 // Call once per context before makeComp. Returns false if the worklet could not
 // be loaded, in which case makeComp will throw rather than quietly pass audio
@@ -44,7 +30,7 @@ async function addModule(ctx) {
 // one that is absent.
 export function loadComp(ctx) {
   if (!loaded.has(ctx)) {
-    loaded.set(ctx, addModule(ctx).then(() => true).catch((e) => {
+    loaded.set(ctx, addWorkletModule(ctx, new URL(WORKLET, import.meta.url)).then(() => true).catch((e) => {
       console.warn("[comp] worklet unavailable:", e?.message || e);
       return false;
     }));

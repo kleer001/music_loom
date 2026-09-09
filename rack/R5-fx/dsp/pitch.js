@@ -55,12 +55,12 @@ export function makePitchShifter(ctx, { semitones = 12, window = 0.1 } = {}) {
 
 const _pvLoader = makeWorkletLoader("./phase-vocoder-worklet.js", "[fx] phase-vocoder worklet unavailable; using the granular shifter:");
 export const loadPitchWorklet = (ctx) => _pvLoader.load(ctx);
-export const pitchWorkletReady = () => _pvLoader.ready();
+export const pitchWorkletReady = (ctx) => _pvLoader.ready(ctx);
 
 // Best available real-time pitch shifter: the phase-vocoder worklet if loaded (clean, and
 // the interval can be swept live via setSemitones), else the granular delay-line shifter.
 export function makeBestPitchShifter(ctx, { semitones = 12 } = {}) {
-  if (_pvLoader.ready()) {
+  if (_pvLoader.ready(ctx)) {
     try {
       const node = new AudioWorkletNode(ctx, "phase-vocoder", {
         processorOptions: { fftFrameSize: 2048, osamp: 8 },

@@ -10,14 +10,14 @@ import { makeWorkletLoader } from "./fx-common.js";
 // per context; makeFilter() returns it, or a BiquadFilter handle as the fallback.
 const _ladderLoader = makeWorkletLoader("./ladder-worklet.js", "[fx] ladder worklet unavailable; using a 2-pole biquad:");
 export const loadLadderWorklet = (ctx) => _ladderLoader.load(ctx);
-export const ladderWorkletReady = () => _ladderLoader.ready();
+export const ladderWorkletReady = (ctx) => _ladderLoader.ready(ctx);
 
 // A resonant-lowpass handle { in, out, cutoff, resonance, dispose } with a UNIFORM
 // interface: the 4-pole ladder worklet if loaded, else a BiquadFilter. `resonance` is the
 // engine's biquad-style Q number; the ladder maps it into its own feedback range.
 // `cutoff`/`resonance` are AudioParams the caller automates (the per-note 303 sweep).
 export function makeFilter(ctx, { cutoff = 1000, resonance = 8, drive = 1.2 } = {}) {
-  if (_ladderLoader.ready()) {
+  if (_ladderLoader.ready(ctx)) {
     try {
       const node = new AudioWorkletNode(ctx, "moog-ladder", { channelCount: 1, channelCountMode: "explicit" });
       const cut = node.parameters.get("cutoff");
