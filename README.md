@@ -72,9 +72,9 @@ against what a listener will actually hear.
 
 **8. Bud it out when it plays.** The instrument leaves as its own repository
 with its history intact, and a note of which studio version it grew up in.
-`scripts/check_updates.py` is the channel back. The split itself is driven by a
-`/bud` skill that ships with a Claude Code install rather than with this repo.
-Underneath it is `git subtree split`, if you would rather do that by hand.
+`scripts/check_updates.py` is the channel back. The split is driven by the
+`/bud` skill, vendored into `.claude/skills/bud/` so a clone of this repo has it
+already. Underneath it is `git subtree split`, if you would rather do that by hand.
 
 <details>
 <summary><b>What's already on the shelves</b></summary>

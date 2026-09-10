@@ -14,7 +14,7 @@ The path from an idea to a repo. Steps get skipped and reordered; this is the sh
 4. **A prototype** in `bench/<slug>/`, on the house stack. Rack units get grafted as the work reaches them.
 5. **Measurement** — `rack/R3-measure` renders offline and prints numbers. Ears catch that something changed; a spectrum says how much.
 6. **Rights** — `RIGHTS.md` covers what a shipped recording, tune or transcription carries with it.
-7. **Budding** — the `/bud` skill. The instrument leaves with its history and is pruned from the current tree here.
+7. **Budding** — the `/bud` skill, vendored at `.claude/skills/bud/`. The instrument leaves with its history and is pruned from the current tree here.
 
 ## House stack
 
