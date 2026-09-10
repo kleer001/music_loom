@@ -4,11 +4,14 @@ fresh
 
 Session went from finishing an old todo list into a deep run on R5. Two threads:
 
-1. **Public copy.** README corrected and run through the four copy skills. A
-   "what's on the shelves" fold is drafted but **not spliced in**.
+1. **Public copy.** README corrected, run through the four copy skills, and
+   given a collapsed fold listing what a new instrument starts with.
 2. **R5 made to render as it plays.** `fx.js` split per effect, a compressor
    built, and a measured campaign to make offline renders match a browser.
    14 of 24 effects agree now, up from 9.
+
+The README fold is spliced and live. `BREADCRUMB.md` is tracked now, so this
+file travels with the code and is readable from the repo page.
 
 All work is committed and pushed. `main` is level with origin at `699081e`.
 
@@ -57,17 +60,9 @@ All work is committed and pushed. `main` is level with origin at `699081e`.
       Poll for the POSTed file — `--dump-dom` does **not** wait for async work,
       and `--virtual-time-budget` does not advance audio rendering.
 
-- [ ] #4 **Splice the README fold.** Drafted and finished at
-      `tmp/fold/draft.post.md`, clean on all four copy gates. Goes after "What
-      it is like to use". **This is a redistribution, not an addition** — the
-      "Research before code" and "A stocked pantry" bullets in "Why it is built
-      this way" currently argue *and* enumerate; they shrink to just their
-      argument so the inventory is not stated twice. Run `copy:honest` over the
-      whole README afterwards.
-
 - [ ] #5 **`tmp/` has stale directories** from this and earlier sessions:
-      `ab-all` (keep until #3), `fold` (keep until #4), plus `dry`, `sh`,
-      `review`, `midi`, `links.txt`, `linkcheck.out`, `checklinks.sh`.
+      `ab-all` (keep until #3), plus `fold`, `dry`, `sh`, `review`, `midi`,
+      `links.txt`, `linkcheck.out`, `checklinks.sh`.
 
 ## Context
 
