@@ -102,3 +102,10 @@ Not acronyms — filenames the detector cannot tell apart from initialisms:
 - CLAUDE
 - RIGHTS
 - INDEX
+
+Literal code quoted in prose, not vocabulary the sentence is asking the reader
+to hold. `devDependencies: {}` is a JSON key and `git subtree split` is a
+subcommand name; spelling either out would misname the thing:
+
+- devDependencies
+- subtree
