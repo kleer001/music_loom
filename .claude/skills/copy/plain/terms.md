@@ -24,6 +24,10 @@ so the detector raises them; each still needs a decision.
 
 - AudioContext: the browser's audio engine, created on a click because browsers
   will not start audio without one
+- instrument: one program that makes one kind of sound, in a repository of its
+  own. Glossed at first use in README.md, where the word otherwise collides with
+  the ordinary sense two sentences earlier — an instrument you heard and wanted
+  to build from is not the thing this repo means by the word
 - bud: to split a finished instrument into its own repository, keeping its
   history and a note of the studio version it grew up in
 - rack: the equipment the studio keeps until an instrument wants it, copied in
@@ -96,12 +100,16 @@ Known to the audience by assumption:
 Ordinary English the frequency check raises because the document is about it:
 
 - sound
+- research
 
 Not acronyms — filenames the detector cannot tell apart from initialisms:
 
 - CLAUDE
 - RIGHTS
 - INDEX
+- README
+- SPEC
+- SHEET
 
 Literal code quoted in prose, not vocabulary the sentence is asking the reader
 to hold. `devDependencies: {}` is a JSON key and `git subtree split` is a
