@@ -13,7 +13,9 @@ Session went from finishing an old todo list into a deep run on R5. Two threads:
 The README fold is spliced and live. `BREADCRUMB.md` is tracked now, so this
 file travels with the code and is readable from the repo page.
 
-All work is committed and pushed. `main` is level with origin at `699081e`.
+All work is committed and pushed; `main` is level with origin. (No hash here on
+purpose — this file is committed after the work it describes, so any hash it
+named would be one behind.)
 
 ## Todos
 
