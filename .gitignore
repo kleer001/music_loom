@@ -11,6 +11,7 @@ tmp/
 !pantry/acoustic/loops/*.wav
 !pantry/acoustic/strokes/*.wav
 !pantry/machine/*.wav
+!pantry/field/*.wav
 *.webm
 # Snapshots and console logs a browser driver leaves behind confirming a render.
 .playwright-mcp/

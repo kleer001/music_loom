@@ -13,6 +13,7 @@ Every recorded, composed or transcribed asset held here. Synthesis needs no row;
 | `machine/synth_*_loop.wav` | Two rendered machine loops | cyber_synth `fetch_samples.mjs` | CC0 | 2026-08-27 | Generated, not recorded. 22050 Hz mono — see the note below. |
 | `midi/*.mid` (11 files) | Ragtime and traditional melodies as Standard MIDI | Mutopia Project; Wikimedia Commons (Scarborough Fair) | PD / CC0 | 2026-09-03 | Compositions published 1899–1914 or traditional. Per-file status in `midi/CATALOG.md`. |
 | `midi/greensleeves.mid` | Traditional melody, guitar arrangement | Mutopia Project | **CC-BY-SA 4.0** | 2026-08-27 | The melody is PD; Mutopia's arrangement carries attribution and share-alike. Attribution is owed if a derived arrangement is distributed. |
+| `field/field_2026-09-11_0858.wav` | 60.6 s ambient field recording — low-heavy bed (~55% under 200 Hz, centroid 675 Hz) with ~21 clustered vocal/impact events | Own recording | Own work | 2026-09-11 | Captured 2026-09-11 ~08:58 on a handheld recorder. Delivered as a stereo AAC that was **dual-mono** (L and R bit-identical), so folded to true mono here without loss. The user holds all three clocks; the shipping licence is theirs to set. |
 
 ## Public domain determinations
 
