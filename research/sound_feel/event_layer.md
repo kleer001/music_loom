@@ -9,8 +9,11 @@ distribution returns forever without literal repetition.
 Source: Bello et al. onset-detection tutorial (2005); Schwarz's concatenative
 synthesis (CataRT, 2006–2007); Roads' *Microsound* (2001); filtered-Poisson /
 shot-noise scheduling; and the montage/foreground-background texture literature.
-**All figures search-attested only** — primaries unreachable this session
-([`BLOCKED.md`](BLOCKED.md)); load-bearing numbers flagged.
+**Bello (2005) is verified against the primary** (read 2026-09-11); it corrected
+one claim — the tutorial's best detector was **negative log-likelihood / HFC**, not
+the complex domain — and confirmed that Bello fixes **no** FFT/hop/window numbers.
+CataRT's descriptor set, Roads' grain bounds, and the Poisson-scheduling constants
+are **not yet primary-verified** ([`BLOCKED.md`](BLOCKED.md)).
 
 ## 1. The numbers
 
@@ -26,15 +29,31 @@ Signals," *IEEE TSAP* 13(5):1035–1047 (2005). Detection-function families:
 - **Spectral flux / spectral difference** — half-wave-rectified frame-to-frame
   magnitude change, `SF(n)=Σ_k H(|X(n,k)|−|X(n−1,k)|)`, `H(x)=(x+|x|)/2`. The
   workhorse (L1 → flux, L2 → difference, Masri 1996).
-- **Phase deviation**, **complex domain** (magnitude + expected-phase; best all-
-  round in the tutorial's comparison), **wavelet regularity**, **neg-log-likelihood**.
-- **Peak-picking:** normalize → low-pass smooth → **adaptive threshold =
-  offset δ + λ·(median over a sliding window)** → local maxima above it. Median/
-  dynamic thresholding is the robustness trick.
-- **Evaluation audio 44.1 kHz.** FFT window/hop/window-type are **not confirmed
-  from the primary** — community defaults (1024 ≈ 23 ms / 512 hop / Hamming) are a
-  value to pin, not Bello's stated number. *(→ Gaps)* Pull real constants from
-  Essentia `OnsetDetection` and Böck "Onset Detection Revisited" (DAFx-06).
+- **Phase deviation**, **complex domain** (magnitude + expected-phase),
+  **wavelet regularity**, **neg-log-likelihood**. *(verified 2026-09-11: the
+  tutorial's Section V comparison ran HFC, spectral difference, phase deviation,
+  wavelet regularity, and negative log-likelihood — **not** the complex domain.
+  The winner was **negative log-likelihood (90.6% correct, 4.7% false)**, then
+  **HFC (90%, 7%)**, spectral difference (83.0%), phase deviation (81.8%), wavelet
+  (79.9%). The earlier "complex domain best all-round" was wrong. For this project's
+  targets, the paper's own note matters: **HFC "performs better for highly
+  percussive sounds and complex mixtures (with drums)"** — i.e. footsteps, tray
+  drops, slams.)*
+- **Peak-picking:** normalize → smooth → **moving-median adaptive threshold** →
+  local maxima above it. *(verified 2026-09-11: "Peak-picking was accomplished
+  using the moving-median adaptive threshold method." The threshold is a smoothed
+  detection function; its low-pass cutoff is "the longest time interval on which the
+  global dynamics are not expected to evolve (**around 100 ms**)." The offset δ and
+  scale λ are **not universal constants** — "a separate parameter set for each
+  detection function," tuned per method. So there is no single Bello δ/λ to copy.)*
+- **Evaluation audio: 44.1 kHz, mono** *(verified 2026-09-11: "All signals were
+  processed as monaural signals sampled at 44.1 kHz")*; a database of **1065 onsets**
+  across four onset classes (pitched-nonpercussive, pitched-percussive,
+  nonpitched-percussive, complex mixtures). **FFT window/hop/window-type are genuinely
+  absent from the primary** — Bello writes them as free variables (an *n*-point
+  window, hop size *h*), confirming they are not his stated numbers. Pull concrete
+  constants from Essentia `OnsetDetection` and Böck "Onset Detection Revisited"
+  (DAFx-06) instead.
 
 **Grain-size boundary** — Roads, *Microsound* (MIT Press, 2001). Grain duration
 **~1–100 ms** is the defining band: below ~1 ms sub-perceptual, above ~100 ms
@@ -52,10 +71,12 @@ Schwarz et al., "Real-Time Corpus-Based Concatenative Synthesis with CataRT,"
 DAFx-06 (open PDF). Framed as a "content-based extension to granular synthesis":
 grains are played from a corpus by proximity to a target in **descriptor space**.
 
-- **Per-unit descriptors** (attested-typical set): fundamental frequency,
-  periodicity, loudness/energy, spectral centroid, sharpness, spectral flatness,
-  zero-crossing rate; plus metadata (duration, source file, MIDI note). *(exact
-  CataRT set → Gaps)*
+- **Per-unit descriptors** *(verified 2026-09-11 against DAFx-06):* CataRT computes
+  in-patch **fundamental frequency, aperiodicity, and loudness** (note: *a*periodicity,
+  not periodicity), and imports up to **230 MPEG-7 low-level descriptors** (signal,
+  perceptual, spectral, harmonic) from pre-analysed files. So the earlier
+  "attested-typical set" (centroid, flatness, ZCR…) is a subset of that MPEG-7
+  library rather than CataRT's own short list.
 - **Selection:** k-nearest-neighbour in normalized descriptor space to a target
   position; CataRT's interactive default is a 2-D plane (commonly centroid ×
   periodicity). The thesis model minimizes **target cost + concatenation cost** via
@@ -138,11 +159,15 @@ so a dead-leaves *audio* model (occlusion/layering by amplitude) would be origin
 
 ## Gaps
 
-1. **Bello's actual analysis parameters** — FFT size, hop, window, peak-pick
-   constants (δ, λ, smoothing cutoff, min inter-onset gap). Load-bearing for
-   segmentation; only 44.1 kHz is confirmed.
-2. **CataRT's exact descriptor list and selection-distance weighting** — the set
-   here is attested-typical, not read off the paper.
+1. **Bello's analysis parameters — resolved 2026-09-11 by reading it: they don't
+   exist as fixed numbers.** Bello writes FFT size and hop as free variables, and
+   the peak-pick δ/λ are tuned per detection function, not published constants. The
+   one concrete figure is the ~100 ms threshold-smoothing window. Take real
+   constants from Essentia/Böck, and set FFT/hop/min-gap in-bench, not from Bello.
+2. **CataRT's selection-distance weighting** — the descriptor list is now read off
+   the paper (f0/aperiodicity/loudness + 230 MPEG-7), but the per-descriptor weighting
+   of the k-NN selection distance is still not extracted. *(descriptor list resolved
+   2026-09-11)*
 3. **A turnkey per-class λ and amplitude estimator with published constants** —
    assembled here from onset detection + Poisson theory; check O'Leary & Röbel and
    texture-montage papers for their actual clustering + rate-fit.

@@ -1,126 +1,122 @@
-# BLOCKED — the capture queue
+# The capture queue — worked 2026-09-11
 
-Every source behind the `sound_feel` digest was reached through search-engine
-**extraction only**. This session's egress proxy returned 403 at the proxy for all
-non-registry hosts, so **no primary PDF or page was opened directly** (`WebFetch`
-and `curl` both blocked). Every number in the digest is therefore *search-attested*,
-not *verified*.
+This file was written because the `sound_feel` digest was first sourced by
+search-engine **extraction only**: an egress block kept every primary PDF and page
+unopened, so every number was *search-attested*, not *verified*.
 
-This file is the queue to run on a machine with open internet. For each source:
-open it, confirm the flagged figures, and where a digest number is confirmed,
-change its "search-attested" mark to "verified <date>" in the relevant file.
+**On 2026-09-11 the block was lifted and this queue was worked.** The primaries were
+opened and read; the load-bearing figures are now verified against the source text,
+and the corrections are folded into the per-axis files (each carries a
+`verified 2026-09-11` mark next to the figure). This file is now the **log** of that
+pass: what confirmed, what was wrong, and what remains genuinely unreachable.
 
-Two status kinds:
-- **EGRESS** — freely readable, just unreachable from this session. Should confirm
-  cleanly once opened.
-- **PAYWALL** — genuinely gated; needs a library, institutional access, or an
-  author preprint. Note the free route where one is known.
+The residue is unverifiable by fetching, and is labelled so below: **PAYWALL** (needs
+institutional access), **IN-BENCH** (a number this studio must measure, never cite),
+**ORIGINAL** (candidate original DSP work, nothing to confirm), and **NOT-FETCHED**
+(a lower-priority secondary not yet opened).
 
-## Priority 1 — load-bearing parameters
+## Priority 1 — load-bearing parameters — VERIFIED
 
-- **PAYWALL / EGRESS** — McDermott & Simoncelli 2011, *Neuron* 71(5):926–940.
-  ScienceDirect (paywall): https://www.sciencedirect.com/science/article/pii/S0896627311005629
-  Author PDF (egress): https://mcdermottlab.mit.edu/papers/McDermott_Simoncelli_2011_sound_texture_synthesis.pdf
-  Open mirror (egress): https://pmc.ncbi.nlm.nih.gov/articles/PMC4143345/
-  **Supplementary — the definitive parameter tables** (egress): https://www.cns.nyu.edu/pub/lcv/mcdermott10-supplementary.pdf
-  → Confirm: total coefficient count (1500 vs "several thousand"); cochlear filter
-  edges & count; whether kurtosis is in the marginal set; modulation-filter count
-  (20 vs 19) & spacing; synthesis iteration count & convergence threshold.
-- **EGRESS** — Bello et al. 2005, onset-detection tutorial, *IEEE TSAP* 13(5).
-  https://hajim.rochester.edu/ece/sites/zduan/teaching/ece472/reading/Bello_2005.pdf
-  http://www.eecs.qmul.ac.uk/former/people/jbc/Documents/Bello-TSAP-2005.pdf
-  → Confirm: FFT size, hop, window type, peak-pick constants (δ, λ, smoothing, min
-  inter-onset gap).
-- **EGRESS** — Välimäki, Rämö & Esqueda, "Creating Endless Sounds," DAFx-18.
-  https://aaltodoc.aalto.fi/items/380f0215-7a05-4943-a57e-ece797f035c9
-  Project page: http://research.spa.aalto.fi/publications/papers/dafx18-endless/
-  → Confirm: chosen LP order, FFT length, sample rate; the exact random-phase IFFT
-  seamless-loop claim.
-- **EGRESS** — Schlecht, "Endless Sounds and Circular Convolution."
-  https://www.sebastianjiroschlecht.com/post/endlesssounds/
-  → Confirm the circular-boundary-condition seam property, cleanly stated.
-- **CODE (read for exact constants)** — PyMusicLooper: https://github.com/arkrow/PyMusicLooper
-  → Confirm loop-finder thresholds (0.0875, 0.5 dB, 0.35× length, ±12-beat window).
-- **CODE** — LoopAuditioneer: https://loopauditioneer.sourceforge.io/userguide.html ,
-  https://github.com/GrandOrgue/LoopAuditioneer
+- **VERIFIED — McDermott & Simoncelli 2011**, *Neuron* 71(5):926–940. Read the author
+  PDF (mcdermottlab.mit.edu) and the supplementary (cns.nyu.edu). Confirmed and, where
+  needed, corrected in [`bed_synthesis.md`](bed_synthesis.md):
+  - Coefficient total = **1515** (128 marginal + 189 cross-band + 640 modulation-power
+    + 366 C1 + 192 C2). The "several thousand" was wrong.
+  - Cochlear bank = **30 bandpass, ERBN, 52–8844 Hz**, + lowpass/highpass ends = **32
+    subbands** (the guessed 20 Hz–10 kHz range was wrong).
+  - Envelopes downsampled to **400 Hz**; compression exponent **0.3**.
+  - Modulation bank = **20 constant-Q filters, 0.5–200 Hz** (resolves 20-vs-19: the
+    2011 original is 20). C1/C2 use **7 octave-spaced filters, 1.5625–100 Hz**.
+    "Half-octave" never appears in the paper.
+  - Cochlear marginals = **first four normalized moments** — kurtosis **is** included.
+  - Synthesis: Gaussian-noise start, **60 iterations max, 30 dB/class, 20 dB avg = converged**.
+  - **Dropped:** the "16-bit" excerpt figure — not stated (only a 24-bit playback D/A).
+- **VERIFIED — Bello et al. 2005**, onset-detection tutorial, *IEEE TSAP* 13(5). Read
+  the Rochester PDF. Corrected in [`event_layer.md`](event_layer.md): best detector in
+  the comparison was **negative log-likelihood (90.6%) / HFC (90%)**, not the complex
+  domain; **44.1 kHz mono**, 1065 onsets; FFT/hop/window are **free variables** (no
+  fixed numbers); peak-pick = **moving-median adaptive threshold**, ~100 ms smoothing,
+  δ/λ tuned per detector (no universal constants).
+- **VERIFIED — Välimäki, Rämö & Esqueda, "Creating Endless Sounds," DAFx-18.** Read the
+  Aalto PDF. In [`seamless_looping.md`](seamless_looping.md): LP orders 100/1k/10k,
+  **working order 1000**; IFFT **N = 4096** (= zero-padded segment length); random phase
+  **uniform in [−π, π]**; verbatim — the segment "can be repeated by concatenating copies
+  of itself without the need of windowing or crossfading" (circular convolution).
+- **VERIFIED — PyMusicLooper** (source read). All constants held in
+  [`seamless_looping.md`](seamless_looping.md): `ACCEPTABLE_NOTE_DEVIATION = 0.0875`,
+  `ACCEPTABLE_LOUDNESS_DIFFERENCE = 0.5` dB, `min_duration_multiplier = 0.35`,
+  `num_test_beats = 12`, prune at ≥100, `keep_top_notes = 75` / `keep_top_loudness = 50`,
+  cosine-similarity scoring, `beat_track ∪ plp` grid.
+- **VERIFIED — the `smpl` chunk**, against this repo's own reader (`loop_qa.py`) and
+  writer (`loopfind.py`). Start/end are **sample-frames, not bytes** (the teragonaudio
+  "bytes" page is wrong). **Live off-by-one found:** the writer emits `dwEnd` **exclusive**
+  (`2*len(loop)`), a mismatch to the RIFF/SoundFont inclusive convention — harmless
+  in-repo, an interop bug for a standard sampler. Detail in
+  [`seamless_looping.md`](seamless_looping.md) §5.
+- **VERIFIED (framing) — Circular boundary conditions.** The Välimäki paper states the
+  circular-convolution seam property directly; Schlecht's blog is the same framing and
+  was not separately needed.
+- **NOT-FETCHED — LoopAuditioneer** knobs (GrandOrgue). Lower priority; the concrete
+  loop-finder constants this studio needs are already covered by PyMusicLooper.
 
 ## Priority 2 — method detail
 
-- **PAYWALL** — Schwarz, "Corpus-Based Concatenative Synthesis," *IEEE SP Magazine*
-  24(2), 2007: https://ieeexplore.ieee.org/document/4117932/
-  Free preprint to try: http://articles.ircam.fr/textes/Schwarz06b/index.pdf
-- **EGRESS** — CataRT, DAFx-06: https://www.dafx.de/paper-archive/2006/papers/p_279.pdf
-  → Confirm: exact descriptor list & selection distance weighting.
-- **EGRESS** — Schwarz, "State of the Art in Sound Texture Synthesis," DAFx-2011:
-  https://dafx.de/paper-archive/2011/Papers/30_e.pdf
-- **EGRESS** — Böck, "Onset Detection Revisited," DAFx-06:
-  https://www.dafx.de/paper-archive/2006/papers/p_133.pdf
-- **EGRESS** — Rosão, peak-picking comparison, ISMIR 2012:
-  https://ismir2012.ismir.net/event/papers/517_ISMIR_2012.pdf
-- **EGRESS** — Maruyama, Okada & Motoyoshi, two-stage spectral model, *i-Perception*
-  2023 (open access): https://journals.sagepub.com/doi/full/10.1177/20416695231157349 ,
-  https://pmc.ncbi.nlm.nih.gov/articles/PMC9950610/
-  → Confirm: FFT sizes, energy-spectrum subband count, synthesis weighting.
-- **EGRESS** — Bruna & Mallat, scattering moments, arXiv:1311.0407:
-  https://arxiv.org/pdf/1311.0407  → Confirm Q per octave, T, coefficient count.
-- **EGRESS** — Andén, Lostanlen et al., time-frequency scattering, DAFx 2019:
-  https://www.dafx.de/paper-archive/2019/DAFx2019_paper_58.pdf
-- **CODE** — Bencina, "Implementing Real-Time Granular Synthesis," 2001:
-  http://www.rossbencina.com/static/code/granular-synthesis/BencinaAudioAnecdotes310801.pdf
-- **EGRESS** — Roads, *Microsound* (MIT Press, 2001), scan:
-  https://monoskop.org/images/d/d1/Roads_Curtis_Microsound.pdf
-- **CODE** — Sound Texture Synthesis Toolbox (MATLAB):
-  https://github.com/hackerekcah/Sound_Texture_Synthesis_Toolbox ;
-  Python stats: https://github.com/wil-j-wil/texture_stats
+- **VERIFIED — CataRT, DAFx-06.** Read the DAFx PDF. Descriptors = in-patch
+  **f0 / aperiodicity / loudness** plus up to **230 imported MPEG-7** descriptors
+  ([`event_layer.md`](event_layer.md)). The per-descriptor selection-distance weighting
+  is still not extracted.
+- **PARTIAL — Maruyama, Okada & Motoyoshi 2023**, *i-Perception* (open access). Read the
+  PMC page: the two-stage **structure** is confirmed (a 1-D waveform amplitude spectrum
+  + a **2-D subband-envelope spectrum, Ft × frequency**), but the exact FFT sizes and
+  subband count did not extract cleanly. ([`bed_synthesis.md`](bed_synthesis.md) §3.)
+- **NOT-FETCHED** — Schwarz, "Corpus-Based Concatenative Synthesis," *IEEE SP Mag* 24(2)
+  (paywalled; try the IRCAM preprint); Schwarz, "State of the Art in Sound Texture
+  Synthesis," DAFx-2011; Böck, "Onset Detection Revisited," DAFx-06; Rosão peak-picking,
+  ISMIR 2012; Bruna & Mallat scattering moments, arXiv:1311.0407 (Q/T/coefficient count
+  still open); Andén & Lostanlen, time-frequency scattering, DAFx 2019; Bencina granular
+  (2001); Roads, *Microsound* (2001); the texture-stats toolboxes. These support framing
+  already well-attested elsewhere; open them only if a specific constant is needed.
 
 ## Priority 3 — stereo, decorrelation, non-stationarity
 
-- **PAYWALL** — Kendall 1995, "The Decorrelation of Audio Signals…," *CMJ* 19(4).
-  https://www.semanticscholar.org/paper/c97a6d0ca2fd6fee5a619f73082341a74f626cf6
-  Free routes to try: https://www.researchgate.net/publication/240294548 (login wall)
-  → Confirm: allpass section count, coefficient interpolation rate.
-- **EGRESS** — Velvet-Noise Decorrelator, DAFx-2017:
-  http://www.dafx17.eca.ed.ac.uk/papers/DAFx17_paper_96.pdf ;
-  Optimized VND (Aalto): https://research.aalto.fi/en/publications/optimized-velvet-noise-decorrelator/ ;
-  AudioLabs page: https://www.audiolabs-erlangen.de/resources/2018-DAFx-VND
-  → Confirm: transparent filter length in ms at 44.1/48 kHz.
-- **EGRESS** — CCRMA, "Signal Decorrelation using Perceptually Informed Allpass
-  Filters," DAFx-2016: https://ccrma.stanford.edu/~kermit/website/papers/decorrelation_DAFx2016.pdf
-- **EGRESS** — pan-law equations (primary): http://www.cs.cmu.edu/~music/icm-online/readings/panlaws/panlaws.pdf
-- **EGRESS** — McWalter & McDermott 2018, "Adaptive and Selective Time-Averaging of
-  Auditory Scenes," *Current Biology*: https://pmc.ncbi.nlm.nih.gov/articles/PMC5940576/
-  → Confirm: the multi-second, adaptive averaging window figures.
-- **PAYWALL** — Xia, Ferradans, Peyré & Aujol, "Static and Dynamic Texture Mixing
-  Using Optimal Transport": https://link.springer.com/chapter/10.1007/978-3-642-38267-3_12
-  (author preprints usually on their pages) — the covariance-interpolation method.
-- **EGRESS** — non-stationary audio spectral analysis: https://arxiv.org/pdf/1712.10252 ;
-  deformed-stationary modeling: https://arxiv.org/pdf/1510.08240 ;
-  LSW processes: https://arxiv.org/pdf/1809.09729
-- **EGRESS** — capture geometry: https://en.wikipedia.org/wiki/ORTF_stereo_technique ,
-  https://www.dpamicrophones.com/mic-university/audio-production/stereo-recording-techniques-and-setups/
+- **VERIFIED — Velvet-Noise Decorrelator, DAFx-2017.** Read the DAFx-17 PDF. Density
+  **1000 impulses/s**, filter length **1024 samples**, transparent length **30 ms**
+  (1323 samples @ 44.1 kHz), **"87% less operations"** ([`stereo_field.md`](stereo_field.md)
+  §2). The 30 ms answers the former ms-length gap.
+- **VERIFIED — McWalter & McDermott 2018**, *Current Biology* (PMC). The averaging window
+  is **multi-second and adaptive**, "restricted to sound elements attributed to a common
+  source"; steps 1 s / 2.5 s, morphs 0.2–7.5 s ([`stereo_field.md`](stereo_field.md) §4).
+- **PAYWALL — Kendall 1995**, "The Decorrelation of Audio Signals…," *CMJ* 19(4). No free
+  author copy found; the allpass section count / interpolation rate stay unverified. A
+  genuine paywall.
+- **TEXTBOOK — pan-law equations.** Constant-power cos/sin, −4.5 dB compromise — standard
+  identities, no primary needed.
+- **ORIGINAL / NOT-FETCHED** — Xia et al. optimal-transport texture mixing (the
+  covariance-interpolation method — the pure-DSP OT-on-McDermott-stats morpher is a
+  candidate **original** contribution, nothing to confirm); non-stationary / LSW /
+  deformed-stationary modelling; capture-geometry references (ORTF etc. — uncontroversial).
 
-## Priority 4 — myNoise primary pages (verbatim before quoting)
+## Priority 4 — myNoise primary pages — CAPTURED
 
-All **EGRESS**-blocked; all Pigeon's own words — capture before any quote is treated
-as verbatim.
-- https://mynoise.net/faq.php — Web Audio, never-repeats, no-AI, field recordings.
-- https://mynoise.net/calibration.php — calibration modes; "why pink."
-- https://mynoise.net/NoiseMachines/help.php — Quick Manual: "10-band EQ," octave/
-  slider, 20 Hz–20 kHz, ordered by frequency.
-- https://mynoise.net/blog.php — likely holds the 188,027,101-year figure & engine.
-- https://mynoise.net/microphones.php — gear, binaural, windshields.
-- https://mynoise.net/Interviews/interview_reform.php — "The Noises I Hear."
-- https://mynoise.net/NoiseMachines/xenobiotaGenerativeNoise.php — "resynthesized."
-- https://stephanepigeon.com/biography.php — background.
+All fetched and read verbatim 2026-09-11 (paced ≥6 s/host). In
+[`mynoise_reference.md`](mynoise_reference.md):
 
-## RIFF `smpl` chunk — resolve the byte-vs-frame conflict
+- **CONFIRMED verbatim** — sliders "are like a 10-band equalizer … each slider representing
+  one octave," "ordered by frequency, as far as it makes sense" (help.php); "does not rely
+  on any proprietary technology, but requires a browser … compatible with the Web Audio
+  API" (faq.php); "Nature sounds are recorded in the field" (faq.php); the hearing-threshold
+  calibration variant (calibration.php); lineage — signal-processing PhD, UCLouvain, Roland,
+  AudioCheck.net, "© 2013-2026 myNoise BV." Gear: Sony ICD-SX1000 (endorsed), Fostex F2-2LE,
+  Audio Technica AT-3032, acoustic-foam windshields (microphones.php).
+- **MOVED** — the "no AI" line lives on the **blog**, stronger: "I have never used
+  generative AI to create sound for myNoise." Not the FAQ paraphrase.
+- **UNCONFIRMED** — the **188,027,101-year** figure was on **none** of the fetched pages
+  (faq, blog, help, calibration, microphones, xenobiota, bio). Needs the Waterfall
+  generator's own page, or it is stale. The **20 Hz–20 kHz** span is inferred, not stated.
+  Pigeon's exact "why pink" wording was not located this pass.
 
-- **EGRESS** — https://ccrma.stanford.edu/courses/422-winter-2014/projects/WaveFormat ;
-  http://midi.teragonaudio.com/tech/wave.htm (says "bytes" — suspect) ;
-  https://www.recordingblogs.com/wiki/sample-chunk-of-a-wave-file ;
-  https://wavref.til.cafe/chunk/smpl/
-- **CODE** — reference implementations that treat start/end as sample-frames:
-  https://github.com/go-audio/wav/blob/master/smpl_chunk.go (libsndfile `SF_INSTRUMENT`,
-  SoundFont wording agree).
-  → Resolve: sample-frames (near-certain) vs bytes; `dwEnd` inclusive vs exclusive;
-  and check what this repo's own WAV writer currently emits.
+## RIFF `smpl` chunk — resolved
+
+Sample-frames, not bytes — confirmed against this repo's reader **and** writer, and the
+libsndfile/SoundFont convention. `dwEnd` is emitted **exclusive** here (off-by-one vs the
+inclusive convention). Full detail in [`seamless_looping.md`](seamless_looping.md) §5.

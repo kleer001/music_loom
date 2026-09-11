@@ -9,9 +9,12 @@ space — which breaks the stationarity the bed model assumes and reframes what
 Source: standard stereo-capture geometry; Kendall (1995) and velvet-noise
 decorrelation; constant-power pan law; McDermott–Simoncelli stationarity + McWalter
 & McDermott (2018) on the averaging window; locally-stationary process theory and
-optimal-transport texture interpolation. **All figures search-attested only** —
-primaries unreachable this session ([`BLOCKED.md`](BLOCKED.md)); load-bearing
-numbers flagged.
+optimal-transport texture interpolation. **VND (DAFx-2017) and McWalter & McDermott
+(2018) are verified against their primaries** (read 2026-09-11): the VND transparent
+length is **30 ms** (§2), and the averaging window is confirmed **multi-second and
+adaptive** (§4). **Kendall (1995) is genuinely paywalled** — still blocked. The pan
+laws (§3) are textbook constant-power identities. The optimal-transport morpher
+remains a **candidate original contribution**, not a citation.
 
 ## 1. The numbers — capture geometry dictates re-synthesis
 
@@ -52,12 +55,16 @@ they widen into an enveloping image **without collapsing in mono**.
   (~+3 dB), no comb notches. Maps straight onto `core/rng.js`'s independent-stream-
   per-layer convention. **Only works for stochastic content**; discrete events must
   be single-source and panned (§3), or they smear.
-- **Velvet-Noise Decorrelator (VND)** — Alary, Politis & Välimäki, DAFx-2017/2018 —
+- **Velvet-Noise Decorrelator (VND)** — Alary, Politis & Välimäki, DAFx-2017 —
   the modern, cheap choice for a bed derived from a single mono generator. Sparse FIR
   (velvet noise = mostly zeros, ±1 impulses), one per channel → broadband
-  decorrelation with **minimal coloration**. Params: density **~1000 impulses/s**;
-  example filter length **1024 samples**; **~76% fewer multiply-adds** than a dense
-  white-noise FIR (up to ~88% at low density). *(transparent length in ms → Gaps)*
+  decorrelation with **minimal coloration**. *(verified 2026-09-11 against the DAFx-2017
+  PDF:* density **1000 impulses/s**, example filter length **1024 samples**, and the
+  **transparent length is 30 ms** — "1323 samples for a sampling rate of 44.1 kHz,"
+  segmented into 2048-sample windows. The paper's headline efficiency claim is
+  **"87% less operations"** than a dense white-noise FIR; the earlier "~76%/~88%"
+  range was imprecise — 87% is the stated figure. The **30 ms transparent length
+  answers the former Gap.**)*
 - **Randomized allpass (Kendall 1995)** — "The Decorrelation of Audio Signals and
   Its Impact on Spatial Imagery," *CMJ* 19(4):71–87 (paywalled). Independent random
   allpass filters per channel (flat magnitude, scrambled phase); dynamic version
@@ -108,7 +115,12 @@ know it is moving.
 ear's texture-averaging window is **multi-second** and **adaptive** (lengthens for
 more variable textures; selectively restricted to a common source). A principled
 window: **a few seconds** — long enough to average detail, short enough to track the
-walk.
+walk. *(verified 2026-09-11 against the primary: "steps occurring in the previous
+several seconds biased texture judgments, indicative of a multi-second averaging
+window"; "longer integration times for temporally variable textures"; integration
+"restricted to sound elements attributed to a common source." Experiments used 1 s
+and 2.5 s steps and morph durations of 0.2–7.5 s — consistent with the ~2–5 s window
+proposed below.)*
 
 **Local stationarity — the framework.** Segment the walk into **locally-stationary
 chunks** and let statistics be **time-varying** across them. Tools: Locally
@@ -161,10 +173,12 @@ stereo loop, stay in stereo.
 
 ## Gaps
 
-1. **Velvet-noise transparent filter length in ms** at 44.1/48 kHz — have samples
-   and density, not a validated ms target.
-2. **Kendall's own allpass section count / interpolation rate** — figures found are
-   from a later replication, not the 1995 CMJ paper.
+1. **Velvet-noise transparent filter length — resolved 2026-09-11: 30 ms** (1323
+   samples at 44.1 kHz), from the DAFx-2017 paper. Still worth an in-bench mono
+   fold-down check on the repo's own material.
+2. **Kendall's own allpass section count / interpolation rate** — **still blocked**:
+   the 1995 CMJ paper is paywalled (no free author copy found). Figures in circulation
+   are from later replications, not the primary. A genuine paywall, not an oversight.
 3. **A pure-DSP McDermott-statistics OT/Gaussian-barycenter audio morpher** — appears
    unpublished; possible original contribution. Search "Wasserstein barycenter
    auditory summary statistics."

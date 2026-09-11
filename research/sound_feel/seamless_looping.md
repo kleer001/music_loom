@@ -10,8 +10,12 @@ period effectively endless.
 
 Source: PyMusicLooper & LoopAuditioneer (open-source loop finders); Välimäki, Rämö
 & Esqueda, *Creating Endless Sounds* (DAFx-18); the RIFF `smpl` chunk spec; Eno's
-*Music for Airports* (1978). **All figures search-attested only** — primaries
-unreachable this session ([`BLOCKED.md`](BLOCKED.md)); load-bearing numbers flagged.
+*Music for Airports* (1978). **PyMusicLooper (source), Välimäki (DAFx-18 PDF), and
+the `smpl` chunk (this repo's own reader and writer) are verified — read
+2026-09-11** ([`BLOCKED.md`](BLOCKED.md)). All PyMusicLooper constants held; the
+`smpl` frames-vs-bytes conflict is settled (**frames**), and a live off-by-one
+against the inclusive convention was found in this repo's writer (§5).
+LoopAuditioneer's knobs and Eno's loop lengths are **not yet primary-verified**.
 
 ## 1. The numbers — finding a loop point
 
@@ -20,16 +24,20 @@ start. Similarity is **sum-of-squared-differences** (minimize) or **cross-
 correlation** (maximize) over a window bracketing the two candidate points.
 
 **PyMusicLooper** (arkrow, open source) — the most legible concrete algorithm,
-built on librosa:
-- **Chroma** (`chroma_stft`, 12 pitch classes) for harmonic match + **perceptually-
-  weighted power in dB** (`power_to_db`, `perceptual_weighting`) for loudness match.
+built on librosa. *(All constants verified 2026-09-11 against `analysis.py`.)*
+- **Chroma** for harmonic match + **perceptually-weighted power in dB** (`power_db`)
+  for loudness match.
 - Acceptance thresholds: note L2 distance **`ACCEPTABLE_NOTE_DEVIATION = 0.0875`**;
-  **`ACCEPTABLE_LOUDNESS_DIFFERENCE = 0.5 dB`**.
-- Scoring: **cosine similarity** of the two candidate frames over a **±12-beat**
-  window, exponentially weighted toward the boundary.
-- **Minimum loop duration default 0.35 × track length**; candidate pruning at ≥100
-  keeps top 75th percentile by note distance, 50th by loudness.
-- Beat grid from `beat_track` + `plp` so endpoints snap to beats.
+  **`ACCEPTABLE_LOUDNESS_DIFFERENCE = 0.5`** dB *(the source comment: "values higher
+  than ~0.5 have a perceptible difference in loudness")*. Both are hand-tuned "magic
+  constants … found through trial and error."
+- Scoring: **cosine similarity** of the candidate regions over a **12-beat** test
+  offset (`num_test_beats = 12`), weighted toward the boundary.
+- **Minimum loop duration default 0.35 × track length** (`min_duration_multiplier`);
+  candidate pruning triggers at **≥100** candidates and keeps the top **75th
+  percentile by note distance** (`keep_top_notes = 75`), **50th by loudness**
+  (`keep_top_loudness = 50`).
+- Beat grid from `beat_track` **∪** `plp` (their union) so endpoints snap to beats.
 
 **LoopAuditioneer** (Lars Palo / GrandOrgue, GPL) — correlation-based search with
 exposed knobs: **quality** (correlation-error tolerance), **derivative threshold**
@@ -75,18 +83,22 @@ Sounds," DAFx-18** (open access, aaltodoc; reimplementation
 `softcat477/Creating-Endless-Sound`). Three ways to extend a stationary excerpt:
 
 1. **High-order LP:** fit all-pole coefficients to ~1 s of source, excite with white
-   noise. The reimplementation demonstrates orders **100–10,000** (higher → finer
-   spectral match). A "spectral freeze without looping." *(paper's chosen order →
-   Gaps)*
+   noise. *(verified 2026-09-11: the **paper itself** shows orders **100 / 1000 /
+   10000** in Fig. 2 — order 100 is too coarse, and "a fairly high LP order" is
+   needed; realism arrives by 1000. The timing comparison "used an LP filter of
+   order 1000," so **1000 is the paper's working figure.**)*
 2. **Velvet-noise** real-time variant (sparse ±1 convolution).
 3. **IFFT random-phase — the seamless-loop method:** take the excerpt's FFT (zero-
-   padded to output length), **keep the magnitude spectrum, replace the phase with
-   uniform random values in [−π,+π]**, IFFT. Stated explicitly: the result "can be
-   repeated by concatenating copies of itself without windowing or crossfading,"
-   because fast convolution is **circular convolution** — the buffer satisfies
-   **circular boundary conditions**, so its end joins its start with no seam. This
-   is the "torus": a finite buffer that is periodic by construction, playable on one
-   loop node.
+   padded to output length N), **keep the magnitude spectrum, replace the phase with
+   uniformly distributed random values between −π and π**, IFFT. *(verified
+   2026-09-11, verbatim: "θr is a randomized phase with values between −π and π";
+   the segment "can be repeated by concatenating copies of itself without the need
+   of windowing or crossfading" because the operation "is circular, and is therefore
+   also called circular convolution." Worked example: a **4000-sample** piano segment,
+   **IFFT length N = 4096**, with **N set equal to the zero-padded signal length.**)*
+   The buffer satisfies **circular boundary conditions**, so its end joins its start
+   with no seam — the "torus": a finite buffer periodic by construction, playable on
+   one loop node.
 
 **Circular boundary conditions** are the general principle (also framed in
 Schlecht's "Endless Sounds and Circular Convolution," and in ML loopable-generation
@@ -144,32 +156,47 @@ SampleLoop: dwIdentifier, dwType (0=fwd,1=alt,2=bwd), dwStart, dwEnd,
   dwFraction (0x80000000 = half a sample), dwPlayCount (0 = infinite)
 ```
 
-**Silent-bug hazard — `dwStart`/`dwEnd` are in SAMPLE FRAMES, not bytes.** Sources
-genuinely conflict: the widely-copied teragonaudio page says "byte offset," but the
-canonical RIFF/SoundFont wording and every real sampler (libsndfile `SF_INSTRUMENT`,
-SoundFont) treat them as **sample-frame indices**. A stereo 16-bit file would be off
-by 4× under the byte reading. Also `dwEnd` is conventionally the **last sample of
-the loop (inclusive)**; some writers store length or end+1. **Verify what the repo's
-writer currently emits** against a reference sampler; libsndfile ignores
-`dwFraction` (writes 0), so sub-sample precision may not round-trip. Players: play
-`0…dwEnd`, then repeat `dwStart…dwEnd` (`dwPlayCount` times or forever).
+**`dwStart`/`dwEnd` are in SAMPLE FRAMES, not bytes — settled 2026-09-11.** The
+widely-copied teragonaudio page says "byte offset," but the canonical RIFF/SoundFont
+wording and every real sampler (libsndfile `SF_INSTRUMENT`, SoundFont) treat them as
+**sample-frame indices**, and **this repo's own reader and writer agree**:
+`loopfind.py` packs `loop_start`/`loop_end` straight into the record, and
+`loop_qa.py` reads them back and slices the sample array `sig[start:end]` by frame
+index. So the byte reading is simply wrong. (The files are **16-bit mono**, where
+frame index = sample index; a future stereo path would be off by 4× under a byte
+reading, so the point still matters.)
+
+**The live off-by-one — `dwEnd` is emitted EXCLUSIVE here.** `loopfind.py` writes a
+two-tile buffer and calls `write_wav_with_loop(..., len(loop), 2*len(loop), …)`, so
+`dwEnd = 2*len(loop) = len(out)` — **one past the last sample**. The repo's own
+reader matches (`sig[start:end]` is end-exclusive), so it round-trips itself
+correctly. But the RIFF/SoundFont convention is `dwEnd` = the **last sample of the
+loop (inclusive)**. A conformant external sampler reading these files would take
+`dwEnd` as a valid index and read one sample past the buffer, or clamp — an
+off-by-one at the wrap. Harmless inside this repo, a real interop bug the moment
+these WAVs are loaded by a standard sampler. Fix: write `dwEnd = 2*len(loop) − 1`.
+Other fields as written: `dwType = 0` (forward), `dwPlayCount = 0` (infinite),
+`dwFraction = 0` (no sub-sample precision). Players: play `0…dwEnd`, then repeat
+`dwStart…dwEnd` (`dwPlayCount` times or forever).
 
 ## Gaps
 
-1. **`smpl` start/end units** — sample-frames (near-certain) vs the copied "bytes"
-   claim; and inclusive vs exclusive `dwEnd`. Verify against the repo's writer and a
-   reference sampler. Silent-bug candidate.
-2. **McDermott synthesis params** — iteration count, excerpt length, whether an
-   official circular/looping variant exists — behind the paywall.
-3. **"Creating Endless Sounds" chosen numbers** — the paper's own LP order and FFT
-   length (reimplementation shows 100–10,000; the recommended value wasn't captured).
-4. **Correlation-window size for non-beat ambient** loop-finding — no authoritative
-   ms figure surfaced; PyMusicLooper uses a beat-relative window.
-5. **Equal-power crossfade length for texture** — the 20–50 ms / 500 ms–2 s figures
+**Resolved 2026-09-11:** the `smpl` units (**sample-frames**, and the repo emits
+`dwEnd` exclusive — a real off-by-one against the inclusive convention, §5);
+McDermott's synthesis budget (**60 iterations, 30 dB/class, 20 dB avg** — see
+[`bed_synthesis.md`](bed_synthesis.md); there is **no** official circular/looping
+variant, the IFFT trick is the add-on); and the "Creating Endless Sounds" numbers
+(**LP order 1000; IFFT length N = 4096 = zero-padded segment length**).
+
+Still open:
+
+1. **Correlation-window size for non-beat ambient** loop-finding — no authoritative
+   ms figure; PyMusicLooper's window is beat-relative (12 beats). Set in-bench.
+2. **Equal-power crossfade length for texture** — the 20–50 ms / 500 ms–2 s figures
    are practitioner blogs, not measured. Measure in-bench.
-6. **Turnkey seamless-loop grain scheduler** — synthesized here from Bencina/Roads
+3. **Turnkey seamless-loop grain scheduler** — synthesized here from Bencina/Roads
    primitives; no single source. Candidate original DSP work.
-7. **The endless-vs-finite tension for the event layer** — Poisson never repeats,
+4. **The endless-vs-finite tension for the event layer** — Poisson never repeats,
    the deliverable is a finite loop. Candidate resolutions: loop the bed seamlessly
    while the event layer's period exceeds perception; or close the loop in
    **statistic-space** rather than waveform (see [`stereo_field.md`](stereo_field.md)

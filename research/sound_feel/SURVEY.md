@@ -47,24 +47,39 @@ combined slider instrument). A and C's looping live in `seamless_looping.md`; B 
 | [`stereo_field.md`](stereo_field.md) | width, and the walk | independent-RNG / velvet-noise decorrelation; locally-stationary windows; statistic-space trajectory | naïve stat interpolation can break covariance validity; mono fold-down of wrong decorrelators |
 | [`mynoise_reference.md`](mynoise_reference.md) | the tribute's north star | 10 frequency-ordered layers; coprime loop lengths; pink calibration | (reference, not a build) |
 
-## Method and its one large limit
+## Method, and the verification pass
 
 Five research workers ran in parallel, one per axis, each instructed to chase
 **primary** sources, extract falsifiable parameters, triangulate, and log every
 unreachable URL. `RESEARCH.md` asks for a fan-out on a genuine research question;
 this was one.
 
-**The limit, stated plainly and up front:** this session's egress proxy blocks
-direct fetching (`WebFetch` and `curl` both return 403 at the proxy) for every
-host outside the package registries. So **not one primary PDF or page was opened
-directly.** Every number below is **search-attested** — extracted from search-
-engine summaries of the primary sources — and must be verified against the source
-text before a value is written next to a coefficient in code. This is exactly the
-`RESEARCH.md` fabrication hazard: a plausible number with no traced origin behaves
-like a measured one until someone checks. So every load-bearing figure is marked,
-and [`BLOCKED.md`](BLOCKED.md) is the **capture queue** — the URLs to open on a
-networked machine to turn "search-attested" into "verified." That list is a
-first-class deliverable of this digest, not an appendix.
+The digest was first written **search-attested** — every number extracted from
+search-engine summaries, because an egress block kept the primaries unopened. That
+is the `RESEARCH.md` fabrication hazard: a plausible number with no traced origin
+behaves like a measured one until someone checks. So every load-bearing figure was
+marked, and [`BLOCKED.md`](BLOCKED.md) was written as the capture queue.
+
+**On 2026-09-11 the primaries were opened and the queue was worked.** The
+load-bearing figures are now verified against the source text — and the check earned
+its keep, because several search-attested numbers were **wrong**:
+
+- **McDermott–Simoncelli:** the coefficient total is **1515** exactly (not "several
+  thousand"); the modulation bank is **20** filters (resolving the 20-vs-19 conflict);
+  the cochlear centres span **52–8844 Hz** (not the guessed 20 Hz–10 kHz); "half-octave"
+  was never in the paper; kurtosis **is** in the marginal set; synthesis runs **60
+  iterations / 20 dB avg SNR**.
+- **Bello (2005):** the tutorial's best detector was **negative log-likelihood / HFC**,
+  not the complex domain; Bello fixes **no** FFT/hop/window numbers.
+- **`smpl` chunk:** start/end are **sample-frames, not bytes** — and this repo's own
+  writer emits `dwEnd` **exclusive**, a live off-by-one against the inclusive
+  convention (see [`seamless_looping.md`](seamless_looping.md) §5).
+- **myNoise:** three of four anchors confirmed verbatim; the **188,027,101-year figure
+  was on none of the fetched pages** — unconfirmed, not faq/blog as attested.
+
+What is **still** unverified is unverifiable by fetching: Kendall (1995) is paywalled,
+several figures are **in-bench measurements** by design, and three items are candidate
+**original DSP work**. [`BLOCKED.md`](BLOCKED.md) now records which is which.
 
 ## Cross-cutting findings
 
@@ -139,19 +154,23 @@ These surfaced in more than one axis and shape the whole instrument.
 
 ## Where the gaps are
 
-Each file ends with its own Gaps section; the recurring shape is that **the exact
-parameters live in the primary PDFs that could not be opened**: McDermott's
-synthesis iteration count and full coefficient breakdown, Bello's FFT/hop/threshold
-constants, CataRT's descriptor set, Välimäki's chosen LP order and FFT length,
-Kendall's allpass section count, the velvet-noise transparent-filter length in ms.
-Two findings are conflicts to resolve on capture, not settled facts: the
-coefficient count (**~1500** vs "several thousand"), the modulation-filter count
-(**20** in the 2011 paper vs **19** in the McWalter–Dau follow-up), and the WAV
-`smpl` start/end units (sample-frames — near-certain — vs the widely-copied
-"bytes" claim). Three things are candidate **original DSP work** rather than
-citation: OT interpolation of auditory statistics for audio, a turnkey seamless-
-loop grain scheduler, and the reconciliation of endless-Poisson events with a
-finite loop file.
+Each file ends with its own Gaps section. After the 2026-09-11 verification pass, the
+parameters that once "lived in the unopened PDFs" are read off the primaries:
+McDermott's coefficient breakdown (**1515**) and synthesis budget (**60 iterations,
+20 dB**), Bello's constants (they are free variables, not fixed), CataRT's descriptors
+(f0/aperiodicity/loudness + 230 MPEG-7), Välimäki's LP order (**1000**) and FFT length
+(**N = 4096**), the velvet-noise transparent length (**30 ms**). The former conflicts
+are settled: coefficient count **1515** (not "several thousand"), modulation-filter
+count **20** (the 2011 original; 19 is the later McWalter–Dau variant), and `smpl`
+start/end in **sample-frames** (not bytes).
+
+What remains is unverifiable by fetching, and is now labelled as such in each file:
+**paywalled** (Kendall 1995), **in-bench measurements** (crossfade length for texture,
+mono fold-down of each decorrelator, correlation-window for non-beat ambient), and
+candidate **original DSP work** — OT interpolation of auditory statistics for audio,
+a turnkey seamless-loop grain scheduler, and reconciling endless-Poisson events with a
+finite loop file. One quote stayed unconfirmed: myNoise's 188,027,101-year figure was
+on none of the fetched pages.
 
 ## The tribute boundary
 
