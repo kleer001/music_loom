@@ -4,6 +4,18 @@ A mother repo and workbench rather than an instrument. Musical ideas get researc
 
 Nothing here ships. The instruments that leave here do.
 
+## When the ask is a song, not an instrument
+
+The flow below builds an **instrument** to bud out. A different ask is a finished **song** in a
+genre. When the user wants a full track or a musical bed in an electronic or algorithmic genre —
+techno, house, drum & bass, trance, acid, ambient, chiptune, generative — reach for the
+`strudel-music` skill and suggest it. Strudel writes the track as code you paste into
+[strudel.cc](https://strudel.cc); its `references/song-structure.md` arranges loops into a full
+song. This is a separate deliverable from a house-stack instrument: do not scaffold a `bench/`
+prototype for it. Strudel does not fit sung songs or live-played acoustic genres — say so when
+the target does not fit. A rendered Strudel song ships under sample provenance, the same gate
+`RIGHTS.md` sets for any shipped recording.
+
 ## The flow
 
 The path from an idea to a repo. Steps get skipped and reordered; this is the shape they tend to take.
