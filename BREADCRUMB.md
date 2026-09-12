@@ -2,24 +2,37 @@ fresh
 
 ## Summary
 
-Session went from finishing an old todo list into a deep run on R5. Two threads:
+Two parked threads.
 
-1. **Public copy.** README corrected, run through the four copy skills, and
-   given a collapsed fold listing what a new instrument starts with.
-2. **R5 made to render as it plays.** `fx.js` split per effect, a compressor
-   built, and a measured campaign to make offline renders match a browser.
-   14 of 24 effects agree now, up from 9.
+**Current focus — sound_feel.** Set a global STE100 rule in `~/.claude/CLAUDE.md`.
+Verified the `research/sound_feel/` digest against primary sources (correcting
+several figures). Budded `bench/sound_feel` into its own repo. Built a coprime
+per-band synthesis engine, judged by ear that it smears delicate field audio, and
+reverted to the real-audio instrument. Then built a **spectral-paint tool** (draw
+circles on the spectrogram, hear what's inside) and saved it in the daughter repo.
+The user will look at the tool later — **top priority on resume is reopening it in
+Firefox**.
 
-The README fold is spliced and live. `BREADCRUMB.md` is tracked now, so this
-file travels with the code and is readable from the repo page.
-
-All work is committed and pushed; `main` is level with origin. (No hash here on
-purpose — this file is committed after the work it describes, so any hash it
-named would be one behind.)
+**Earlier thread — R5 / cut 0.4.0 (still open, below).** `fx.js` split per effect,
+a compressor built, and a measured campaign to make offline renders match a browser
+(14 of 24 effects agree). Four convention-changing commits landed with no version
+directive; that release still needs cutting. Todos #1–#3, #5 and their context are
+preserved unchanged.
 
 ## Todos
 
 ### Parallel
+
+- [ ] #6 **Reopen the spectral-paint tool in Firefox** — the top priority. Run
+      `~/Dropbox/ai/code/sound_feel/tools/open_paint.sh`; it serves the repo on the
+      first free port and opens `tools/spectral_paint.html` in Firefox. `fetch()`
+      needs the server, so `file://` will not work.
+
+- [ ] #7 **sound_feel — next directions** (discussed, not built). The bank pipeline:
+      batch-process a corpus of the user's field recordings deterministically, then an
+      agent triages which recordings suit the instrument (stationary + separable) and
+      curates a catalog. And the automated separator: REPET + spectral masking to pull
+      distinct features as real coprime layers — the scripted version of the paint tool.
 
 - [ ] #1 **Cut 0.4.0.** Four convention-changing commits landed without it:
       the R5 split (`cbd9283`), the compressor (`1c130ca`), the loader fix
@@ -52,6 +65,13 @@ named would be one behind.)
       own filtered-feedback topology. Two are a biquad at extreme settings
       (phaser, channelEq). `makeReverb` and `makeBitcrush` were never isolated.
 
+- [ ] #5 **`tmp/` has stale directories** from earlier sessions:
+      `ab-all` (keep until #3), plus `fold`, `dry`, `sh`, `review`, `midi`,
+      `links.txt`, `linkcheck.out`, `checklinks.sh`. (This session also left
+      `tmp/sound_feel_capture/` and `tmp/sound_analysis/` — scratch, disposable.)
+
+### Sequential
+
 - [ ] #3 (needs: #2) **Promote the A/B harness out of `tmp/ab-all/`** into
       `rack/checks/` as a standing runtime-agreement check. It is the evidence
       behind every number in #2 and is currently disposable scratch. How it
@@ -62,84 +82,78 @@ named would be one behind.)
       Poll for the POSTed file — `--dump-dom` does **not** wait for async work,
       and `--virtual-time-budget` does not advance audio rendering.
 
-- [ ] #5 **`tmp/` has stale directories** from this and earlier sessions:
-      `ab-all` (keep until #3), plus `fold`, `dry`, `sh`, `review`, `midi`,
-      `links.txt`, `linkcheck.out`, `checklinks.sh`.
-
 ## Context
 
-**The finding that unlocked everything.** `node-web-audio-api` 2.2.0 **does**
-run an `AudioWorklet` under an `OfflineAudioContext`. The rack said in five
-places it could not. Two differences from a browser: `addModule` wants a
-filesystem path, not a `URL`; and its loader reaches for
-`Promise.withResolvers`, which needs Node 22 or a four-line polyfill.
-`fx-common.js` `addWorkletModule()` carries both. This was corrected in
-`CLAUDE.md`, `template/CLAUDE.md`, `rack/R3-measure/README.md`,
-`rack/R5-fx/README.md` and `research/web_audio_toolchain.md`.
+**sound_feel (current thread).** Budded from `bench/` into its own repo:
+`github.com/kleer001/sound_feel`, local clone `/home/menser/Dropbox/ai/code/sound_feel`.
+Mother's `bench/` is empty again (pruned); `research/sound_feel/` stays in the mother.
+A myNoise-style ambient shaper from one field recording — a dual-mono 60 s "08:58"
+capture, mono-folded, held in `pantry/field/` and the daughter's `assets/source/`.
 
-**Measured cross-runtime divergences, node-web-audio-api 2.2.0 vs Chrome 151.**
-All recorded in `CLAUDE.md` under "what has tended to break".
+- **Locked decision: no statistical synthesis of delicate field audio.** A coprime
+  per-band FFT resynthesis was built and **reverted** (daughter commit `4f3d36d`) —
+  it smears real recordings into colored noise. Synthesis is only allowed to fix a
+  specific flaw (the low wind floor). The instrument plays the real wind-cleaned loop
+  through ten bandpass faders (audio-taper) + extracted event grains. Published
+  artifact: `claude.ai/code/artifact/47e6717e-5f70-4b1d-9659-46f3c50c8bc4`.
+- **Measured truth about this recording** (evidence for why): dense events over a
+  murmur, **no sustained tones**, **no repetition** (self-similarity mean ≈ 0). A poor
+  generator source. Good sources are stationary/simple (rain, stream, fan, crickets) —
+  that is the bank's triage criterion.
+- **Spectral-paint tool** (last build, daughter commit `42ee5e0`):
+  `tools/spectral_paint.html` — in-browser radix-2 FFT builds the spectrogram (regular
+  rainbow, log freq); draw ellipses, play Inside/Outside/All via a masked inverse FFT.
+  Round-trips exactly. Fetches `assets/source/*.wav` over HTTP. `tools/open_paint.sh`
+  serves + opens Firefox. Published artifact:
+  `claude.ai/code/artifact/270198df-8a96-4149-8e86-e667dd1c06c4`.
+- **STE100** global rule added to `~/.claude/CLAUDE.md`: concise + Simplified Technical
+  English for technical replies; creative/voiced prose exempt; STE100-style, not
+  dictionary-certified.
+- Gotcha seen twice: an inline `<script>` needs its closing `</script>` or the browser
+  runs nothing; and `#id{display:grid}` overrides the UA `[hidden]{display:none}`, so a
+  page needs its own `[hidden]{display:none!important}` (the artifact wrapper adds one).
 
-- `WaveShaperNode.oversample`: `"none"` agrees to -150 dB, `"2x"` to -88 dB,
-  `"4x"` not at all (+5.4 dB — bigger than the signal). Fixed by
-  `shaper-worklet.js`.
-- `BiquadFilterNode` by corner: -128 dB at 1 kHz, -69 at 10 Hz, -46 at 5 Hz,
-  -0.1 at 1.06 Hz. Unfixed; it is why `phaser` and `channelEq` still diverge.
-- `DelayNode` in a feedback cycle: Chrome carries about a quantum more implicit
-  latency, so identical coefficients give different time constants. Asking for
-  512 samples instead of 128 shrinks the error without closing it.
-- `OscillatorNode` band-limiting: sine agrees to the digit; triangle and
-  sawtooth do not, and **which runtime reaches higher changes with pitch**, so
-  it is accuracy of the upper harmonics rather than how many are kept. **Never
-  use an oscillator as the source in a cross-runtime test** — a buffer filled
-  by the test itself is the only clean input.
+---
 
-**Decisions made this session — do not relitigate.**
+**R5 / 0.4.0 (earlier thread) — the finding that unlocked it.** `node-web-audio-api`
+2.2.0 **does** run an `AudioWorklet` under an `OfflineAudioContext`. Two differences
+from a browser: `addModule` wants a filesystem path, not a `URL`; and its loader reaches
+for `Promise.withResolvers` (Node 22 or a four-line polyfill). `fx-common.js`
+`addWorkletModule()` carries both. Corrected in `CLAUDE.md`, `template/CLAUDE.md`,
+`rack/R3-measure/README.md`, `rack/R5-fx/README.md`, `research/web_audio_toolchain.md`.
 
-- **A library is allowed to have many similar things.** Variation between
-  sibling effects (three tone defaults, two ramping styles across the
-  saturators) is voicing, not drift. Do not consolidate it. `sat.js` holds four
-  waveshapers because they are one topology in four voicings; `bitcrush.js` is
-  separate because it is worklet-backed with a fallback, a different contract.
-  `chorus`/`flanger` stay separate.
-- **The R5 split was a pure move**, verified by rendering all 22 builders
-  through the old and new module graphs and comparing bytes. Nothing was
-  renamed, unified or tuned.
-- **`comp.js` throws if its worklet will not load** rather than passing audio
-  through. A compressor silently doing nothing is worse than an absent one.
-  `makeShaper()` takes the opposite line and falls back to a native
-  `WaveShaperNode` pinned to `"none"` — harsher, never different.
-- **`comp.js` runs the same algorithm as `master.js glue()`**, so an instrument
-  can compress live and master offline without the two disagreeing about what a
-  threshold means. Static curve verified exact: slope 1.000 below threshold,
-  0.250 at ratio 4.
+**Measured cross-runtime divergences, node-web-audio-api 2.2.0 vs Chrome 151** (in
+`CLAUDE.md` under "what has tended to break"):
+- `WaveShaperNode.oversample`: `"none"` −150 dB, `"2x"` −88, `"4x"` not at all
+  (+5.4 dB). Fixed by `shaper-worklet.js`.
+- `BiquadFilterNode` by corner: −128 dB at 1 kHz, −69 at 10 Hz, −46 at 5 Hz, −0.1 at
+  1.06 Hz. Unfixed; why `phaser`/`channelEq` still diverge.
+- `DelayNode` in a feedback cycle: Chrome carries ~a quantum more implicit latency;
+  identical coefficients give different time constants. 512 samples shrinks, not closes.
+- `OscillatorNode` band-limiting: sine agrees, triangle/saw do not, and which runtime
+  reaches higher changes with pitch. **Never use an oscillator as a cross-runtime source**
+  — a test-filled buffer is the only clean input.
 
-**Traps this session actually fell into.**
+**R5 decisions — do not relitigate.** A library may hold many similar things (sibling
+voicing is not drift; `sat.js` = four voicings of one topology). The R5 split was a
+pure move (byte-verified). `comp.js` throws if its worklet won't load (silence beats
+wrong); `makeShaper()` falls back to native `"none"` (harsher, never different).
+`comp.js` runs the same curve as `master.js glue()` (slope 1.000 below threshold,
+0.250 at ratio 4).
 
-- **A bypassed effect matches trivially.** Several effects ship `wet=0, dry=1`;
-  the first agreement map was wrong until every effect was engaged via `set()`.
-- **Do not drive a visible browser.** Everything must run headless, and audio
-  must come back as bytes — reading numbers off a page and retyping them is
-  transcription-prone and puts windows on the user's desktop.
-- **`pkill -f` matching a pattern that appears in your own shell's command line
-  kills the shell.** Get the PID with `pgrep` and kill that.
-- Background servers started in a plain subshell get killed by unrelated
-  cleanup; `setsid` them.
+**R5 traps.** A bypassed effect (`wet=0,dry=1`) matches trivially — engage each via
+`set()`. Run headless, audio back as bytes. `pkill -f` on a pattern in your own command
+line kills the shell — `pgrep` then kill the PID. `setsid` background servers.
 
-**The copy skills were reorganised** into a `copy` plugin: `copy:desk`,
-`copy:honest`, `copy:humanize`, `copy:plain`. The chain is plain → humanize →
-honest, with honest last because a rewrite can turn a careful claim into a
-confident one. `desk` wraps a role chain and spawns three isolated readers.
-Project overrides live at `.claude/skills/copy/plain/terms.md` (11 decisions
-recorded) and `.claude/skills/copy/humanize/banned.md` (one exception: `harness`).
-
-**`bench/` is still empty.** No instrument has been built here and nothing has
-budded. Everything in R5 is exercised only by `rack/checks/graft-check.mjs`.
+**The copy skills** are a `copy` plugin: `copy:desk/honest/humanize/plain`; chain is
+plain → humanize → honest. Overrides at `.claude/skills/copy/plain/terms.md` and
+`.claude/skills/copy/humanize/banned.md`.
 
 ## Next Step
 
-#1 — cut 0.4.0. Four commits of convention change are sitting in `main` with no
-directive telling a daughter any of it happened, and two of them are
-CONTRACT-tier. Nothing else should land before the channel back is honest.
+#6 — **reopen the spectral-paint tool in Firefox**: run
+`~/Dropbox/ai/code/sound_feel/tools/open_paint.sh` (serves the daughter repo on a free
+port, opens `tools/spectral_paint.html` in Firefox). Everything from this session is
+committed and pushed; the R5 / 0.4.0 thread (#1) is the next real work after that.
 
 /home/menser/Dropbox/ai/code/music_loom
