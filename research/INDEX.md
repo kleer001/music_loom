@@ -28,6 +28,7 @@ What is here, and what each one is for. `README.md` is the way in; this is the m
 
 - `web_audio_toolchain.md` — JavaScript, TypeScript and Web Audio code outside this repo, read against what the rack already holds. Licences and versions checked at the registry rather than recalled, and a verdict on each: write from spec, vendor a file, read-only reference, or not this stack. It records the three capabilities the rack turned out not to have — loudness, tuning beyond 12-TET, and non-isochronous rhythm.
 - `dsp_source_texts.md` — the primary papers and books behind those capabilities, with what each one settles and whether it can be read for free. `pantry/CANDIDATES.md` is the equivalent list for sound material.
+- `hf_audio_models/` — open-weight audio generators on the Hugging Face Hub: loops and sampler instruments, full songs, live generation, sound effects, stem and repair tools. Each is read for what it makes, its licence as written in the licence file, and what its card says it was trained on, with a verdict on whether its output can enter the pantry. `hf_audio_models/SURVEY.md` is the way in; `snapshot/` holds the dated Hub listings behind its counts.
 
 **Form and structure**
 
