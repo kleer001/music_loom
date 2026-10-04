@@ -1,0 +1,11 @@
+node_modules/
+tmp/
+*.wav
+*.webm
+.DS_Store
+BREADCRUMB.md
+
+# Pretrained models: downloaded by fetch_models.sh, not authored here.
+models
+.venv/
+__pycache__/

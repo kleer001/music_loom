@@ -1,0 +1,320 @@
+iil_birds_dawnchorus_b2048_r48000_z8: 8 dims at 93.75 frames/s
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/roundtrip_a.wav  6.49 s  raw peak -3.89 dBFS
+  1. PASS  round trip RMS -5.0 dB against the input
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/tour_dim0.wav  6.49 s  raw peak -3.88 dBFS
+       dim 0: RMS -1.6 dB, centroid +5%
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/tour_dim1.wav  6.49 s  raw peak -3.89 dBFS
+       dim 1: RMS -3.6 dB, centroid +1%  ← moves
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/tour_dim2.wav  6.49 s  raw peak -3.89 dBFS
+       dim 2: RMS -3.1 dB, centroid +1%  ← moves
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/tour_dim3.wav  6.49 s  raw peak -3.89 dBFS
+       dim 3: RMS -3.0 dB, centroid +6%  ← moves
+  2. PASS  3 of 4 dims move a descriptor
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/stretch_x2.wav  12.97 s  raw peak -0.58 dBFS
+  3. PASS  frames 608 → 1216, median centroid 6985 → 6895 Hz (-1%)
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/meld_0.5.wav  6.49 s  raw peak -11.82 dBFS
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/meld_sweep.wav  6.49 s  raw peak -6.64 dBFS
+  4. FAIL  null residual -240 dB re peak; centroids A 6985, B 1096, meld 984 Hz
+  wrote tmp/renders/iil_birds_dawnchorus_b2048_r48000_z8/bend_l0_scale_1.5.wav  6.49 s  raw peak -0.89 dBFS
+  5. PASS  bent net.0.weight: peak +3.0 dB against unbent, max change 111% of unbent peak
+  4 of 5 predictions hold
+iil_guitar_iil_b2048_r48000_z16: 16 dims at 23.44 frames/s
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/roundtrip_a.wav  6.49 s  raw peak 3.32 dBFS
+  1. PASS  round trip RMS +0.4 dB against the input
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/tour_dim0.wav  6.49 s  raw peak 3.33 dBFS
+       dim 0: RMS +3.5 dB, centroid +4%  ← moves
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/tour_dim1.wav  6.49 s  raw peak 3.29 dBFS
+       dim 1: RMS +0.5 dB, centroid -19%
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/tour_dim2.wav  6.49 s  raw peak 3.3 dBFS
+       dim 2: RMS -3.4 dB, centroid -6%  ← moves
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/tour_dim3.wav  6.49 s  raw peak 3.27 dBFS
+       dim 3: RMS -11.7 dB, centroid +64%  ← moves
+  2. PASS  3 of 4 dims move a descriptor
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/stretch_x2.wav  12.97 s  raw peak 1.28 dBFS
+  3. FAIL  frames 152 → 304, median centroid 4062 → 5256 Hz (+29%)
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/meld_0.5.wav  6.49 s  raw peak -4.65 dBFS
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/meld_sweep.wav  6.49 s  raw peak -0.88 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 4062, B 2877, meld 3957 Hz
+  wrote tmp/renders/iil_guitar_iil_b2048_r48000_z16/bend_l0_scale_1.5.wav  6.49 s  raw peak 8.37 dBFS
+  5. PASS  bent net.0.weight: peak +5.1 dB against unbent, max change 89% of unbent peak
+  4 of 5 predictions hold
+iil_humpbacks_pondbrain_b2048_r48000_z20: 20 dims at 23.44 frames/s
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/roundtrip_a.wav  6.49 s  raw peak -6.98 dBFS
+  1. PASS  round trip RMS -2.7 dB against the input
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/tour_dim0.wav  6.49 s  raw peak 1.19 dBFS
+       dim 0: RMS -34.1 dB, centroid +105%  ← moves
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/tour_dim1.wav  6.49 s  raw peak -5.38 dBFS
+       dim 1: RMS -4.0 dB, centroid +24%  ← moves
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/tour_dim2.wav  6.49 s  raw peak -5.77 dBFS
+       dim 2: RMS -11.2 dB, centroid +92%  ← moves
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/tour_dim3.wav  6.49 s  raw peak -7.74 dBFS
+       dim 3: RMS -0.4 dB, centroid +29%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/stretch_x2.wav  12.97 s  raw peak -6.45 dBFS
+  3. PASS  frames 152 → 304, median centroid 7487 → 6987 Hz (-7%)
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/meld_0.5.wav  6.49 s  raw peak -4.89 dBFS
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/meld_sweep.wav  6.49 s  raw peak -0.51 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 7487, B 2433, meld 4377 Hz
+  wrote tmp/renders/iil_humpbacks_pondbrain_b2048_r48000_z20/bend_l0_scale_1.5.wav  6.49 s  raw peak -4.29 dBFS
+  5. PASS  bent net.0.weight: peak +2.7 dB against unbent, max change 82% of unbent peak
+  5 of 5 predictions hold
+iil_magnets_b2048_r48000_z8: 8 dims at 23.44 frames/s
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/roundtrip_a.wav  6.53 s  raw peak -8.22 dBFS
+  1. FAIL  round trip RMS -11.3 dB against the input
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/tour_dim0.wav  6.53 s  raw peak -7.55 dBFS
+       dim 0: RMS +17.0 dB, centroid -46%  ← moves
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/tour_dim1.wav  6.53 s  raw peak -7.12 dBFS
+       dim 1: RMS -0.4 dB, centroid +8%
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/tour_dim2.wav  6.53 s  raw peak -6.35 dBFS
+       dim 2: RMS -0.5 dB, centroid -42%  ← moves
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/tour_dim3.wav  6.53 s  raw peak -7.75 dBFS
+       dim 3: RMS +8.2 dB, centroid +101%  ← moves
+  2. PASS  3 of 4 dims move a descriptor
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/stretch_x2.wav  13.06 s  raw peak -2.52 dBFS
+  3. PASS  frames 153 → 306, median centroid 8497 → 7358 Hz (-13%)
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/meld_0.5.wav  6.53 s  raw peak -11.33 dBFS
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/meld_sweep.wav  6.53 s  raw peak -5.99 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 8497, B 2856, meld 4321 Hz
+  wrote tmp/renders/iil_magnets_b2048_r48000_z8/bend_l0_scale_1.5.wav  6.53 s  raw peak -0.2 dBFS
+  5. FAIL  bent net.0.weight: peak +8.0 dB against unbent, max change 180% of unbent peak
+  3 of 5 predictions hold
+iil_organ_bach_b2048_r48000_z16: 16 dims at 23.44 frames/s
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/roundtrip_a.wav  6.49 s  raw peak 0.47 dBFS
+  1. PASS  round trip RMS -2.9 dB against the input
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/tour_dim0.wav  6.49 s  raw peak 1.6 dBFS
+       dim 0: RMS +6.6 dB, centroid -1%  ← moves
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/tour_dim1.wav  6.49 s  raw peak 1.12 dBFS
+       dim 1: RMS -9.7 dB, centroid +17%  ← moves
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/tour_dim2.wav  6.49 s  raw peak 0.28 dBFS
+       dim 2: RMS -7.4 dB, centroid +7%  ← moves
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/tour_dim3.wav  6.49 s  raw peak 0.79 dBFS
+       dim 3: RMS -4.9 dB, centroid +1%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/stretch_x2.wav  12.97 s  raw peak -0.77 dBFS
+  3. PASS  frames 152 → 304, median centroid 3881 → 3823 Hz (-1%)
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/meld_0.5.wav  6.49 s  raw peak -5.69 dBFS
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/meld_sweep.wav  6.49 s  raw peak -0.07 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 3881, B 1841, meld 3050 Hz
+  wrote tmp/renders/iil_organ_bach_b2048_r48000_z16/bend_l0_scale_1.5.wav  6.49 s  raw peak 7.08 dBFS
+  5. FAIL  bent net.0.weight: peak +6.6 dB against unbent, max change 169% of unbent peak
+  4 of 5 predictions hold
+iil_water_pondbrain_b2048_r48000_z16: 16 dims at 23.44 frames/s
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/roundtrip_a.wav  6.49 s  raw peak 1.89 dBFS
+  1. PASS  round trip RMS -1.3 dB against the input
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/tour_dim0.wav  6.49 s  raw peak 1.77 dBFS
+       dim 0: RMS -13.7 dB, centroid +90%  ← moves
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/tour_dim1.wav  6.49 s  raw peak 3.31 dBFS
+       dim 1: RMS -5.0 dB, centroid +196%  ← moves
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/tour_dim2.wav  6.49 s  raw peak 1.36 dBFS
+       dim 2: RMS -3.7 dB, centroid +29%  ← moves
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/tour_dim3.wav  6.49 s  raw peak 1.95 dBFS
+       dim 3: RMS -3.7 dB, centroid +29%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/stretch_x2.wav  12.97 s  raw peak 3.11 dBFS
+  3. PASS  frames 152 → 304, median centroid 6777 → 7417 Hz (+9%)
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/meld_0.5.wav  6.49 s  raw peak -1.38 dBFS
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/meld_sweep.wav  6.49 s  raw peak 0.68 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 6777, B 2799, meld 4951 Hz
+  wrote tmp/renders/iil_water_pondbrain_b2048_r48000_z16/bend_l0_scale_1.5.wav  6.49 s  raw peak 3.37 dBFS
+  5. PASS  bent net.0.weight: peak +1.5 dB against unbent, max change 59% of unbent peak
+  5 of 5 predictions hold
+ircam_darbouka_onnx: 4 dims at 344.53 frames/s
+  wrote tmp/renders/ircam_darbouka_onnx/roundtrip_a.wav  6.5 s  raw peak -5.15 dBFS
+  1. PASS  round trip RMS -3.4 dB against the input
+  wrote tmp/renders/ircam_darbouka_onnx/tour_dim0.wav  6.5 s  raw peak -2.54 dBFS
+       dim 0: RMS +40.9 dB, centroid +40%  ← moves
+  wrote tmp/renders/ircam_darbouka_onnx/tour_dim1.wav  6.5 s  raw peak -4.51 dBFS
+       dim 1: RMS -10.7 dB, centroid -68%  ← moves
+  wrote tmp/renders/ircam_darbouka_onnx/tour_dim2.wav  6.5 s  raw peak -6.67 dBFS
+       dim 2: RMS -0.0 dB, centroid -27%  ← moves
+  wrote tmp/renders/ircam_darbouka_onnx/tour_dim3.wav  6.5 s  raw peak -7.45 dBFS
+       dim 3: RMS -3.2 dB, centroid +7%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_darbouka_onnx/stretch_x2.wav  13.0 s  raw peak -6.27 dBFS
+  3. FAIL  frames 140 → 280, median centroid 3698 → 5119 Hz (+38%)
+  wrote tmp/renders/ircam_darbouka_onnx/meld_0.5.wav  6.5 s  raw peak -10.02 dBFS
+  wrote tmp/renders/ircam_darbouka_onnx/meld_sweep.wav  6.5 s  raw peak -7.56 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 3698, B 2746, meld 2832 Hz
+  wrote tmp/renders/ircam_darbouka_onnx/bend_l0_scale_1.5.wav  6.5 s  raw peak -1.67 dBFS
+  5. PASS  bent net.0.weight: peak +3.5 dB against unbent, max change 49% of unbent peak
+  4 of 5 predictions hold
+ircam_isis: 8 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_isis/roundtrip_a.wav  6.5 s  raw peak -6.35 dBFS
+  1. PASS  round trip RMS -4.0 dB against the input
+  wrote tmp/renders/ircam_isis/tour_dim0.wav  6.5 s  raw peak -6.44 dBFS
+       dim 0: RMS +4.1 dB, centroid +53%  ← moves
+  wrote tmp/renders/ircam_isis/tour_dim1.wav  6.5 s  raw peak -6.21 dBFS
+       dim 1: RMS +13.0 dB, centroid +36%  ← moves
+  wrote tmp/renders/ircam_isis/tour_dim2.wav  6.5 s  raw peak -5.81 dBFS
+       dim 2: RMS +6.8 dB, centroid +53%  ← moves
+  wrote tmp/renders/ircam_isis/tour_dim3.wav  6.5 s  raw peak -6.56 dBFS
+       dim 3: RMS +5.3 dB, centroid +28%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_isis/stretch_x2.wav  13.0 s  raw peak 0.41 dBFS
+  3. PASS  frames 140 → 280, median centroid 7359 → 6861 Hz (-7%)
+  wrote tmp/renders/ircam_isis/meld_0.5.wav  6.5 s  raw peak -13.85 dBFS
+  wrote tmp/renders/ircam_isis/meld_sweep.wav  6.5 s  raw peak -11.94 dBFS
+  4. FAIL  null residual -240 dB re peak; centroids A 7359, B 7558, meld 4853 Hz
+  wrote tmp/renders/ircam_isis/bend_l0_scale_1.5.wav  6.5 s  raw peak -2.74 dBFS
+  5. PASS  bent net.0.weight: peak +3.6 dB against unbent, max change 54% of unbent peak
+  4 of 5 predictions hold
+ircam_musicnet: 16 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_musicnet/roundtrip_a.wav  6.5 s  raw peak -14.66 dBFS
+  1. FAIL  round trip RMS -12.4 dB against the input
+  wrote tmp/renders/ircam_musicnet/tour_dim0.wav  6.5 s  raw peak -12.29 dBFS
+       dim 0: RMS +7.4 dB, centroid +18%  ← moves
+  wrote tmp/renders/ircam_musicnet/tour_dim1.wav  6.5 s  raw peak -14.53 dBFS
+       dim 1: RMS -3.6 dB, centroid +51%  ← moves
+  wrote tmp/renders/ircam_musicnet/tour_dim2.wav  6.5 s  raw peak -14.4 dBFS
+       dim 2: RMS +4.3 dB, centroid +55%  ← moves
+  wrote tmp/renders/ircam_musicnet/tour_dim3.wav  6.5 s  raw peak -14.77 dBFS
+       dim 3: RMS +9.0 dB, centroid +1%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_musicnet/stretch_x2.wav  13.0 s  raw peak -6.98 dBFS
+  3. PASS  frames 140 → 280, median centroid 7449 → 6953 Hz (-7%)
+  wrote tmp/renders/ircam_musicnet/meld_0.5.wav  6.5 s  raw peak -20.12 dBFS
+  wrote tmp/renders/ircam_musicnet/meld_sweep.wav  6.5 s  raw peak -13.14 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 7449, B 3836, meld 6312 Hz
+  wrote tmp/renders/ircam_musicnet/bend_l0_scale_1.5.wav  6.5 s  raw peak -12.71 dBFS
+  5. PASS  bent net.0.weight: peak +1.9 dB against unbent, max change 45% of unbent peak
+  4 of 5 predictions hold
+ircam_nasa: 8 dims at 23.44 frames/s
+  wrote tmp/renders/ircam_nasa/roundtrip_a.wav  6.53 s  raw peak 13.51 dBFS
+  1. FAIL  round trip RMS +18.9 dB against the input
+  wrote tmp/renders/ircam_nasa/tour_dim0.wav  6.53 s  raw peak 13.71 dBFS
+       dim 0: RMS +7.2 dB, centroid +28%  ← moves
+  wrote tmp/renders/ircam_nasa/tour_dim1.wav  6.53 s  raw peak 13.59 dBFS
+       dim 1: RMS -2.4 dB, centroid -1%
+  wrote tmp/renders/ircam_nasa/tour_dim2.wav  6.53 s  raw peak 13.39 dBFS
+       dim 2: RMS -0.8 dB, centroid -17%
+  wrote tmp/renders/ircam_nasa/tour_dim3.wav  6.53 s  raw peak 13.51 dBFS
+       dim 3: RMS -2.0 dB, centroid -13%
+  2. FAIL  1 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_nasa/stretch_x2.wav  13.06 s  raw peak 14.66 dBFS
+  3. FAIL  frames 153 → 306, median centroid 1632 → 2376 Hz (+46%)
+  wrote tmp/renders/ircam_nasa/meld_0.5.wav  6.53 s  raw peak 10.64 dBFS
+  wrote tmp/renders/ircam_nasa/meld_sweep.wav  6.53 s  raw peak 12.13 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 1632, B 1983, meld 1715 Hz
+  wrote tmp/renders/ircam_nasa/bend_l0_scale_1.5.wav  6.53 s  raw peak 14.88 dBFS
+  5. PASS  bent net.0.weight: peak +1.4 dB against unbent, max change 44% of unbent peak
+  2 of 5 predictions hold
+ircam_percussion: 4 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_percussion/roundtrip_a.wav  6.5 s  raw peak 11.18 dBFS
+  1. FAIL  round trip RMS +8.4 dB against the input
+  wrote tmp/renders/ircam_percussion/tour_dim0.wav  6.5 s  raw peak 11.16 dBFS
+       dim 0: RMS +9.8 dB, centroid +4%  ← moves
+  wrote tmp/renders/ircam_percussion/tour_dim1.wav  6.5 s  raw peak 11.26 dBFS
+       dim 1: RMS -4.1 dB, centroid +16%  ← moves
+  wrote tmp/renders/ircam_percussion/tour_dim2.wav  6.5 s  raw peak 11.21 dBFS
+       dim 2: RMS -8.2 dB, centroid +48%  ← moves
+  wrote tmp/renders/ircam_percussion/tour_dim3.wav  6.5 s  raw peak 11.18 dBFS
+       dim 3: RMS -15.8 dB, centroid +92%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_percussion/stretch_x2.wav  13.0 s  raw peak 11.53 dBFS
+  3. FAIL  frames 140 → 280, median centroid 6677 → 5432 Hz (-19%)
+  wrote tmp/renders/ircam_percussion/meld_0.5.wav  6.5 s  raw peak 7.68 dBFS
+  wrote tmp/renders/ircam_percussion/meld_sweep.wav  6.5 s  raw peak 7.39 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 6677, B 3199, meld 4858 Hz
+  wrote tmp/renders/ircam_percussion/bend_l0_scale_1.5.wav  6.5 s  raw peak 21.06 dBFS
+  5. FAIL  bent net.0.weight: peak +9.9 dB against unbent, max change 221% of unbent peak
+  2 of 5 predictions hold
+ircam_sol_full: 8 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_sol_full/roundtrip_a.wav  6.5 s  raw peak -5.59 dBFS
+  1. PASS  round trip RMS -0.7 dB against the input
+  wrote tmp/renders/ircam_sol_full/tour_dim0.wav  6.5 s  raw peak -5.34 dBFS
+       dim 0: RMS -2.5 dB, centroid -13%
+  wrote tmp/renders/ircam_sol_full/tour_dim1.wav  6.5 s  raw peak -1.31 dBFS
+       dim 1: RMS -11.5 dB, centroid +428%  ← moves
+  wrote tmp/renders/ircam_sol_full/tour_dim2.wav  6.5 s  raw peak -6.09 dBFS
+       dim 2: RMS +12.0 dB, centroid -29%  ← moves
+  wrote tmp/renders/ircam_sol_full/tour_dim3.wav  6.5 s  raw peak -5.27 dBFS
+       dim 3: RMS +2.6 dB, centroid +53%  ← moves
+  2. PASS  3 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_sol_full/stretch_x2.wav  13.0 s  raw peak -7.46 dBFS
+  3. PASS  frames 140 → 280, median centroid 4280 → 4053 Hz (-5%)
+  wrote tmp/renders/ircam_sol_full/meld_0.5.wav  6.5 s  raw peak -12.28 dBFS
+  wrote tmp/renders/ircam_sol_full/meld_sweep.wav  6.5 s  raw peak -8.21 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 4280, B 2499, meld 3366 Hz
+  wrote tmp/renders/ircam_sol_full/bend_l0_scale_1.5.wav  6.5 s  raw peak -2.43 dBFS
+  5. PASS  bent net.0.weight: peak +3.2 dB against unbent, max change 44% of unbent peak
+  5 of 5 predictions hold
+ircam_sol_ordinario_fast: 8 dims at 86.13 frames/s
+  wrote tmp/renders/ircam_sol_ordinario_fast/roundtrip_a.wav  6.49 s  raw peak -26.46 dBFS
+  1. FAIL  round trip RMS -26.0 dB against the input
+  wrote tmp/renders/ircam_sol_ordinario_fast/tour_dim0.wav  6.49 s  raw peak -9.38 dBFS
+       dim 0: RMS +19.4 dB, centroid +138%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario_fast/tour_dim1.wav  6.49 s  raw peak -7.64 dBFS
+       dim 1: RMS +22.5 dB, centroid +26%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario_fast/tour_dim2.wav  6.49 s  raw peak -11.58 dBFS
+       dim 2: RMS +20.8 dB, centroid +8%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario_fast/tour_dim3.wav  6.49 s  raw peak -21.86 dBFS
+       dim 3: RMS +10.0 dB, centroid -84%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_sol_ordinario_fast/stretch_x2.wav  12.98 s  raw peak -0.36 dBFS
+  3. FAIL  frames 559 → 1118, median centroid 4341 → 3435 Hz (-21%)
+  wrote tmp/renders/ircam_sol_ordinario_fast/meld_0.5.wav  6.49 s  raw peak -10.68 dBFS
+  wrote tmp/renders/ircam_sol_ordinario_fast/meld_sweep.wav  6.49 s  raw peak -2.69 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 4341, B 2112, meld 2926 Hz
+  wrote tmp/renders/ircam_sol_ordinario_fast/bend_l0_scale_1.5.wav  6.49 s  raw peak -40.35 dBFS
+  5. PASS  bent waveform_module.weight: peak -13.9 dB against unbent, max change 86% of unbent peak
+  3 of 5 predictions hold
+ircam_sol_ordinario: 4 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_sol_ordinario/roundtrip_a.wav  6.5 s  raw peak 10.01 dBFS
+  1. FAIL  round trip RMS +22.0 dB against the input
+  wrote tmp/renders/ircam_sol_ordinario/tour_dim0.wav  6.5 s  raw peak 9.82 dBFS
+       dim 0: RMS -3.8 dB, centroid +18%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario/tour_dim1.wav  6.5 s  raw peak 9.73 dBFS
+       dim 1: RMS -4.3 dB, centroid +16%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario/tour_dim2.wav  6.5 s  raw peak 10.02 dBFS
+       dim 2: RMS -3.9 dB, centroid +24%  ← moves
+  wrote tmp/renders/ircam_sol_ordinario/tour_dim3.wav  6.5 s  raw peak 9.91 dBFS
+       dim 3: RMS -4.1 dB, centroid +17%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_sol_ordinario/stretch_x2.wav  13.0 s  raw peak 10.35 dBFS
+  3. PASS  frames 140 → 280, median centroid 1524 → 1415 Hz (-7%)
+  wrote tmp/renders/ircam_sol_ordinario/meld_0.5.wav  6.5 s  raw peak 8.32 dBFS
+  wrote tmp/renders/ircam_sol_ordinario/meld_sweep.wav  6.5 s  raw peak 10.03 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 1524, B 720, meld 1048 Hz
+  wrote tmp/renders/ircam_sol_ordinario/bend_l0_scale_1.5.wav  6.5 s  raw peak 10.73 dBFS
+  5. PASS  bent net.0.weight: peak +0.7 dB against unbent, max change 21% of unbent peak
+  4 of 5 predictions hold
+ircam_VCTK: 8 dims at 23.44 frames/s
+  wrote tmp/renders/ircam_VCTK/roundtrip_a.wav  6.53 s  raw peak -4.27 dBFS
+  1. PASS  round trip RMS -4.7 dB against the input
+  wrote tmp/renders/ircam_VCTK/tour_dim0.wav  6.53 s  raw peak -2.92 dBFS
+       dim 0: RMS +22.2 dB, centroid -7%  ← moves
+  wrote tmp/renders/ircam_VCTK/tour_dim1.wav  6.53 s  raw peak 2.93 dBFS
+       dim 1: RMS +5.3 dB, centroid +236%  ← moves
+  wrote tmp/renders/ircam_VCTK/tour_dim2.wav  6.53 s  raw peak -3.36 dBFS
+       dim 2: RMS +9.4 dB, centroid +20%  ← moves
+  wrote tmp/renders/ircam_VCTK/tour_dim3.wav  6.53 s  raw peak -3.26 dBFS
+       dim 3: RMS +5.4 dB, centroid +39%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_VCTK/stretch_x2.wav  13.06 s  raw peak -4.36 dBFS
+  3. PASS  frames 153 → 306, median centroid 7719 → 7434 Hz (-4%)
+  wrote tmp/renders/ircam_VCTK/meld_0.5.wav  6.53 s  raw peak -5.24 dBFS
+  wrote tmp/renders/ircam_VCTK/meld_sweep.wav  6.53 s  raw peak -3.52 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 7719, B 2962, meld 3793 Hz
+  wrote tmp/renders/ircam_VCTK/bend_l0_scale_1.5.wav  6.53 s  raw peak 6.21 dBFS
+  5. FAIL  bent net.0.weight: peak +10.5 dB against unbent, max change 282% of unbent peak
+  4 of 5 predictions hold
+ircam_vintage: 16 dims at 21.53 frames/s
+  wrote tmp/renders/ircam_vintage/roundtrip_a.wav  6.5 s  raw peak 11.35 dBFS
+  1. FAIL  round trip RMS +7.4 dB against the input
+  wrote tmp/renders/ircam_vintage/tour_dim0.wav  6.5 s  raw peak 11.42 dBFS
+       dim 0: RMS +20.3 dB, centroid +8%  ← moves
+  wrote tmp/renders/ircam_vintage/tour_dim1.wav  6.5 s  raw peak 11.33 dBFS
+       dim 1: RMS +10.5 dB, centroid +11%  ← moves
+  wrote tmp/renders/ircam_vintage/tour_dim2.wav  6.5 s  raw peak 11.26 dBFS
+       dim 2: RMS +14.8 dB, centroid +4%  ← moves
+  wrote tmp/renders/ircam_vintage/tour_dim3.wav  6.5 s  raw peak 11.35 dBFS
+       dim 3: RMS +14.3 dB, centroid +10%  ← moves
+  2. PASS  4 of 4 dims move a descriptor
+  wrote tmp/renders/ircam_vintage/stretch_x2.wav  13.0 s  raw peak 9.79 dBFS
+  3. PASS  frames 140 → 280, median centroid 6950 → 7096 Hz (+2%)
+  wrote tmp/renders/ircam_vintage/meld_0.5.wav  6.5 s  raw peak 0.56 dBFS
+  wrote tmp/renders/ircam_vintage/meld_sweep.wav  6.5 s  raw peak 9.77 dBFS
+  4. PASS  null residual -240 dB re peak; centroids A 6950, B 2541, meld 6195 Hz
+  wrote tmp/renders/ircam_vintage/bend_l0_scale_1.5.wav  6.5 s  raw peak 15.92 dBFS
+  5. PASS  bent net.0.weight: peak +4.6 dB against unbent, max change 93% of unbent peak
+  4 of 5 predictions hold

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>latent_waves live</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="live">
+  <h1>latent_waves — live <a href="index.html">audition</a></h1>
+  <div class="topbar">
+    <button id="play">▶ play</button>
+    <label>model <select id="model"></select></label>
+    <span id="status">connecting…</span>
+  </div>
+  <div class="surface">
+    <div>
+      <div id="pad">
+        <svg id="trail-line" viewBox="0 0 1 1" preserveAspectRatio="none"><polyline points=""/></svg>
+        <span class="corner a"></span><span class="corner b"></span>
+        <span class="corner c"></span><span class="corner d"></span>
+        <div id="puck"></div>
+      </div>
+      <div class="trail-buttons">
+        <button id="rec" title="arm, then drag on the pad">● rec trail</button>
+        <button id="loop">▶ loop trail</button>
+        <button id="clear">clear trail</button>
+      </div>
+      <div id="sources"></div>
+    </div>
+    <div id="controls"></div>
+  </div>
+</main>
+<script type="module" src="src/live.js"></script>
+</body>
+</html>

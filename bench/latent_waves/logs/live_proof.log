@@ -1,0 +1,80 @@
+iil_birds_dawnchorus_b2048_r48000_z8: 8 dims, 16 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.03× the step there with no join; correlation with a whole-file decode 0.945
+  2. PASS  pad centre: output RMS -0.4 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 21% of the block length (19% median)
+  3 of 3 predictions hold
+iil_guitar_iil_b2048_r48000_z16: 16 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.66× the step there with no join; correlation with a whole-file decode 0.999
+  2. FAIL  pad centre: output RMS -4.8 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 42% of the block length (39% median)
+  2 of 3 predictions hold
+iil_humpbacks_pondbrain_b2048_r48000_z20: 20 dims, 4 steps per block of 8192 samples
+  1. FAIL  corner A: max difference 0 from a direct block decode; median step at block joins 2.11× the step there with no join; correlation with a whole-file decode 1.000
+  2. PASS  pad centre: output RMS +1.6 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 27% of the block length (24% median)
+  2 of 3 predictions hold
+iil_magnets_b2048_r48000_z8: 8 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.14× the step there with no join; correlation with a whole-file decode 0.715
+  2. PASS  pad centre: output RMS +0.5 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 9% of the block length (9% median)
+  3 of 3 predictions hold
+iil_organ_bach_b2048_r48000_z16: 16 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.05× the step there with no join; correlation with a whole-file decode 0.948
+  2. PASS  pad centre: output RMS -2.0 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 41% of the block length (39% median)
+  3 of 3 predictions hold
+iil_water_pondbrain_b2048_r48000_z16: 16 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.00× the step there with no join; correlation with a whole-file decode 1.000
+  2. PASS  pad centre: output RMS +2.0 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 27% of the block length (24% median)
+  3 of 3 predictions hold
+ircam_darbouka_onnx: 4 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.29× the step there with no join; correlation with a whole-file decode 0.653
+  2. FAIL  pad centre: output RMS -4.7 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 9% of the block length (8% median)
+  2 of 3 predictions hold
+ircam_isis: 8 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.87× the step there with no join; correlation with a whole-file decode 0.999
+  2. FAIL  pad centre: output RMS -3.1 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 40% of the block length (37% median)
+  2 of 3 predictions hold
+ircam_musicnet: 16 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.96× the step there with no join; correlation with a whole-file decode 0.999
+  2. FAIL  pad centre: output RMS -5.7 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 43% of the block length (37% median)
+  2 of 3 predictions hold
+ircam_nasa: 8 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.03× the step there with no join; correlation with a whole-file decode 0.997
+  2. FAIL  pad centre: output RMS +12.6 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 50% of the block length (48% median)
+  2 of 3 predictions hold
+ircam_percussion: 4 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.67× the step there with no join; correlation with a whole-file decode 0.871
+  2. PASS  pad centre: output RMS +2.4 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 14% of the block length (13% median)
+  3 of 3 predictions hold
+ircam_sol_full: 8 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.99× the step there with no join; correlation with a whole-file decode 0.996
+  2. PASS  pad centre: output RMS -0.2 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 38% of the block length (34% median)
+  3 of 3 predictions hold
+ircam_sol_ordinario_fast: 8 dims, 16 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.92× the step there with no join; correlation with a whole-file decode 0.790
+  2. FAIL  pad centre: output RMS +3.4 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 10% of the block length (8% median)
+  2 of 3 predictions hold
+ircam_sol_ordinario: 4 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 1.09× the step there with no join; correlation with a whole-file decode 0.999
+  2. FAIL  pad centre: output RMS +16.2 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 41% of the block length (35% median)
+  2 of 3 predictions hold
+ircam_VCTK: 8 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.60× the step there with no join; correlation with a whole-file decode 0.734
+  2. PASS  pad centre: output RMS +2.3 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 17% of the block length (14% median)
+  3 of 3 predictions hold
+ircam_vintage: 16 dims, 4 steps per block of 8192 samples
+  1. PASS  corner A: max difference 0 from a direct block decode; median step at block joins 0.99× the step there with no join; correlation with a whole-file decode 0.998
+  2. FAIL  pad centre: output RMS +12.9 dB against the mean of the four inputs
+  3. PASS  300 s with a moving puck: 99th-percentile decode 50% of the block length (43% median)
+  2 of 3 predictions hold

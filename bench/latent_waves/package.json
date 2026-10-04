@@ -1,0 +1,12 @@
+{
+  "name": "latent_waves",
+  "version": "0.1.0",
+  "description": "Recordings changed in the latent space of pretrained RAVE models: dials, meld, stretch, decoder bends.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "devDependencies": {}
+}
