@@ -1,0 +1,52 @@
+[   61.4] My name is Evan King, I'm the founder of Thoughtful Things and the creator of Ngram.
+[   65.1] It's a new type of sampler that lets you generate uncanny forms of sound using
+[   69.1] tiny generative audio models. Piano. You can think of Ngram like a field recorder for latent space.
+[  112.6] It helps you explore the world inside of generative audio models and sample the uncanny
+[  117.8] and interesting sounds that you discover there. It's designed with three things in mind.
+[  121.8] Explorability, tweakability, and most importantly, breakability. Coral wreath,
+[  127.0] that's interesting, kind of oceanic.
+[  151.9] It's the first musical device to run generative audio models directly on the hardware.
+[  156.6] And rather than treating these models like song generators that take away creativity from artists,
+[  162.1] it treats them like sound generators that unlock new and uncanny forms of sound design.
+[  167.0] I earned my PhD and I went on to build a career in tiny machine learning.
+[  171.1] And Ngram is built out of that same
+[  173.0] line of research. So, let me explain a couple of basic concepts.
+[  176.1] What do I mean by Tiny Models?
+[  177.9] Well Tiny Models are small enough to run directly on Ngram's hardware,
+[  181.3] without any internet connection, or app or subscription service required.
+[  185.8] They're trained on very small easy-to- curate data-sets,
+[  189.0] and they don't require huge data centers to train.
+[  192.7] The barrier to entry is low enough in fact that once Ngram hits the market, the we want
+[  197.0] our community to be able to train their own models to load onto the devices and explore and experiment.
+[  201.8] qwash the noise of갔k չəΛ խɑາຜຕ självӽ involvement abnormalities v career in a particular place. What do I mean by Tiny Models?
+[  203.0] mean by tweakable models? Well Ngram contains a set of features that we're
+[  206.8] calling model bending, named after circuit bending where you glitch and
+[  210.1] manipulate old electronics to kind of create new forms of expression. Similarly
+[  214.3] Ngram's model bending algorithms lets you glitch and manipulate audio as it
+[  218.6] moves into and out of latent space. This is fundamentally different than the
+[  222.7] black box song generators that assume that you just want polished predictable
+[  226.9] slop. Model bending lets you take these models and push them past their limits
+[  231.1] and their intended uses to discover your own unique forms of sound design.
+[  234.9] And while the concept is pretty new and novel, Ngram still has all of the
+[  238.9] traditional features that you would expect out of a piece of music gear. MIDI
+[  242.4] ins and outs, CV sync in and out, headphone output, stereo line-in for
+[  247.2] recording your own samples, and a pretty familiar sampler groove box type
+[  251.4] workflow. And we also want to open up the platform so that developers and
+[  256.0] experimentalists in the community can create their own unique applications on
+[  259.8] Ngram's pretty powerful software.
+[  261.1] So why are we on Kickstarter? Well this is a playable functional prototype. It's
+[  266.8] manufacturable. The PCB is already pretty much laid out to spec. Here it is fresh
+[  271.2] from the manufacturer and it's currently in testing with artists and musicians
+[  275.2] all over the world so that we can make the workflow solid. What your backing
+[  279.4] will do is help us get to our first retail grade production run. So a metal
+[  284.3] enclosure will replace these three printed buttons with carbon pill buttons
+[  288.7] and it'll also allow us to cover the cost of hardwood wood, wood chips, wood
+[  290.9] and wood. All of these are based on hardware certification which is necessary
+[  293.0] to sell it in the US and the EU markets. Early backers will get the first retail
+[  298.2] production run of Ngram at a deep discount. You also have the option to add
+[  302.6] PCB printing if you want your name printed on the PCB. And hopefully with
+[  306.7] your backing this will become the beginning of a very community-oriented
+[  309.6] and rich space for new forms of sound design and musical experimentation. So
+[  315.7] thank you for watching the video and reading the materials on the Kickstarter
+[  319.1] and I really hope you'll choose to support.
+[  320.9] us. Thank you.

@@ -1,0 +1,3 @@
+[    0.0] it's the first musical device to run generative audio models directly on the hardware
+[    4.6] and rather than treating these models like song generators that take away creativity from artists
+[   10.2] it treats them like sound generators that unlock new and uncanny forms of sound design

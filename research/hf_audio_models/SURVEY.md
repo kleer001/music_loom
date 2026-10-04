@@ -1,20 +1,22 @@
 # Generative audio models on Hugging Face — survey
 
-Which open-weight audio generators on the Hugging Face Hub are worth the studio's attention, what each one makes, and on what terms.
+Which open-weight audio generators on the Hugging Face Hub are worth the studio's attention, what each one makes, and what each needs to run. The studio's work is non-commercial research, and every model below may be used for it.
 
 Sources: model cards, licence files and Hub listings read on 2026-10-02, and the primary GitHub repositories where a card is silent. Gated Stability AI cards were read from their public model pages. Licences were read in the licence file, not taken from the Hub's `license` field, because re-uploads relabel (section 2.7). The listing data behind every count and share here is in `snapshot/`. Nothing here was rendered, listened to or measured; every quality claim below is the publisher's own.
 
 ## Short answer
 
-| Want | Best fit | Terms in one line |
+| Want | Best fit | Why this one |
 |---|---|---|
-| Loops, one-shots, playable sampler instruments | **Foundation-1** (Stable Audio Open fine-tune) | Stability AI Community Licence: free under US $1M annual revenue, register before commercial use |
-| Instrumental beds and textures, up to six minutes | **Stable Audio 3** small-music (CPU) or medium (GPU) | Same licence; trained on licensed and Creative Commons audio, itemised |
-| Full songs with vocals, permissive licence | **ACE-Step 1.5** | MIT, weights and code; stem extraction and stem addition built in |
-| Full songs with vocals, highest claimed quality | **YuE2** and **MiniMax Music 3** | YuE2 is non-commercial. MiniMax permits commercial use with an on-screen credit and a machine-generated disclosure |
-| Live, playable generation | **Magenta RealTime 2** | CC BY 4.0 weights; real time only on Apple Silicon |
-| Sound effects | **Stable Audio 3 small-sfx**, **MOSS-SoundEffect v2.0** | Stability licence; Apache 2.0 |
-| Audio to MIDI | **basic-pitch** | Apache 2.0, with an npm package |
+| Loops, one-shots, playable sampler instruments | **Foundation-1** (Stable Audio Open fine-tune) | Takes BPM, bar count and key in the prompt; its Keybeds checkpoint builds pitched multi-sample instruments |
+| Instrumental beds and textures, up to six minutes | **Stable Audio 3** small-music (CPU) or medium (GPU) | Small runs without a GPU; medium reaches 380 s |
+| Full songs with vocals, highest claimed quality | **YuE2** | Plans each song as an editable ABC score before it renders; 48 kHz stereo on a 24 GB GPU |
+| Full songs with vocals, plus stem tools | **ACE-Step 1.5** | Pulls one stem out of a mix, or generates a new stem against existing audio |
+| Full songs, a second voice | **MiniMax Music 3** | Long, structured songs up to 5 min. Output published publicly must be labelled machine-generated |
+| Live, playable generation | **Magenta RealTime 2** | Steered by text, audio and MIDI at about 200 ms latency; real time only on Apple Silicon |
+| Sound effects | **Stable Audio 3 small-sfx**, **MOSS-SoundEffect v2.0** | Runs on a CPU; 48 kHz up to 30 s |
+| Restyle an existing song | **MuLaCover**, YuE2 cover mode | Keep a song's melody and lyrics, change its style |
+| Audio to MIDI | **basic-pitch** | Polyphonic, with pitch bends, and an npm package |
 
 None of them runs on the house stack. All are Python on PyTorch, JAX or MLX, and most want a GPU. Their place in the studio is upstream of an instrument: they make audio offline, and the audio enters `pantry/` with a provenance row like any other recording. Section 5 covers the routes.
 
@@ -41,6 +43,12 @@ Four things the listings show:
 **`Audio-to-Audio` is not the `audio-to-audio` pipeline.** The capitalised tag is free text and holds 14 models. The pipeline is a separate field and holds speech codecs, speech enhancement and speech-to-speech chat models, with music a small minority.
 
 ## 2. Licence classes
+
+This section is reference. Every licence below permits personal and research use. Three terms still ask something of that use:
+
+- **Attribution.** CC BY and CC BY-NC weights ask for credit, which a README line gives.
+- **MiniMax Music 3.** Output published in public must carry a machine-generated label (2.3).
+- **HunyuanVideo-Foley.** The licence excludes the EU, the UK and South Korea (2.5).
 
 ### 2.1 Permissive
 
@@ -79,7 +87,7 @@ CC BY-NC 4.0 defines NonCommercial as "not primarily intended for or directed to
 - **JAM-0.5:** "Commercial use of JAM or its outputs is strictly prohibited", stacked on the Stability licence.
 - **TangoFlux:** "for non-commercial research use only", stacked on the Stability licence and on its training sets' licences.
 
-Whether CC BY-NC reaches outputs where a model licence does not say so is not settled (see Gaps). This survey treats every non-commercial model as reference only.
+The studio's use is non-commercial, so these models are usable here on the same footing as the rest.
 
 ### 2.5 Tencent Hunyuan Community Licence
 
@@ -146,7 +154,7 @@ The earlier fine-tunes from the same lineage, RC_Infinite_Pianos and Audialab ED
 | HeartMuLa-oss-3B | 3.9B | 48 kHz stereo | 4 min default | Not stated | Apache 2.0 |
 | JAM-0.5 | 530M | — | 3 min 50 s | 8 GB recommended | Non-commercial |
 
-**ACE-Step 1.5** is the permissive choice with the most to offer an instrument builder. The `diffusers` pipeline documents six task types on 48 kHz audio:
+**ACE-Step 1.5** has the most tools for an instrument builder. The `diffusers` pipeline documents six task types on 48 kHz audio:
 
 - `text2music` — a song from a caption and lyrics.
 - `cover` — keep a source's melody and structure, change its style.
@@ -205,7 +213,7 @@ The house stack is vanilla JavaScript and Web Audio with zero runtime dependenci
 
 **Offline, into the pantry.** A model generates audio on a GPU or CPU. The files enter `pantry/` like any recording. A `PROVENANCE.md` row records the model id and revision, the licence, the prompt and the seed. Seeded generation keeps a re-render reproducible, the same reason `core/rng.js` exists. `rack/R3-measure` measures the result like any other file. This route keeps every instrument at zero runtime dependencies.
 
-**In the browser, with a dependency.** `Xenova/musicgen-small` runs under `@huggingface/transformers` (Apache 2.0, 4.3.0). Community ONNX ports of Stable Audio 3 small-music exist, for example `lsb/stable-audio-3-small-music-onnx`, and need `onnxruntime-web` (MIT, 1.30.0). Both break the zero-runtime-dependency line, and the MusicGen weights are non-commercial. `@spotify/basic-pitch` is the same trade on the analysis side.
+**In the browser, with a dependency.** `Xenova/musicgen-small` runs under `@huggingface/transformers` (Apache 2.0, 4.3.0). Community ONNX ports of Stable Audio 3 small-music exist, for example `lsb/stable-audio-3-small-music-onnx`, and need `onnxruntime-web` (MIT, 1.30.0). Both break the zero-runtime-dependency line. `@spotify/basic-pitch` is the same trade on the analysis side.
 
 **Live, beside the browser.** Magenta RealTime 2 runs as a native app or AUv3 plugin on Apple Silicon. An instrument that wants it would talk to it from outside the page, over MIDI or audio.
 
@@ -229,36 +237,41 @@ Hardware, as the publishers state it: Stable Audio 3 small runs on a CPU. Stable
 
 The verdicts follow the pattern of `web_audio_toolchain.md`, adapted to models rather than code.
 
-- **Pantry source** — generate offline and ship the output with a provenance row.
-- **Bench tool** — use while building (separation, transcription, restoration); the output does not ship.
-- **Reference only** — the licence forbids commercial output, or does not settle it. Listen and learn; do not ship.
+- **Pantry source** — generate offline; the output enters `pantry/` with a provenance row.
+- **Bench tool** — use while building: separation, transcription, restoration, restyling.
+- **Not yet** — not available in a usable form today.
 - **Not this studio.**
 
 | Model | Verdict | Reason |
 |---|---|---|
-| Foundation-1.2 Keybeds, Foundation-1.2 Samples | Pantry source | Makes the studio's own asset types — key- and tempo-locked loops, pitched multi-samples. Stability licence |
-| Stable Audio 3 small-music, medium | Pantry source | Training data itemised; small runs without a GPU. Stability licence; register before commercial use |
-| Stable Audio 3 small-sfx | Pantry source | Same terms, for effects |
-| ACE-Step 1.5 | Pantry source and bench tool | MIT. `extract` and `lego` are stem tools as well as generators. Training data claimed licensed, not itemised |
-| MiniMax Music 3 | Pantry source, conditional | Commercial use with an on-screen "MiniMax-Music3" credit and a machine-generated label on public output. Training data not stated |
-| Magenta RealTime 2 | Pantry source; live use on Apple Silicon only | CC BY 4.0; Google claims no rights in outputs |
-| MOSS-SoundEffect v2.0, HeartMuLa-oss-3B | Pantry source, flagged | Apache 2.0, but training data not stated |
-| basic-pitch | Bench tool | Turns pantry audio into MIDI. Apache 2.0, with a JS package |
+| Foundation-1.2 Keybeds, Foundation-1.2 Samples | Pantry source | Makes the studio's own asset types — key- and tempo-locked loops, pitched multi-samples |
+| Stable Audio 3 small-music, medium | Pantry source | Training data itemised; small runs without a GPU |
+| Stable Audio 3 small-sfx | Pantry source | The same, for effects |
+| YuE2 | Pantry source and bench tool | The highest claimed song quality; the ABC score can be edited before the render; cover mode restyles an existing song |
+| ACE-Step 1.5 | Pantry source and bench tool | `extract` and `lego` are stem tools as well as generators |
+| MiniMax Music 3 | Pantry source | Long structured songs. Label its output as machine-generated when it is published |
+| Magenta RealTime 2 | Pantry source; live use on Apple Silicon only | The one model that plays as it is steered |
+| MusicGen, MAGNeT | Pantry source | Older (2023–2024) and 32 kHz, but small, well documented and easy to run. `musicgen-melody` follows the melody of a reference recording. `Xenova/musicgen-small` runs in the browser |
+| JAM-0.5 | Pantry source | Word- and phoneme-level timing control over sung lyrics |
+| MOSS-SoundEffect v2.0, AudioX, Woosh, TangoFlux | Pantry source | Text-to-effect generators |
+| HeartMuLa-oss-3B | Pantry source | Another full-song generator at 48 kHz |
+| MuLaCover | Bench tool | Restyles an existing song |
+| MIDI-GPT | Pantry source (MIDI) | Symbolic generation with density, polyphony and key controls |
+| basic-pitch | Bench tool | Turns pantry audio into MIDI, with a JS package |
 | SonicMaster, TIGER-DnR, Apollo | Bench tool | Repair and separation |
-| YuE2, MusicGen, MAGNeT, AudioX, Woosh, JAM, MuLaCover, TangoFlux, MIDI-GPT | Reference only | Non-commercial |
-| SongGeneration / LeVo 2 | Reference only | Upstream licence cannot be read |
-| HunyuanVideo-Foley | Not this studio | Video-conditioned; territory-limited licence |
+| SongGeneration / LeVo 2 | Not yet | Both upstream repositories return errors (401 and 404); only community mirrors remain |
+| HunyuanVideo-Foley | Not this studio | Conditioned on video |
 | RVC voice models in `Audio-to-Audio` | Not this studio | Clones of named characters' and people's voices |
 | Riffusion | Not this studio | A 2022 spectrogram-image model, superseded by everything above |
+
+Where a model's card does not state its training data (MiniMax Music 3, HeartMuLa, MOSS-SoundEffect v2.0), the pantry's provenance row says so.
 
 ## Gaps
 
 - **No listening and no measurement.** Every quality claim is the publisher's. YuE2's benchmark comes from its own group. No file was rendered through `rack/R3-measure`.
-- **SongGeneration / LeVo 2** licence terms could not be read: both upstream repositories were unreachable on 2026-10-02.
+- **SongGeneration / LeVo 2**: both upstream repositories were unreachable on 2026-10-02, so its official card and terms could not be read.
 - **Training data not stated** for MiniMax Music 3, HeartMuLa and MOSS-SoundEffect v2.0. ACE-Step 1.5 names categories but no sources. Foundation-1 does not name where its source audio came from.
-- **Non-commercial reach into outputs.** CC BY-NC licenses the weights. Whether an output is "Licensed Material" or something adapted from it is not settled in the licence text. MuLaCover and JAM settle it by saying so; the others do not.
 - **Copyright of AI output outside the US** was not checked.
-- **Stability AI's acceptable-use policy** is incorporated by reference into its licence and was not read.
 - **Coverage.** The survey read the five named tags plus the top of the `text-to-audio` and `audio-to-audio` pipelines. A model that declares neither a pipeline nor one of the tags would not appear. Downloads are a 30-day window and read 0 for some checkpoint-only repositories.
 
 ## Sources
