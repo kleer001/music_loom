@@ -8,10 +8,18 @@ tmp/
 # source (PROVENANCE.md). The directories themselves stay unignored so the
 # re-includes below can reach into them.
 *.wav
-!pantry/acoustic/loops/*.wav
-!pantry/acoustic/strokes/*.wav
-!pantry/machine/*.wav
-!pantry/field/*.wav
+*.flac
+*.mp3
+*.ogg
+*.opus
+*.m4a
+*.aac
+*.aif
+*.aiff
+!pantry/acoustic/loops/*
+!pantry/acoustic/strokes/*
+!pantry/machine/*
+!pantry/field/*
 *.webm
 # Snapshots and console logs a browser driver leaves behind confirming a render.
 .playwright-mcp/
