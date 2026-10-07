@@ -1,0 +1,39 @@
+# A two-track example that shows the album layout. Each track has
+# tracks/<NN>-<slug>/caption.md and lyrics.txt; renders go to takes/.
+
+title = "Low Tide (example)"
+artist = "juke-box"
+brief = "Quiet indie folk for a grey coastal morning. One warm female voice, acoustic guitar, a little piano."
+arc = "Studied default, in miniature: a brighter opener, a calmer resolving closer."
+seed_base = 1000   # take k of track n uses seed seed_base + 100 * n + k
+takes = 1          # takes per track for each render pass
+lufs = -14.0       # master loudness target
+true_peak = -1.0   # dBTP
+gap_seconds = 2.0  # silence between tracks in master/album.flac
+
+# The Vocal Details block shared by every track. A `{{voice}}` line in a
+# caption becomes this text.
+voice = """
+Vocal Gender & Timbre: Singer A (Female). A warm, slightly breathy alto with a soft, close-miked intimacy.
+Vocal Style: Gentle and conversational, rising to a fuller, open tone on the chorus lines.
+Harmony/Backing Vocals: A single soft harmony on the last chorus only.
+Vocal FX: A short, warm room reverb; no audible pitch correction.
+"""
+
+[[track]]
+n = 1
+slug = "low-tide"
+title = "Low Tide"
+role = "opener"
+energy = 3
+seconds = 30
+pick = 1
+
+[[track]]
+n = 2
+slug = "lantern"
+title = "Lantern"
+role = "closer"
+energy = 2
+seconds = 20
+pick = 1

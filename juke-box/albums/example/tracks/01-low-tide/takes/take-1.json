@@ -1,0 +1,113 @@
+{
+ "seed": 1101,
+ "prompt_id": "f4a607f9-0bb0-475c-9067-b8f4f7d96458",
+ "render_seconds": 46.006,
+ "graph": {
+  "3": {
+   "class_type": "CLIPLoader",
+   "inputs": {
+    "clip_name": "minimax_music3_text_encoder_pruned_int8_convrot.safetensors",
+    "type": "minimax",
+    "device": "default"
+   }
+  },
+  "6": {
+   "class_type": "UNETLoader",
+   "inputs": {
+    "unet_name": "minimax_music3_dit_fp16.safetensors",
+    "weight_dtype": "default"
+   }
+  },
+  "7": {
+   "class_type": "VAELoader",
+   "inputs": {
+    "vae_name": "minimax_music3_dav.safetensors"
+   }
+  },
+  "13": {
+   "class_type": "MiniMaxMusic3TextEncode",
+   "inputs": {
+    "clip": [
+     "3",
+     0
+    ],
+    "caption": "Global Metadata\nBasic Attributes: bpm is 96. key is G, and scale is major. Indie Folk / Acoustic Pop.\nGlobal Emotional Progression: Opens bright and curious, with a light forward pulse, and settles into a contented warmth by the end.\nApplication Scenarios & Imagery: An early walk along a grey shoreline as the tide goes out; gulls, wet sand, a thermos of coffee.\nSonics & Production Profile: A close, natural acoustic recording with a warm low-mid range, soft highs and gentle dynamics; little compression.\nVocal Details\nVocal Gender & Timbre: Singer A (Female). A warm, slightly breathy alto with a soft, close-miked intimacy.\nVocal Style: Gentle and conversational, rising to a fuller, open tone on the chorus lines.\nHarmony/Backing Vocals: A single soft harmony on the last chorus only.\nVocal FX: A short, warm room reverb; no audible pitch correction.\nArrangement\nInstrument Lifecycle Description (Primary/Secondary Layering):\nPrimary: A fingerpicked steel-string acoustic guitar carries the harmony from the first bar to the last.\nSecondary: A soft upright piano adds single notes in the chorus and holds a final chord at the end.\nGroove & Foundation Progression: No drum kit. A light brushed snare and a soft kick enter at the chorus to lift the pulse, then drop away for the last line.\nEmbellishments, Textures & Spatial FX: Faint room ambience; a gentle guitar slide into the chorus.\n",
+    "lyrics": "[Verse]\nSalt on the window, the kettle's awake\nFootprints are filling as fast as I make\n\n[Chorus]\nLow tide, low tide, show me what you keep\nShells and the shapes of the things I don't need\n",
+    "seed": 1101,
+    "max_duration": 30.0,
+    "cfg_scale": 1.7,
+    "top_k": 50
+   }
+  },
+  "10": {
+   "class_type": "ConditioningZeroOut",
+   "inputs": {
+    "conditioning": [
+     "13",
+     0
+    ]
+   }
+  },
+  "15": {
+   "class_type": "EmptyMiniMaxMusic3LatentAudio",
+   "inputs": {
+    "seconds": [
+     "13",
+     1
+    ],
+    "batch_size": 1
+   }
+  },
+  "9": {
+   "class_type": "KSampler",
+   "inputs": {
+    "model": [
+     "6",
+     0
+    ],
+    "positive": [
+     "13",
+     0
+    ],
+    "negative": [
+     "10",
+     0
+    ],
+    "latent_image": [
+     "15",
+     0
+    ],
+    "seed": 1101,
+    "steps": 30,
+    "cfg": 1.7,
+    "sampler_name": "euler",
+    "scheduler": "simple",
+    "denoise": 1.0
+   }
+  },
+  "12": {
+   "class_type": "VAEDecodeAudio",
+   "inputs": {
+    "samples": [
+     "9",
+     0
+    ],
+    "vae": [
+     "7",
+     0
+    ]
+   }
+  },
+  "35": {
+   "class_type": "SaveAudioAdvanced",
+   "inputs": {
+    "audio": [
+     "12",
+     0
+    ],
+    "filename_prefix": "juke-box/example/01-low-tide_take-1",
+    "format": "flac"
+   }
+  }
+ }
+}
